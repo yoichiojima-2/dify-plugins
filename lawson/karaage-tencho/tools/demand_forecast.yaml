@@ -1,0 +1,65 @@
+identity:
+  name: "demand_forecast"
+  author: "yoichiojima"
+  label:
+    en_US: "Demand Forecast"
+    ja_JP: "需要予測"
+description:
+  human:
+    en_US: "Predict item demand based on weather conditions"
+    ja_JP: "天気に基づいて商品の需要を予測"
+  llm: |
+    天気と気温に基づいて、コンビニ商品の需要を予測するMLモデルです。
+
+    使い方：
+    - weather: 天気（sunny, cloudy, rainy）
+    - temperature: 気温（摂氏）
+
+    出力：
+    - 各商品の予測需要数
+    - ベース需要からの変化率
+    - 予測の信頼度
+
+    例：
+    - 晴れで30度 → アイスクリーム・冷たい飲料が増加
+    - 雨で15度 → 傘・おでん・肉まんが増加
+    - 曇りで20度 → 通常の需要
+
+parameters:
+  - name: weather
+    type: string
+    required: true
+    label:
+      en_US: Weather
+      ja_JP: 天気
+    human_description:
+      en_US: "Weather condition (sunny, cloudy, rainy)"
+      ja_JP: "天気（sunny, cloudy, rainy）"
+    llm_description: "天気条件。sunny（晴れ）、cloudy（曇り）、rainy（雨）のいずれか"
+    form: llm
+  - name: temperature
+    type: number
+    required: true
+    label:
+      en_US: Temperature
+      ja_JP: 気温
+    human_description:
+      en_US: "Temperature in Celsius"
+      ja_JP: "気温（摂氏）"
+    llm_description: "気温（摂氏）。例: 25"
+    form: llm
+  - name: humidity
+    type: number
+    required: false
+    label:
+      en_US: Humidity
+      ja_JP: 湿度
+    human_description:
+      en_US: "Humidity percentage (0-100)"
+      ja_JP: "湿度（0-100%）"
+    llm_description: "湿度（%）。例: 70。省略時は60%"
+    form: llm
+    default: 60
+extra:
+  python:
+    source: tools/demand_forecast.py

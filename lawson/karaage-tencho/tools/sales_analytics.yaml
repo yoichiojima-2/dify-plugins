@@ -1,0 +1,74 @@
+identity:
+  name: "sales_analytics"
+  author: "yoichiojima"
+  label:
+    en_US: "Sales Analytics"
+    ja_JP: "売上分析"
+description:
+  human:
+    en_US: "Analyze sales data with SQL queries"
+    ja_JP: "SQLで売上データを分析"
+  llm: |
+    あなたは売上分析に長けたからあげクンです。このツールでSQLを実行して売上データを分析してください。
+
+    ## 分析の心得
+    - データに基づいた具体的な数字で回答する
+    - 傾向やパターンを見つけて、店舗運営に役立つ洞察を提供する
+    - 天気・時間帯・曜日による売上変動を分析できる
+    - からあげクンの売上は特に注目！
+
+    ## 重要
+    - 結果が得られたら、すぐにユーザーに回答してください
+    - 結果が空でも、その旨を伝えて終了してください
+    - 同じクエリを繰り返さないでください
+
+    ## スキーマ
+
+    items (item_id, item_name, category, unit_price)
+    sales (sale_id, sale_date, sale_hour, item_id, item_name, category, quantity, unit_price, total_amount, weather, temperature, day_of_week)
+    daily_summary (date, total_sales, total_items, weather, temperature, customer_count)
+
+    ## カテゴリ
+    ホットスナック, おにぎり, 弁当, サンドイッチ, 飲料, アイス, 中華まん, おでん, カップ麺, スイーツ
+
+    ## SQL例
+
+    -- 期間の売上合計
+    SELECT SUM(total_amount) as total FROM sales
+
+    -- カテゴリ別売上ランキング
+    SELECT category, SUM(total_amount) as total FROM sales GROUP BY category ORDER BY total DESC
+
+    -- 天気別の日販平均
+    SELECT weather, ROUND(AVG(total_sales)) as avg_daily FROM daily_summary GROUP BY weather
+
+    -- からあげクンの日別売上推移
+    SELECT sale_date, SUM(quantity) as qty, SUM(total_amount) as sales FROM sales WHERE item_name LIKE '%からあげクン%' GROUP BY sale_date ORDER BY sale_date
+
+    -- 時間帯別の売上（ピーク時間の把握）
+    SELECT sale_hour, SUM(total_amount) as total, COUNT(*) as transactions FROM sales GROUP BY sale_hour ORDER BY sale_hour
+
+    -- 雨の日に売れる商品TOP10
+    SELECT item_name, SUM(quantity) as qty FROM sales WHERE weather = 'rainy' GROUP BY item_name ORDER BY qty DESC LIMIT 10
+
+    -- 曜日別の売上比較（0=月曜, 6=日曜）
+    SELECT day_of_week, ROUND(AVG(total_sales)) as avg_sales FROM daily_summary GROUP BY day_of_week ORDER BY day_of_week
+
+    -- 気温と売上の関係
+    SELECT CASE WHEN temperature < 10 THEN '寒い(<10°C)' WHEN temperature < 20 THEN '普通(10-20°C)' ELSE '暖かい(>20°C)' END as temp_range, ROUND(AVG(total_sales)) as avg_sales FROM daily_summary GROUP BY 1
+
+parameters:
+  - name: sql
+    type: string
+    required: true
+    label:
+      en_US: SQL
+      ja_JP: SQL
+    human_description:
+      en_US: "SQL query to execute"
+      ja_JP: "実行するSQLクエリ"
+    llm_description: "実行するSQL（DuckDB/PostgreSQL構文）"
+    form: llm
+extra:
+  python:
+    source: tools/sales_analytics.py

@@ -11,7 +11,7 @@ identity:
     ja_JP: "コンビニ店舗運営AIアシスタント - シフト管理、天気に基づく需要予測、商品情報"
     zh_Hans: "便利店运营AI助手 - 班次管理、基于天气的需求预测、商品信息"
     pt_BR: "Assistente de IA para operações de loja de conveniência - gestão de turnos, previsão de demanda baseada em clima"
-  icon: "icon.svg"
+  icon: "icon.webp"
 
 #########################################################################################
 # If you want to support OAuth, you can uncomment the following code.
@@ -59,6 +59,12 @@ tools:
   - tools/hourly_weather.yaml
   - tools/lawson_items.yaml
   - tools/shift_manager.yaml
+  - tools/demand_forecast.yaml
+  - tools/sales_analytics.yaml
+  - tools/sales_report.yaml
+  - tools/sales_dashboard.yaml
+  - tools/html_export.yaml
+  - tools/karaage_kun_image.yaml
 extra:
   python:
     source: provider/karaage-tencho.py
