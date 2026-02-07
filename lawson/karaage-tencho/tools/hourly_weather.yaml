@@ -1,0 +1,49 @@
+identity:
+  name: "hourly_weather"
+  author: "yoichiojima"
+  label:
+    en_US: "Hourly Weather Forecast"
+    ja_JP: "時間別天気予報"
+description:
+  human:
+    en_US: "Get hourly weather forecast for a location. Returns temperature, precipitation, and weather conditions for demand forecasting."
+    ja_JP: "指定した場所の時間別天気予報を取得します。需要予測のための気温、降水量、天気状態を返します。"
+  llm: "Get hourly weather forecast data including temperature, precipitation, and weather code. Use this to predict customer traffic and product demand based on weather conditions."
+parameters:
+  - name: latitude
+    type: number
+    required: true
+    label:
+      en_US: Latitude
+      ja_JP: 緯度
+    human_description:
+      en_US: "Latitude of the location (e.g., 35.6895 for Tokyo)"
+      ja_JP: "場所の緯度（例：東京は35.6895）"
+    llm_description: "Latitude of the location. Tokyo: 35.6895, Osaka: 34.6937, Nagoya: 35.1815"
+    form: llm
+  - name: longitude
+    type: number
+    required: true
+    label:
+      en_US: Longitude
+      ja_JP: 経度
+    human_description:
+      en_US: "Longitude of the location (e.g., 139.6917 for Tokyo)"
+      ja_JP: "場所の経度（例：東京は139.6917）"
+    llm_description: "Longitude of the location. Tokyo: 139.6917, Osaka: 135.5023, Nagoya: 136.9066"
+    form: llm
+  - name: hours
+    type: number
+    required: false
+    default: 24
+    label:
+      en_US: Forecast Hours
+      ja_JP: 予報時間数
+    human_description:
+      en_US: "Number of hours to forecast (default: 24, max: 168)"
+      ja_JP: "予報する時間数（デフォルト：24、最大：168）"
+    llm_description: "Number of hours to forecast. Default is 24 hours. Maximum is 168 hours (7 days)."
+    form: llm
+extra:
+  python:
+    source: tools/hourly_weather.py

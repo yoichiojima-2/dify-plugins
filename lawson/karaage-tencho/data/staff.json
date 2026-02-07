@@ -1,0 +1,264 @@
+[
+  {
+    "id": "S001",
+    "name": "田中太郎",
+    "name_reading": "たなか たろう",
+    "role": "store_manager",
+    "role_ja": "店長",
+    "hourly_rate": 1500,
+    "skills": [
+      "register",
+      "inventory",
+      "training",
+      "closing"
+    ],
+    "availability": {
+      "mon": [
+        "09:00-18:00"
+      ],
+      "tue": [
+        "09:00-18:00"
+      ],
+      "wed": [
+        "09:00-18:00"
+      ],
+      "thu": [
+        "09:00-18:00"
+      ],
+      "fri": [
+        "09:00-18:00"
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "preferred_hours": 40,
+    "phone": "090-1234-5678",
+    "line_id": "tanaka_taro",
+    "color": "#4CAF50",
+    "notes": "店長。土日休み希望。"
+  },
+  {
+    "id": "S002",
+    "name": "佐藤花子",
+    "name_reading": "さとう はなこ",
+    "role": "part_time",
+    "role_ja": "パート",
+    "hourly_rate": 1150,
+    "skills": [
+      "register",
+      "stocking",
+      "cleaning"
+    ],
+    "availability": {
+      "mon": [
+        "09:00-14:00"
+      ],
+      "tue": [
+        "09:00-14:00"
+      ],
+      "wed": [],
+      "thu": [
+        "09:00-14:00"
+      ],
+      "fri": [
+        "09:00-14:00"
+      ],
+      "sat": [
+        "10:00-15:00"
+      ],
+      "sun": []
+    },
+    "preferred_hours": 20,
+    "phone": "090-2345-6789",
+    "line_id": "sato_hanako",
+    "color": "#E91E63",
+    "notes": "主婦。水曜と日曜は子供の予定あり。"
+  },
+  {
+    "id": "S003",
+    "name": "鈴木健太",
+    "name_reading": "すずき けんた",
+    "role": "part_time",
+    "role_ja": "アルバイト",
+    "hourly_rate": 1100,
+    "skills": [
+      "register",
+      "stocking",
+      "hot_snack"
+    ],
+    "availability": {
+      "mon": [
+        "17:00-22:00"
+      ],
+      "tue": [],
+      "wed": [
+        "17:00-22:00"
+      ],
+      "thu": [],
+      "fri": [
+        "17:00-22:00"
+      ],
+      "sat": [
+        "12:00-22:00"
+      ],
+      "sun": [
+        "12:00-22:00"
+      ]
+    },
+    "preferred_hours": 20,
+    "phone": "080-3456-7890",
+    "line_id": "suzuki_kenta",
+    "color": "#2196F3",
+    "notes": "大学生。火木は授業あり。からあげクン調理得意。"
+  },
+  {
+    "id": "S004",
+    "name": "山田美咲",
+    "name_reading": "やまだ みさき",
+    "role": "part_time",
+    "role_ja": "アルバイト",
+    "hourly_rate": 1100,
+    "skills": [
+      "register",
+      "cleaning",
+      "customer_service"
+    ],
+    "availability": {
+      "mon": [
+        "06:00-10:00"
+      ],
+      "tue": [
+        "06:00-10:00"
+      ],
+      "wed": [
+        "06:00-10:00"
+      ],
+      "thu": [
+        "06:00-10:00"
+      ],
+      "fri": [
+        "06:00-10:00"
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "preferred_hours": 20,
+    "phone": "080-4567-8901",
+    "line_id": "yamada_misaki",
+    "color": "#FF9800",
+    "notes": "早朝専門。Wワーク。土日不可。"
+  },
+  {
+    "id": "S005",
+    "name": "高橋翔",
+    "name_reading": "たかはし しょう",
+    "role": "part_time",
+    "role_ja": "アルバイト",
+    "hourly_rate": 1250,
+    "skills": [
+      "register",
+      "stocking",
+      "closing",
+      "hot_snack"
+    ],
+    "availability": {
+      "mon": [
+        "22:00-06:00"
+      ],
+      "tue": [
+        "22:00-06:00"
+      ],
+      "wed": [],
+      "thu": [
+        "22:00-06:00"
+      ],
+      "fri": [
+        "22:00-06:00"
+      ],
+      "sat": [
+        "22:00-06:00"
+      ],
+      "sun": []
+    },
+    "preferred_hours": 30,
+    "phone": "070-5678-9012",
+    "line_id": "takahashi_sho",
+    "color": "#9C27B0",
+    "notes": "深夜専門。水曜・日曜休み。レジ締め可能。"
+  },
+  {
+    "id": "S006",
+    "name": "伊藤優",
+    "name_reading": "いとう ゆう",
+    "role": "part_time",
+    "role_ja": "アルバイト",
+    "hourly_rate": 1100,
+    "skills": [
+      "register",
+      "stocking"
+    ],
+    "availability": {
+      "mon": [],
+      "tue": [
+        "14:00-22:00"
+      ],
+      "wed": [
+        "14:00-22:00"
+      ],
+      "thu": [
+        "14:00-22:00"
+      ],
+      "fri": [],
+      "sat": [
+        "10:00-18:00"
+      ],
+      "sun": [
+        "10:00-18:00"
+      ]
+    },
+    "preferred_hours": 25,
+    "phone": "080-6789-0123",
+    "line_id": "ito_yu",
+    "color": "#00BCD4",
+    "notes": "大学生。月金は授業。"
+  },
+  {
+    "id": "S007",
+    "name": "渡辺リサ",
+    "name_reading": "わたなべ りさ",
+    "role": "part_time",
+    "role_ja": "アルバイト",
+    "hourly_rate": 1100,
+    "skills": [
+      "register",
+      "customer_service",
+      "cleaning"
+    ],
+    "availability": {
+      "mon": [
+        "10:00-17:00"
+      ],
+      "tue": [
+        "10:00-17:00"
+      ],
+      "wed": [
+        "10:00-17:00"
+      ],
+      "thu": [],
+      "fri": [
+        "10:00-17:00"
+      ],
+      "sat": [
+        "10:00-17:00"
+      ],
+      "sun": [
+        "10:00-17:00"
+      ]
+    },
+    "preferred_hours": 35,
+    "phone": "090-7890-1234",
+    "line_id": "watanabe_risa",
+    "color": "#795548",
+    "notes": "フリーター。木曜は習い事。シフト多め希望。"
+  }
+]

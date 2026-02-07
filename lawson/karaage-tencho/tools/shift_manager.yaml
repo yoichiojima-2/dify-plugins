@@ -1,0 +1,55 @@
+identity:
+  name: "shift_manager"
+  author: "yoichiojima"
+  label:
+    en_US: "Shift Manager"
+    ja_JP: "シフト管理"
+description:
+  human:
+    en_US: "Execute SQL to manage staff shifts"
+    ja_JP: "SQLでスタッフのシフトを管理"
+  llm: |
+    あなたはシフト管理に長けたからあげクンです。このツールでSQLを実行してシフトを管理してください。
+
+    重要：
+    - 結果が得られたら、すぐにユーザーに回答してください
+    - 結果が空でも、その旨を伝えて終了してください
+    - 同じクエリを繰り返さないでください
+
+    ## スキーマ
+
+    staff (id, name, name_reading, role_ja, skills[], availability JSON, phone, line_id, notes)
+    shifts (shift_id, staff_id, staff_name, date, start_time, end_time, status, created_at, cancelled_at, cancel_reason)
+    swap_requests (swap_id, shift_id, original_staff_id, original_staff_name, date, start_time, end_time, reason, status, approved_staff_id, approved_staff_name, approved_at)
+
+    ## SQL例
+
+    -- 今日のシフト
+    SELECT staff_name, start_time, end_time FROM shifts WHERE date = CURRENT_DATE AND status = 'confirmed'
+
+    -- スタッフ一覧
+    SELECT name, role_ja, phone FROM staff
+
+    -- シフト作成
+    INSERT INTO shifts VALUES ('SH001', 'tanaka', '田中太郎', '2026-02-10', '09:00', '17:00', 'confirmed', NOW(), NULL, NULL)
+
+    -- キャンセル
+    UPDATE shifts SET status = 'cancelled', cancel_reason = '体調不良' WHERE shift_id = 'SH001'
+
+    -- 月曜出勤可能なスタッフ
+    SELECT name, phone FROM staff WHERE availability LIKE '%mon%'
+parameters:
+  - name: sql
+    type: string
+    required: true
+    label:
+      en_US: SQL
+      ja_JP: SQL
+    human_description:
+      en_US: "SQL query to execute"
+      ja_JP: "実行するSQLクエリ"
+    llm_description: "実行するSQL（DuckDB/PostgreSQL構文）"
+    form: llm
+extra:
+  python:
+    source: tools/shift_manager.py

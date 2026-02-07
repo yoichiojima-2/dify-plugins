@@ -1,0 +1,64 @@
+identity:
+  author: "yoichiojima"
+  name: "lawson-karaage-tencho"
+  label:
+    en_US: "Karaage Store Manager"
+    ja_JP: "からあげ店長"
+    zh_Hans: "炸鸡店长"
+    pt_BR: "Gerente Karaage"
+  description:
+    en_US: "AI assistant for convenience store operations - shift management, weather-based demand forecasting, and product information"
+    ja_JP: "コンビニ店舗運営AIアシスタント - シフト管理、天気に基づく需要予測、商品情報"
+    zh_Hans: "便利店运营AI助手 - 班次管理、基于天气的需求预测、商品信息"
+    pt_BR: "Assistente de IA para operações de loja de conveniência - gestão de turnos, previsão de demanda baseada em clima"
+  icon: "icon.svg"
+
+#########################################################################################
+# If you want to support OAuth, you can uncomment the following code.
+#########################################################################################
+# oauth_schema:
+#   client_schema:
+#     - name: "client_id"
+#       type: "secret-input"
+#       required: true
+#       url: https://example.com/oauth/authorize
+#       placeholder:
+#         en_US: "Please input your Client ID"
+#         zh_Hans: "请输入你的 Client ID"
+#         pt_BR: "Insira seu Client ID"
+#       help:
+#         en_US: "Client ID is used to authenticate requests to the example.com API."
+#         zh_Hans: "Client ID 用于认证请求到 example.com API。"
+#         pt_BR: "Client ID é usado para autenticar solicitações à API do example.com."
+#       label:
+#         zh_Hans: "Client ID"
+#         en_US: "Client ID"
+#     - name: "client_secret"
+#       type: "secret-input"
+#       required: true
+#       url: https://example.com/oauth/authorize
+#       placeholder:
+#         en_US: "Please input your Client Secret"
+#         zh_Hans: "请输入你的 Client Secret"
+#         pt_BR: "Insira seu Client Secret"
+#       help:
+#         en_US: "Client Secret is used to authenticate requests to the example.com API."
+#         zh_Hans: "Client Secret 用于认证请求到 example.com API。"
+#         pt_BR: "Client Secret é usado para autenticar solicitações à API do example.com."
+#       label:
+#         zh_Hans: "Client Secret"
+#         en_US: "Client Secret"
+#   credentials_schema:
+#     - name: "access_token"
+#       type: "secret-input"
+#       label:
+#         zh_Hans: "Access Token"
+#         en_US: "Access Token"
+
+tools:
+  - tools/hourly_weather.yaml
+  - tools/lawson_items.yaml
+  - tools/shift_manager.yaml
+extra:
+  python:
+    source: provider/karaage-tencho.py

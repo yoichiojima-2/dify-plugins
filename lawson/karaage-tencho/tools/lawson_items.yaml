@@ -1,0 +1,49 @@
+identity:
+  name: "lawson_items"
+  author: "yoichiojima"
+  label:
+    en_US: "Lawson Items Catalog"
+    ja_JP: "ローソン商品カタログ"
+description:
+  human:
+    en_US: "Search and retrieve Lawson store items by category or keyword. Returns product information including name, price, and category."
+    ja_JP: "カテゴリやキーワードでローソンの商品を検索します。商品名、価格、カテゴリなどの情報を返します。"
+  llm: "Search Lawson convenience store products. Use this to find product information for inventory planning, sales analysis, or customer inquiries. Can filter by category (hot_snack, onigiri, bento, sweets, drinks, daily, bread) or search by keyword."
+parameters:
+  - name: category
+    type: string
+    required: false
+    label:
+      en_US: Category
+      ja_JP: カテゴリ
+    human_description:
+      en_US: "Product category to filter by"
+      ja_JP: "絞り込むカテゴリ"
+    llm_description: "Filter by category: hot_snack (からあげクン等), onigiri, bento, sweets (Uchi Café等), drinks, daily (日配品), bread. Leave empty for all items."
+    form: llm
+  - name: keyword
+    type: string
+    required: false
+    label:
+      en_US: Keyword
+      ja_JP: キーワード
+    human_description:
+      en_US: "Search keyword for product name"
+      ja_JP: "商品名で検索するキーワード"
+    llm_description: "Search keyword to filter products by name. Supports Japanese text."
+    form: llm
+  - name: include_seasonal
+    type: boolean
+    required: false
+    default: true
+    label:
+      en_US: Include Seasonal
+      ja_JP: 季節商品を含む
+    human_description:
+      en_US: "Whether to include seasonal/limited items"
+      ja_JP: "季節限定商品を含めるかどうか"
+    llm_description: "Set to true to include seasonal and limited-time items."
+    form: llm
+extra:
+  python:
+    source: tools/lawson_items.py
