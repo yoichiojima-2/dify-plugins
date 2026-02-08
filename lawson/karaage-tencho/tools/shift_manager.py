@@ -130,15 +130,150 @@ def _init_schema(conn: duckdb.DuckDBPyConnection) -> None:
          20, '090-7890-1234', 'watanabe_r', '#795548', '主婦パート。午後希望。')
     """)
 
-    # サンプルシフト（今日から1週間分）
+    # サンプルシフト（過去2週間 + 今日から2週間分 = 約4週間分）
     conn.execute("""
         INSERT INTO shifts VALUES
-        ('SH001', 'tanaka', '田中太郎', CURRENT_DATE, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
-        ('SH002', 'sato', '佐藤花子', CURRENT_DATE, '09:00', '17:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
-        ('SH003', 'yamada', '山田美咲', CURRENT_DATE, '18:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
-        ('SH004', 'suzuki', '鈴木健一', CURRENT_DATE + 1, '17:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
-        ('SH005', 'tanaka', '田中太郎', CURRENT_DATE + 1, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
-        ('SH006', 'ito', '伊藤優', CURRENT_DATE + 1, '10:00', '16:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
-        ('SH007', 'watanabe', '渡辺リサ', CURRENT_DATE + 2, '14:00', '20:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
-        ('SH008', 'takahashi', '高橋翔', CURRENT_DATE + 2, '22:00', '06:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL)
+        -- 2週間前
+        ('SH001', 'tanaka', '田中太郎', CURRENT_DATE - 14, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 14 DAY, NULL, NULL, NULL, NULL),
+        ('SH002', 'sato', '佐藤花子', CURRENT_DATE - 14, '09:00', '17:00', 'confirmed', NOW() - INTERVAL 14 DAY, NULL, NULL, NULL, NULL),
+        ('SH003', 'yamada', '山田美咲', CURRENT_DATE - 14, '18:00', '22:00', 'confirmed', NOW() - INTERVAL 14 DAY, NULL, NULL, NULL, NULL),
+        ('SH004', 'takahashi', '高橋翔', CURRENT_DATE - 14, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 14 DAY, NULL, NULL, NULL, NULL),
+        ('SH005', 'tanaka', '田中太郎', CURRENT_DATE - 13, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 13 DAY, NULL, NULL, NULL, NULL),
+        ('SH006', 'suzuki', '鈴木健一', CURRENT_DATE - 13, '17:00', '22:00', 'confirmed', NOW() - INTERVAL 13 DAY, NULL, NULL, NULL, NULL),
+        ('SH007', 'ito', '伊藤優', CURRENT_DATE - 13, '10:00', '16:00', 'confirmed', NOW() - INTERVAL 13 DAY, NULL, NULL, NULL, NULL),
+        ('SH008', 'takahashi', '高橋翔', CURRENT_DATE - 13, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 13 DAY, NULL, NULL, NULL, NULL),
+        ('SH009', 'tanaka', '田中太郎', CURRENT_DATE - 12, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 12 DAY, NULL, NULL, NULL, NULL),
+        ('SH010', 'sato', '佐藤花子', CURRENT_DATE - 12, '09:00', '17:00', 'confirmed', NOW() - INTERVAL 12 DAY, NULL, NULL, NULL, NULL),
+        ('SH011', 'watanabe', '渡辺リサ', CURRENT_DATE - 12, '14:00', '20:00', 'confirmed', NOW() - INTERVAL 12 DAY, NULL, NULL, NULL, NULL),
+        ('SH012', 'yamada', '山田美咲', CURRENT_DATE - 12, '18:00', '22:00', 'confirmed', NOW() - INTERVAL 12 DAY, NULL, NULL, NULL, NULL),
+        ('SH013', 'tanaka', '田中太郎', CURRENT_DATE - 11, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 11 DAY, NULL, NULL, NULL, NULL),
+        ('SH014', 'suzuki', '鈴木健一', CURRENT_DATE - 11, '17:00', '22:00', 'confirmed', NOW() - INTERVAL 11 DAY, NULL, NULL, NULL, NULL),
+        ('SH015', 'ito', '伊藤優', CURRENT_DATE - 11, '10:00', '16:00', 'confirmed', NOW() - INTERVAL 11 DAY, NULL, NULL, NULL, NULL),
+        ('SH016', 'takahashi', '高橋翔', CURRENT_DATE - 11, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 11 DAY, NULL, NULL, NULL, NULL),
+        ('SH017', 'tanaka', '田中太郎', CURRENT_DATE - 10, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 10 DAY, NULL, NULL, NULL, NULL),
+        ('SH018', 'sato', '佐藤花子', CURRENT_DATE - 10, '09:00', '17:00', 'confirmed', NOW() - INTERVAL 10 DAY, NULL, NULL, NULL, NULL),
+        ('SH019', 'yamada', '山田美咲', CURRENT_DATE - 10, '18:00', '22:00', 'confirmed', NOW() - INTERVAL 10 DAY, NULL, NULL, NULL, NULL),
+        ('SH020', 'takahashi', '高橋翔', CURRENT_DATE - 10, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 10 DAY, NULL, NULL, NULL, NULL),
+        -- 週末（2週間前の土日）
+        ('SH021', 'suzuki', '鈴木健一', CURRENT_DATE - 9, '10:00', '18:00', 'confirmed', NOW() - INTERVAL 9 DAY, NULL, NULL, NULL, NULL),
+        ('SH022', 'watanabe', '渡辺リサ', CURRENT_DATE - 9, '14:00', '20:00', 'confirmed', NOW() - INTERVAL 9 DAY, NULL, NULL, NULL, NULL),
+        ('SH023', 'takahashi', '高橋翔', CURRENT_DATE - 9, '06:00', '14:00', 'confirmed', NOW() - INTERVAL 9 DAY, NULL, NULL, NULL, NULL),
+        ('SH024', 'ito', '伊藤優', CURRENT_DATE - 9, '14:00', '20:00', 'confirmed', NOW() - INTERVAL 9 DAY, NULL, NULL, NULL, NULL),
+        ('SH025', 'suzuki', '鈴木健一', CURRENT_DATE - 8, '10:00', '18:00', 'confirmed', NOW() - INTERVAL 8 DAY, NULL, NULL, NULL, NULL),
+        ('SH026', 'watanabe', '渡辺リサ', CURRENT_DATE - 8, '14:00', '20:00', 'confirmed', NOW() - INTERVAL 8 DAY, NULL, NULL, NULL, NULL),
+        ('SH027', 'takahashi', '高橋翔', CURRENT_DATE - 8, '06:00', '14:00', 'confirmed', NOW() - INTERVAL 8 DAY, NULL, NULL, NULL, NULL),
+        -- 1週間前（平日）
+        ('SH028', 'tanaka', '田中太郎', CURRENT_DATE - 7, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 7 DAY, NULL, NULL, NULL, NULL),
+        ('SH029', 'sato', '佐藤花子', CURRENT_DATE - 7, '09:00', '17:00', 'confirmed', NOW() - INTERVAL 7 DAY, NULL, NULL, NULL, NULL),
+        ('SH030', 'yamada', '山田美咲', CURRENT_DATE - 7, '18:00', '22:00', 'confirmed', NOW() - INTERVAL 7 DAY, NULL, NULL, NULL, NULL),
+        ('SH031', 'takahashi', '高橋翔', CURRENT_DATE - 7, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 7 DAY, NULL, NULL, NULL, NULL),
+        ('SH032', 'tanaka', '田中太郎', CURRENT_DATE - 6, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 6 DAY, NULL, NULL, NULL, NULL),
+        ('SH033', 'suzuki', '鈴木健一', CURRENT_DATE - 6, '17:00', '22:00', 'confirmed', NOW() - INTERVAL 6 DAY, NULL, NULL, NULL, NULL),
+        ('SH034', 'ito', '伊藤優', CURRENT_DATE - 6, '10:00', '16:00', 'confirmed', NOW() - INTERVAL 6 DAY, NULL, NULL, NULL, NULL),
+        ('SH035', 'takahashi', '高橋翔', CURRENT_DATE - 6, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 6 DAY, NULL, NULL, NULL, NULL),
+        ('SH036', 'tanaka', '田中太郎', CURRENT_DATE - 5, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 5 DAY, NULL, NULL, NULL, NULL),
+        ('SH037', 'sato', '佐藤花子', CURRENT_DATE - 5, '09:00', '17:00', 'confirmed', NOW() - INTERVAL 5 DAY, NULL, NULL, NULL, NULL),
+        ('SH038', 'watanabe', '渡辺リサ', CURRENT_DATE - 5, '14:00', '20:00', 'confirmed', NOW() - INTERVAL 5 DAY, NULL, NULL, NULL, NULL),
+        ('SH039', 'yamada', '山田美咲', CURRENT_DATE - 5, '18:00', '22:00', 'confirmed', NOW() - INTERVAL 5 DAY, NULL, NULL, NULL, NULL),
+        ('SH040', 'takahashi', '高橋翔', CURRENT_DATE - 5, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 5 DAY, NULL, NULL, NULL, NULL),
+        ('SH041', 'tanaka', '田中太郎', CURRENT_DATE - 4, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 4 DAY, NULL, NULL, NULL, NULL),
+        ('SH042', 'suzuki', '鈴木健一', CURRENT_DATE - 4, '17:00', '22:00', 'confirmed', NOW() - INTERVAL 4 DAY, NULL, NULL, NULL, NULL),
+        ('SH043', 'ito', '伊藤優', CURRENT_DATE - 4, '10:00', '16:00', 'confirmed', NOW() - INTERVAL 4 DAY, NULL, NULL, NULL, NULL),
+        ('SH044', 'takahashi', '高橋翔', CURRENT_DATE - 4, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 4 DAY, NULL, NULL, NULL, NULL),
+        ('SH045', 'tanaka', '田中太郎', CURRENT_DATE - 3, '06:00', '15:00', 'confirmed', NOW() - INTERVAL 3 DAY, NULL, NULL, NULL, NULL),
+        ('SH046', 'sato', '佐藤花子', CURRENT_DATE - 3, '09:00', '17:00', 'confirmed', NOW() - INTERVAL 3 DAY, NULL, NULL, NULL, NULL),
+        ('SH047', 'yamada', '山田美咲', CURRENT_DATE - 3, '18:00', '22:00', 'confirmed', NOW() - INTERVAL 3 DAY, NULL, NULL, NULL, NULL),
+        ('SH048', 'takahashi', '高橋翔', CURRENT_DATE - 3, '22:00', '06:00', 'confirmed', NOW() - INTERVAL 3 DAY, NULL, NULL, NULL, NULL),
+        -- 週末（先週の土日）
+        ('SH049', 'suzuki', '鈴木健一', CURRENT_DATE - 2, '10:00', '18:00', 'confirmed', NOW() - INTERVAL 2 DAY, NULL, NULL, NULL, NULL),
+        ('SH050', 'watanabe', '渡辺リサ', CURRENT_DATE - 2, '14:00', '20:00', 'confirmed', NOW() - INTERVAL 2 DAY, NULL, NULL, NULL, NULL),
+        ('SH051', 'takahashi', '高橋翔', CURRENT_DATE - 2, '06:00', '14:00', 'confirmed', NOW() - INTERVAL 2 DAY, NULL, NULL, NULL, NULL),
+        ('SH052', 'ito', '伊藤優', CURRENT_DATE - 2, '14:00', '20:00', 'confirmed', NOW() - INTERVAL 2 DAY, NULL, NULL, NULL, NULL),
+        ('SH053', 'suzuki', '鈴木健一', CURRENT_DATE - 1, '10:00', '18:00', 'confirmed', NOW() - INTERVAL 1 DAY, NULL, NULL, NULL, NULL),
+        ('SH054', 'watanabe', '渡辺リサ', CURRENT_DATE - 1, '14:00', '20:00', 'confirmed', NOW() - INTERVAL 1 DAY, NULL, NULL, NULL, NULL),
+        ('SH055', 'takahashi', '高橋翔', CURRENT_DATE - 1, '06:00', '14:00', 'confirmed', NOW() - INTERVAL 1 DAY, NULL, NULL, NULL, NULL),
+        -- 今日
+        ('SH056', 'tanaka', '田中太郎', CURRENT_DATE, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH057', 'sato', '佐藤花子', CURRENT_DATE, '09:00', '17:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH058', 'watanabe', '渡辺リサ', CURRENT_DATE, '14:00', '20:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH059', 'yamada', '山田美咲', CURRENT_DATE, '18:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH060', 'takahashi', '高橋翔', CURRENT_DATE, '22:00', '06:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        -- 明日以降（未来2週間）
+        ('SH061', 'tanaka', '田中太郎', CURRENT_DATE + 1, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH062', 'suzuki', '鈴木健一', CURRENT_DATE + 1, '17:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH063', 'ito', '伊藤優', CURRENT_DATE + 1, '10:00', '16:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH064', 'takahashi', '高橋翔', CURRENT_DATE + 1, '22:00', '06:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH065', 'tanaka', '田中太郎', CURRENT_DATE + 2, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH066', 'sato', '佐藤花子', CURRENT_DATE + 2, '09:00', '17:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH067', 'watanabe', '渡辺リサ', CURRENT_DATE + 2, '14:00', '20:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH068', 'yamada', '山田美咲', CURRENT_DATE + 2, '18:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH069', 'takahashi', '高橋翔', CURRENT_DATE + 2, '22:00', '06:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH070', 'tanaka', '田中太郎', CURRENT_DATE + 3, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH071', 'suzuki', '鈴木健一', CURRENT_DATE + 3, '17:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH072', 'ito', '伊藤優', CURRENT_DATE + 3, '10:00', '16:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH073', 'takahashi', '高橋翔', CURRENT_DATE + 3, '22:00', '06:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH074', 'tanaka', '田中太郎', CURRENT_DATE + 4, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH075', 'sato', '佐藤花子', CURRENT_DATE + 4, '09:00', '17:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH076', 'yamada', '山田美咲', CURRENT_DATE + 4, '18:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH077', 'takahashi', '高橋翔', CURRENT_DATE + 4, '22:00', '06:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        -- 次の週末
+        ('SH078', 'suzuki', '鈴木健一', CURRENT_DATE + 5, '10:00', '18:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH079', 'watanabe', '渡辺リサ', CURRENT_DATE + 5, '14:00', '20:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH080', 'takahashi', '高橋翔', CURRENT_DATE + 5, '06:00', '14:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH081', 'ito', '伊藤優', CURRENT_DATE + 5, '14:00', '20:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH082', 'suzuki', '鈴木健一', CURRENT_DATE + 6, '10:00', '18:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH083', 'watanabe', '渡辺リサ', CURRENT_DATE + 6, '14:00', '20:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH084', 'takahashi', '高橋翔', CURRENT_DATE + 6, '06:00', '14:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        -- 再来週
+        ('SH085', 'tanaka', '田中太郎', CURRENT_DATE + 7, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH086', 'sato', '佐藤花子', CURRENT_DATE + 7, '09:00', '17:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH087', 'yamada', '山田美咲', CURRENT_DATE + 7, '18:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH088', 'takahashi', '高橋翔', CURRENT_DATE + 7, '22:00', '06:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH089', 'tanaka', '田中太郎', CURRENT_DATE + 8, '06:00', '15:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH090', 'suzuki', '鈴木健一', CURRENT_DATE + 8, '17:00', '22:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH091', 'ito', '伊藤優', CURRENT_DATE + 8, '10:00', '16:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH092', 'takahashi', '高橋翔', CURRENT_DATE + 8, '22:00', '06:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL),
+        ('SH093', 'tanaka', '田中太郎', CURRENT_DATE + 9, '06:00', '15:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH094', 'sato', '佐藤花子', CURRENT_DATE + 9, '09:00', '17:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH095', 'watanabe', '渡辺リサ', CURRENT_DATE + 9, '14:00', '20:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH096', 'yamada', '山田美咲', CURRENT_DATE + 9, '18:00', '22:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH097', 'tanaka', '田中太郎', CURRENT_DATE + 10, '06:00', '15:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH098', 'suzuki', '鈴木健一', CURRENT_DATE + 10, '17:00', '22:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH099', 'ito', '伊藤優', CURRENT_DATE + 10, '10:00', '16:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH100', 'tanaka', '田中太郎', CURRENT_DATE + 11, '06:00', '15:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH101', 'sato', '佐藤花子', CURRENT_DATE + 11, '09:00', '17:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        ('SH102', 'yamada', '山田美咲', CURRENT_DATE + 11, '18:00', '22:00', 'pending', NOW(), NULL, NULL, NULL, NULL),
+        -- キャンセルされたシフト例
+        ('SH103', 'sato', '佐藤花子', CURRENT_DATE + 4, '14:00', '20:00', 'cancelled', NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 2 DAY, '子供の学校行事', NULL, NULL),
+        ('SH104', 'suzuki', '鈴木健一', CURRENT_DATE - 4, '17:00', '22:00', 'cancelled', NOW() - INTERVAL 6 DAY, NOW() - INTERVAL 5 DAY, '体調不良', NULL, NULL),
+        -- シフト交代例
+        ('SH105', 'yamada', '山田美咲', CURRENT_DATE - 3, '14:00', '20:00', 'swapped', NOW() - INTERVAL 5 DAY, NULL, NULL, 'watanabe', NOW() - INTERVAL 4 DAY)
+    """)
+
+    # シフト交代リクエストのサンプルデータ
+    conn.execute("""
+        INSERT INTO swap_requests VALUES
+        -- 承認済みの交代リクエスト（過去）
+        ('SW001', 'SH105', 'yamada', '山田美咲', CURRENT_DATE - 3, '14:00', '20:00',
+         '急用ができたため', 'approved', NOW() - INTERVAL 5 DAY, 'watanabe', '渡辺リサ', NOW() - INTERVAL 4 DAY),
+        ('SW002', 'SH029', 'sato', '佐藤花子', CURRENT_DATE - 7, '09:00', '17:00',
+         '子供が熱を出した', 'approved', NOW() - INTERVAL 8 DAY, 'ito', '伊藤優', NOW() - INTERVAL 7 DAY),
+        ('SW003', 'SH014', 'suzuki', '鈴木健一', CURRENT_DATE - 11, '17:00', '22:00',
+         '大学のテスト勉強', 'approved', NOW() - INTERVAL 12 DAY, 'yamada', '山田美咲', NOW() - INTERVAL 11 DAY),
+
+        -- 却下された交代リクエスト
+        ('SW004', 'SH033', 'suzuki', '鈴木健一', CURRENT_DATE - 6, '17:00', '22:00',
+         '友人の誕生日', 'rejected', NOW() - INTERVAL 7 DAY, NULL, NULL, NULL),
+
+        -- 現在ペンディング中の交代リクエスト
+        ('SW005', 'SH068', 'yamada', '山田美咲', CURRENT_DATE + 2, '18:00', '22:00',
+         'バイト面接があるため', 'pending', NOW() - INTERVAL 1 DAY, NULL, NULL, NULL),
+        ('SW006', 'SH075', 'sato', '佐藤花子', CURRENT_DATE + 4, '09:00', '17:00',
+         '病院の予約', 'pending', NOW(), NULL, NULL, NULL),
+        ('SW007', 'SH087', 'yamada', '山田美咲', CURRENT_DATE + 7, '18:00', '22:00',
+         '学校行事', 'pending', NOW(), NULL, NULL, NULL),
+
+        -- 期限切れ（対応されなかった）
+        ('SW008', 'SH019', 'yamada', '山田美咲', CURRENT_DATE - 10, '18:00', '22:00',
+         '体調不良', 'expired', NOW() - INTERVAL 11 DAY, NULL, NULL, NULL)
     """)
