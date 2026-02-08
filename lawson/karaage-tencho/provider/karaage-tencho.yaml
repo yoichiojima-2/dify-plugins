@@ -61,10 +61,6 @@ tools:
   - tools/shift_manager.yaml
   - tools/demand_forecast.yaml
   - tools/sales_analytics.yaml
-  - tools/sales_report.yaml
-  - tools/sales_dashboard.yaml
-  - tools/html_export.yaml
-  - tools/karaage_kun_image.yaml
 extra:
   python:
     source: provider/karaage-tencho.py
