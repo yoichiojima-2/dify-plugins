@@ -1,0 +1,26 @@
+# Claude Code
+.claude/
+
+# Dify build artifacts
+*.difypkg
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test plugins (remove this line if you want to track)
+my-first-plugin/
