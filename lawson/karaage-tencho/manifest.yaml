@@ -1,4 +1,4 @@
-version: 0.0.22
+version: 0.0.27
 type: plugin
 author: yoichiojima
 name: lawson-karaage-tencho
@@ -22,7 +22,7 @@ plugins:
   tools:
     - provider/karaage-tencho.yaml
 meta:
-  version: 0.0.22
+  version: 0.0.27
   arch:
     - amd64
     - arm64

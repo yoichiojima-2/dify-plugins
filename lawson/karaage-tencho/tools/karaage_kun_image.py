@@ -9,47 +9,44 @@ from dify_plugin.entities.tool import ToolInvokeMessage
 
 
 class KaraageKunImageTool(Tool):
+    """からあげクンの感情画像を返すツール"""
+
     ASSETS_DIR = Path(__file__).parent.parent / "assets" / "karaage-kun"
 
     EMOTIONS = {
-        "happy": ("happy.webp", "image/webp"),
-        "sad": ("sad.webp", "image/webp"),
-        "angry": ("angry.webp", "image/webp"),
-        "idea": ("got-idea.webp", "image/webp"),
-        "thinking": ("thinking.webp", "image/webp"),
-        "working-hard": ("working-hard.webp", "image/webp"),
-        "normal": ("normal.webp", "image/webp"),
-    }
-
-    EMOTION_LABELS = {
-        "happy": "嬉しい",
-        "sad": "悲しい",
-        "angry": "怒り",
-        "idea": "ひらめき",
-        "thinking": "考え中",
-        "working-hard": "頑張り中",
-        "normal": "通常",
+        "happy": "happy.webp",
+        "sad": "sad.webp",
+        "angry": "angry.webp",
+        "idea": "got-idea.webp",
+        "thinking": "thinking.webp",
+        "working-hard": "working-hard.webp",
+        "normal": "normal.webp",
     }
 
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
         emotion = tool_parameters.get("emotion", "normal")
 
         if emotion not in self.EMOTIONS:
-            yield self.create_json_message({
-                "error": f"Unknown emotion: {emotion}",
-                "available": list(self.EMOTIONS.keys()),
-            })
+            yield self.create_json_message(
+                {
+                    "error": f"Unknown emotion: {emotion}",
+                    "available": list(self.EMOTIONS.keys()),
+                }
+            )
             return
 
-        filename, mime_type = self.EMOTIONS[emotion]
+        filename = self.EMOTIONS[emotion]
         image_path = self.ASSETS_DIR / filename
 
         if not image_path.exists():
             yield self.create_json_message({"error": f"Image not found: {filename}"})
             return
 
-        image_data = image_path.read_bytes()
-        b64 = base64.b64encode(image_data).decode("utf-8")
-        data_url = f"data:{mime_type};base64,{b64}"
-
-        yield self.create_image_message(image=data_url)
+        # Return image as blob - displays in UI
+        # Note: This may cause issues with subsequent LLM calls due to Dify bug
+        # where blob images get incorrectly formatted in conversation history
+        image_bytes = image_path.read_bytes()
+        yield self.create_blob_message(
+            blob=image_bytes,
+            meta={"mime_type": "image/webp"},
+        )
