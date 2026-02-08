@@ -16,11 +16,6 @@ dependencies:
   value:
     marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
     version: null
-- current_identifier: null
-  type: package
-  value:
-    plugin_unique_identifier: yoichiojima/lawson-karaage-tencho:0.0.21@17e596af63f1fccea975eb7a8485200c5190954cbf808b5add9af23c117bf357
-    version: null
 kind: app
 version: 0.5.0
 workflow:
@@ -198,80 +193,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: start
-        targetType: assigner
-      id: 1770219789286-source-1770486857627-target
-      selected: false
-      source: '1770219789286'
-      sourceHandle: source
-      target: '1770486857627'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: assigner
-        targetType: question-classifier
-      id: 1770486857627-source-1770482384373-target
-      selected: false
-      source: '1770486857627'
-      sourceHandle: source
-      target: '1770482384373'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: answer
-        targetType: assigner
-      id: 1770461237385-source-1770486900660-target
-      selected: false
-      source: '1770461237385'
-      sourceHandle: source
-      target: '1770486900660'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: answer
-        targetType: assigner
-      id: 17704828153720-source-17704869300770-target
-      selected: false
-      source: '17704828153720'
-      sourceHandle: source
-      target: '17704869300770'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: answer
-        targetType: assigner
-      id: 1770483046052-source-17704869484610-target
-      selected: false
-      source: '1770483046052'
-      sourceHandle: source
-      target: '17704869484610'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: answer
-        targetType: assigner
-      id: 1770483783233-source-17704869697770-target
-      selected: false
-      source: '1770483783233'
-      sourceHandle: source
-      target: '17704869697770'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: tool
         targetType: tool
       id: 1770491410682-source-1770491505932-target
@@ -421,172 +342,11 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
         isInLoop: false
         sourceType: start
-        targetType: tool
-      id: 1770219789286-source-1770504292871-target
-      selected: false
-      source: '1770219789286'
-      sourceHandle: source
-      target: '1770504292871'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: tool
-      id: 1770219789286-source-1770504311352-target
-      selected: false
-      source: '1770219789286'
-      sourceHandle: source
-      target: '1770504311352'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: start
-        targetType: tool
-      id: 1770219789286-source-17705043306750-target
-      selected: false
-      source: '1770219789286'
-      sourceHandle: source
-      target: '17705043306750'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: start
-        targetType: tool
-      id: 1770219789286-source-17705043154630-target
-      selected: false
-      source: '1770219789286'
-      sourceHandle: source
-      target: '17705043154630'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: start
-        targetType: tool
-      id: 1770219789286-source-17705043251580-target
-      selected: false
-      source: '1770219789286'
-      sourceHandle: source
-      target: '17705043251580'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
         targetType: question-classifier
-      id: 1770504292871-source-1770482384373-target
-      selected: false
-      source: '1770504292871'
-      sourceHandle: source
-      target: '1770482384373'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: question-classifier
-      id: 1770504311352-source-1770482384373-target
-      selected: false
-      source: '1770504311352'
-      sourceHandle: source
-      target: '1770482384373'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: question-classifier
-      id: 17705043306750-source-1770482384373-target
-      selected: false
-      source: '17705043306750'
-      sourceHandle: source
-      target: '1770482384373'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: question-classifier
-      id: 17705043154630-source-1770482384373-target
-      selected: false
-      source: '17705043154630'
-      sourceHandle: source
-      target: '1770482384373'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: question-classifier
-      id: 17705043251580-source-1770482384373-target
-      selected: false
-      source: '17705043251580'
-      sourceHandle: source
-      target: '1770482384373'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: tool
-      id: 1770219789286-source-1770505489685-target
-      selected: false
+      id: 1770219789286-source-1770482384373-target
       source: '1770219789286'
-      sourceHandle: source
-      target: '1770505489685'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: start
-        targetType: tool
-      id: 1770219789286-source-1770505506065-target
-      selected: false
-      source: '1770219789286'
-      sourceHandle: source
-      target: '1770505506065'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: question-classifier
-      id: 1770505489685-source-1770482384373-target
-      selected: false
-      source: '1770505489685'
-      sourceHandle: source
-      target: '1770482384373'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: question-classifier
-      id: 1770505506065-source-1770482384373-target
-      selected: false
-      source: '1770505506065'
       sourceHandle: source
       target: '1770482384373'
       targetHandle: target
@@ -602,27 +362,21 @@ workflow:
       id: '1770219789286'
       position:
         x: 0
-        y: 603
+        y: 631
       positionAbsolute:
         x: 0
-        y: 603
+        y: 631
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1770505506065.text#}}
-
-
-          ```bash
+        answer: '```bash
 
           {{#1770470780779.text#}}
 
           ```
-
-
-          {{#17705043154630.text#}}
 
 
           {{#1770476271261.text#}}
@@ -633,15 +387,15 @@ workflow:
         title: 答える
         type: answer
         variables: []
-      height: 158
+      height: 121
       id: '1770461237385'
       position:
-        x: 1770
-        y: 15
+        x: 1388
+        y: 36
       positionAbsolute:
-        x: 1770
-        y: 15
-      selected: true
+        x: 1388
+        y: 36
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -722,13 +476,13 @@ workflow:
         title: シフトを管理する
         tool_node_version: '2'
         type: agent
-      height: 188
+      height: 194
       id: '1770470780779'
       position:
-        x: 1086
+        x: 704
         y: 0
       positionAbsolute:
-        x: 1086
+        x: 704
         y: 0
       selected: false
       sourcePosition: right
@@ -770,13 +524,13 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 94
       id: '1770476271261'
       position:
-        x: 1428
+        x: 1046
         y: 50
       positionAbsolute:
-        x: 1428
+        x: 1046
         y: 50
       selected: false
       sourcePosition: right
@@ -889,14 +643,14 @@ workflow:
         title: 売上を予測する
         tool_node_version: '2'
         type: agent
-      height: 188
+      height: 194
       id: '1770480577613'
       position:
-        x: 1086
-        y: 268
+        x: 704
+        y: 274
       positionAbsolute:
-        x: 1086
-        y: 268
+        x: 704
+        y: 274
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -915,7 +669,7 @@ workflow:
         - id: '1770495376521'
           name: 企業としてのローソンに関する質問
         - id: '1770482960386'
-          name: それ以外/
+          name: それ以外
         instruction: /
         instructions: ''
         memory:
@@ -940,15 +694,15 @@ workflow:
         type: question-classifier
         vision:
           enabled: false
-      height: 322
+      height: 328
       id: '1770482384373'
       position:
-        x: 724
-        y: 492
+        x: 342
+        y: 504
       positionAbsolute:
-        x: 724
-        y: 492
-      selected: false
+        x: 342
+        y: 504
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -988,30 +742,26 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 94
       id: '17704827524060'
       position:
-        x: 1428
-        y: 318
+        x: 1046
+        y: 324
       positionAbsolute:
-        x: 1428
-        y: 318
+        x: 1046
+        y: 324
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1770505489685.files#}}
-
-          ```bash
+        answer: '```bash
 
           {{#1770480577613.text#}}
 
           ```
 
-
-          {{#17705043154630.files#}}
 
           {{#17704827524060.text#}}
 
@@ -1021,14 +771,14 @@ workflow:
         title: 答える
         type: answer
         variables: []
-      height: 158
+      height: 121
       id: '17704828153720'
       position:
-        x: 1770
-        y: 283
+        x: 1388
+        y: 310
       positionAbsolute:
-        x: 1770
-        y: 283
+        x: 1388
+        y: 310
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1126,35 +876,33 @@ workflow:
         title: 世間話する
         tool_node_version: '2'
         type: agent
-      height: 188
+      height: 194
       id: '1770503651371'
       position:
-        x: 1086
-        y: 1200
+        x: 704
+        y: 1218
       positionAbsolute:
-        x: 1086
-        y: 1200
+        x: 704
+        y: 1218
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#17705043251580.files#}}
-
-          {{#1770503651371.text#}}'
+        answer: '{{#1770503651371.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 121
+      height: 103
       id: '1770483046052'
       position:
-        x: 1428
-        y: 1233
+        x: 1046
+        y: 1263
       positionAbsolute:
-        x: 1428
-        y: 1233
+        x: 1046
+        y: 1263
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1299,14 +1047,14 @@ workflow:
         title: 売上を分析する
         tool_node_version: '2'
         type: agent
-      height: 188
+      height: 194
       id: '1770483653548'
       position:
-        x: 1086
-        y: 536
+        x: 704
+        y: 548
       positionAbsolute:
-        x: 1086
-        y: 536
+        x: 704
+        y: 548
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1343,36 +1091,29 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 94
       id: '1770483731933'
       position:
-        x: 1428
-        y: 586
+        x: 1046
+        y: 598
       positionAbsolute:
-        x: 1428
-        y: 586
+        x: 1046
+        y: 598
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1770505489685.files#}}
-
-          ```bash
+        answer: '```bash
 
           {{#1770483653548.text#}}
 
           ```
 
 
-          {{#17705043154630.files#}}
-
           {{#1770483731933.text#}}
 
-
-
-          {{#1770505489685.files#}}
 
           レポート作成中...
 
@@ -1383,8 +1124,6 @@ workflow:
           ```
 
 
-          {{#1770504292871.text#}}
-
           レポートが完成しました!
 
           {{#1770491505932.text#}}'
@@ -1392,154 +1131,14 @@ workflow:
         title: 答える
         type: answer
         variables: []
-      height: 248
+      height: 174
       id: '1770483783233'
       position:
-        x: 2796
-        y: 506
+        x: 2414
+        y: 558
       positionAbsolute:
-        x: 2796
-        y: 506
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        items:
-        - input_type: variable
-          operation: append
-          value:
-          - sys
-          - query
-          variable_selector:
-          - conversation
-          - conversation_history
-          write_mode: over-write
-        selected: false
-        title: 変数代入
-        type: assigner
-        version: '2'
-      height: 84
-      id: '1770486857627'
-      position:
-        x: 362
-        y: 181
-      positionAbsolute:
-        x: 362
-        y: 181
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        items:
-        - input_type: variable
-          operation: append
-          value:
-          - '1770476271261'
-          - text
-          variable_selector:
-          - conversation
-          - conversation_history
-          write_mode: over-write
-        selected: false
-        title: 会話を保存する
-        type: assigner
-        version: '2'
-      height: 84
-      id: '1770486900660'
-      position:
-        x: 2112
-        y: 52
-      positionAbsolute:
-        x: 2112
-        y: 52
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        items:
-        - input_type: variable
-          operation: append
-          value:
-          - '17704827524060'
-          - text
-          variable_selector:
-          - conversation
-          - conversation_history
-          write_mode: over-write
-        selected: false
-        title: 会話を保存する
-        type: assigner
-        version: '2'
-      height: 84
-      id: '17704869300770'
-      position:
-        x: 2112
-        y: 320
-      positionAbsolute:
-        x: 2112
-        y: 320
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        items:
-        - input_type: variable
-          operation: append
-          value:
-          - '1770503651371'
-          - text
-          variable_selector:
-          - conversation
-          - conversation_history
-          write_mode: over-write
-        selected: false
-        title: 会話を保存する
-        type: assigner
-        version: '2'
-      height: 84
-      id: '17704869484610'
-      position:
-        x: 1770
-        y: 1252
-      positionAbsolute:
-        x: 1770
-        y: 1252
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        items:
-        - input_type: variable
-          operation: append
-          value:
-          - '1770483731933'
-          - text
-          variable_selector:
-          - conversation
-          - conversation_history
-          write_mode: over-write
-        selected: false
-        title: 会話を保存する
-        type: assigner
-        version: '2'
-      height: 84
-      id: '17704869697770'
-      position:
-        x: 3138
-        y: 588
-      positionAbsolute:
-        x: 3138
-        y: 588
+        x: 2414
+        y: 558
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1568,14 +1167,14 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 94
       id: '1770500533711'
       position:
-        x: 1770
-        y: 586
+        x: 1388
+        y: 598
       positionAbsolute:
-        x: 1770
-        y: 586
+        x: 1388
+        y: 598
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1777,11 +1376,11 @@ workflow:
       height: 88
       id: '1770491410682'
       position:
-        x: 2112
-        y: 586
+        x: 1730
+        y: 601
       positionAbsolute:
-        x: 2112
-        y: 586
+        x: 1730
+        y: 601
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1916,11 +1515,11 @@ workflow:
       height: 88
       id: '1770491505932'
       position:
-        x: 2454
-        y: 586
+        x: 2072
+        y: 601
       positionAbsolute:
-        x: 2454
-        y: 586
+        x: 2072
+        y: 601
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -1954,11 +1553,11 @@ workflow:
       height: 146
       id: '1770495067173'
       position:
-        x: 1086
-        y: 804
+        x: 704
+        y: 822
       positionAbsolute:
-        x: 1086
-        y: 804
+        x: 704
+        y: 822
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2002,35 +1601,33 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 94
       id: '1770495094488'
       position:
-        x: 1428
-        y: 833
+        x: 1046
+        y: 848
       positionAbsolute:
-        x: 1428
-        y: 833
+        x: 1046
+        y: 848
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1770504311352.files#}}
-
-          {{#1770495094488.text#}}'
+        answer: '{{#1770495094488.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 121
+      height: 103
       id: '1770495276288'
       position:
-        x: 1770
-        y: 816
+        x: 1388
+        y: 843
       positionAbsolute:
-        x: 1770
-        y: 816
+        x: 1388
+        y: 843
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -2062,11 +1659,11 @@ workflow:
       height: 90
       id: '1770495404387'
       position:
-        x: 1086
-        y: 1030
+        x: 704
+        y: 1048
       positionAbsolute:
-        x: 1086
-        y: 1030
+        x: 704
+        y: 1048
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -2105,735 +1702,40 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 88
+      height: 94
       id: '1770495435204'
       position:
-        x: 1428
-        y: 1031
+        x: 1046
+        y: 1046
       positionAbsolute:
-        x: 1428
-        y: 1031
+        x: 1046
+        y: 1046
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#17705043154630.files#}}
-
-          {{#1770495435204.text#}}'
+        answer: '{{#1770495435204.text#}}'
         selected: false
         title: 回答 6
         type: answer
         variables: []
-      height: 121
+      height: 103
       id: '1770495552205'
       position:
-        x: 1790
-        y: 1017
+        x: 1388
+        y: 1041
       positionAbsolute:
-        x: 1790
-        y: 1017
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The emotion/feeling to express
-            ja_JP: 表現する感情
-            pt_BR: The emotion/feeling to express
-            zh_Hans: The emotion/feeling to express
-          label:
-            en_US: Emotion
-            ja_JP: 感情
-            pt_BR: Emotion
-            zh_Hans: Emotion
-          llm_description: からあげクンの感情を選択
-          max: null
-          min: null
-          name: emotion
-          options:
-          - icon: ''
-            label:
-              en_US: Happy
-              ja_JP: 嬉しい
-              pt_BR: Happy
-              zh_Hans: Happy
-            value: happy
-          - icon: ''
-            label:
-              en_US: Sad
-              ja_JP: 悲しい
-              pt_BR: Sad
-              zh_Hans: Sad
-            value: sad
-          - icon: ''
-            label:
-              en_US: Angry
-              ja_JP: 怒り
-              pt_BR: Angry
-              zh_Hans: Angry
-            value: angry
-          - icon: ''
-            label:
-              en_US: Got an idea
-              ja_JP: ひらめき
-              pt_BR: Got an idea
-              zh_Hans: Got an idea
-            value: idea
-          - icon: ''
-            label:
-              en_US: Normal
-              ja_JP: 通常
-              pt_BR: Normal
-              zh_Hans: Normal
-            value: normal
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: select
-        params:
-          emotion: ''
-        plugin_id: yoichiojima/lawson-karaage-tencho
-        plugin_unique_identifier: yoichiojima/lawson-karaage-tencho:0.0.18@85e7005ef00d48c4a12f03b71a8bb38e67b4f9ebaa2a0b0eca3a8947cf22337f
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=0bb803d18c79efeee008d051ac6bc4fb3d1b9a63e385f1ff675b81292653ac55.webp
-        provider_id: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_name: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_type: builtin
-        selected: false
-        title: Karaage-kun happy
-        tool_configurations: {}
-        tool_description: Get Karaage-kun character image by emotion
-        tool_label: Karaage-kun Image
-        tool_name: karaage_kun_image
-        tool_node_version: '2'
-        tool_parameters:
-          emotion:
-            type: constant
-            value: happy
-        type: tool
-      height: 52
-      id: '1770504292871'
-      position:
-        x: 362
-        y: 345
-      positionAbsolute:
-        x: 362
-        y: 345
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The emotion/feeling to express
-            ja_JP: 表現する感情
-            pt_BR: The emotion/feeling to express
-            zh_Hans: The emotion/feeling to express
-          label:
-            en_US: Emotion
-            ja_JP: 感情
-            pt_BR: Emotion
-            zh_Hans: Emotion
-          llm_description: からあげクンの感情を選択
-          max: null
-          min: null
-          name: emotion
-          options:
-          - icon: ''
-            label:
-              en_US: Happy
-              ja_JP: 嬉しい
-              pt_BR: Happy
-              zh_Hans: Happy
-            value: happy
-          - icon: ''
-            label:
-              en_US: Sad
-              ja_JP: 悲しい
-              pt_BR: Sad
-              zh_Hans: Sad
-            value: sad
-          - icon: ''
-            label:
-              en_US: Angry
-              ja_JP: 怒り
-              pt_BR: Angry
-              zh_Hans: Angry
-            value: angry
-          - icon: ''
-            label:
-              en_US: Got an idea
-              ja_JP: ひらめき
-              pt_BR: Got an idea
-              zh_Hans: Got an idea
-            value: idea
-          - icon: ''
-            label:
-              en_US: Normal
-              ja_JP: 通常
-              pt_BR: Normal
-              zh_Hans: Normal
-            value: normal
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: select
-        params:
-          emotion: ''
-        plugin_id: yoichiojima/lawson-karaage-tencho
-        plugin_unique_identifier: yoichiojima/lawson-karaage-tencho:0.0.18@85e7005ef00d48c4a12f03b71a8bb38e67b4f9ebaa2a0b0eca3a8947cf22337f
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=0bb803d18c79efeee008d051ac6bc4fb3d1b9a63e385f1ff675b81292653ac55.webp
-        provider_id: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_name: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_type: builtin
-        selected: false
-        title: Karaage-kun sad
-        tool_configurations: {}
-        tool_description: Get Karaage-kun character image by emotion
-        tool_label: Karaage-kun Image
-        tool_name: karaage_kun_image
-        tool_node_version: '2'
-        tool_parameters:
-          emotion:
-            type: constant
-            value: sad
-        type: tool
-      height: 52
-      id: '1770504311352'
-      position:
-        x: 362
-        y: 477
-      positionAbsolute:
-        x: 362
-        y: 477
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The emotion/feeling to express
-            ja_JP: 表現する感情
-            pt_BR: The emotion/feeling to express
-            zh_Hans: The emotion/feeling to express
-          label:
-            en_US: Emotion
-            ja_JP: 感情
-            pt_BR: Emotion
-            zh_Hans: Emotion
-          llm_description: からあげクンの感情を選択
-          max: null
-          min: null
-          name: emotion
-          options:
-          - icon: ''
-            label:
-              en_US: Happy
-              ja_JP: 嬉しい
-              pt_BR: Happy
-              zh_Hans: Happy
-            value: happy
-          - icon: ''
-            label:
-              en_US: Sad
-              ja_JP: 悲しい
-              pt_BR: Sad
-              zh_Hans: Sad
-            value: sad
-          - icon: ''
-            label:
-              en_US: Angry
-              ja_JP: 怒り
-              pt_BR: Angry
-              zh_Hans: Angry
-            value: angry
-          - icon: ''
-            label:
-              en_US: Got an idea
-              ja_JP: ひらめき
-              pt_BR: Got an idea
-              zh_Hans: Got an idea
-            value: idea
-          - icon: ''
-            label:
-              en_US: Normal
-              ja_JP: 通常
-              pt_BR: Normal
-              zh_Hans: Normal
-            value: normal
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: select
-        params:
-          emotion: ''
-        plugin_id: yoichiojima/lawson-karaage-tencho
-        plugin_unique_identifier: yoichiojima/lawson-karaage-tencho:0.0.18@85e7005ef00d48c4a12f03b71a8bb38e67b4f9ebaa2a0b0eca3a8947cf22337f
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=0bb803d18c79efeee008d051ac6bc4fb3d1b9a63e385f1ff675b81292653ac55.webp
-        provider_id: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_name: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_type: builtin
-        selected: false
-        title: Karaage-kun got an idea
-        tool_configurations: {}
-        tool_description: Get Karaage-kun character image by emotion
-        tool_label: Karaage-kun Image
-        tool_name: karaage_kun_image
-        tool_node_version: '2'
-        tool_parameters:
-          emotion:
-            type: constant
-            value: idea
-        type: tool
-      height: 52
-      id: '17705043154630'
-      position:
-        x: 362
-        y: 741
-      positionAbsolute:
-        x: 362
-        y: 741
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The emotion/feeling to express
-            ja_JP: 表現する感情
-            pt_BR: The emotion/feeling to express
-            zh_Hans: The emotion/feeling to express
-          label:
-            en_US: Emotion
-            ja_JP: 感情
-            pt_BR: Emotion
-            zh_Hans: Emotion
-          llm_description: からあげクンの感情を選択
-          max: null
-          min: null
-          name: emotion
-          options:
-          - icon: ''
-            label:
-              en_US: Happy
-              ja_JP: 嬉しい
-              pt_BR: Happy
-              zh_Hans: Happy
-            value: happy
-          - icon: ''
-            label:
-              en_US: Sad
-              ja_JP: 悲しい
-              pt_BR: Sad
-              zh_Hans: Sad
-            value: sad
-          - icon: ''
-            label:
-              en_US: Angry
-              ja_JP: 怒り
-              pt_BR: Angry
-              zh_Hans: Angry
-            value: angry
-          - icon: ''
-            label:
-              en_US: Got an idea
-              ja_JP: ひらめき
-              pt_BR: Got an idea
-              zh_Hans: Got an idea
-            value: idea
-          - icon: ''
-            label:
-              en_US: Normal
-              ja_JP: 通常
-              pt_BR: Normal
-              zh_Hans: Normal
-            value: normal
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: select
-        params:
-          emotion: ''
-        plugin_id: yoichiojima/lawson-karaage-tencho
-        plugin_unique_identifier: yoichiojima/lawson-karaage-tencho:0.0.18@85e7005ef00d48c4a12f03b71a8bb38e67b4f9ebaa2a0b0eca3a8947cf22337f
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=0bb803d18c79efeee008d051ac6bc4fb3d1b9a63e385f1ff675b81292653ac55.webp
-        provider_id: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_name: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_type: builtin
-        selected: false
-        title: Karaage-kun normal
-        tool_configurations: {}
-        tool_description: Get Karaage-kun character image by emotion
-        tool_label: Karaage-kun Image
-        tool_name: karaage_kun_image
-        tool_node_version: '2'
-        tool_parameters:
-          emotion:
-            type: constant
-            value: normal
-        type: tool
-      height: 52
-      id: '17705043251580'
-      position:
-        x: 362
-        y: 873
-      positionAbsolute:
-        x: 362
-        y: 873
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The emotion/feeling to express
-            ja_JP: 表現する感情
-            pt_BR: The emotion/feeling to express
-            zh_Hans: The emotion/feeling to express
-          label:
-            en_US: Emotion
-            ja_JP: 感情
-            pt_BR: Emotion
-            zh_Hans: Emotion
-          llm_description: からあげクンの感情を選択
-          max: null
-          min: null
-          name: emotion
-          options:
-          - icon: ''
-            label:
-              en_US: Happy
-              ja_JP: 嬉しい
-              pt_BR: Happy
-              zh_Hans: Happy
-            value: happy
-          - icon: ''
-            label:
-              en_US: Sad
-              ja_JP: 悲しい
-              pt_BR: Sad
-              zh_Hans: Sad
-            value: sad
-          - icon: ''
-            label:
-              en_US: Angry
-              ja_JP: 怒り
-              pt_BR: Angry
-              zh_Hans: Angry
-            value: angry
-          - icon: ''
-            label:
-              en_US: Got an idea
-              ja_JP: ひらめき
-              pt_BR: Got an idea
-              zh_Hans: Got an idea
-            value: idea
-          - icon: ''
-            label:
-              en_US: Normal
-              ja_JP: 通常
-              pt_BR: Normal
-              zh_Hans: Normal
-            value: normal
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: select
-        params:
-          emotion: ''
-        plugin_id: yoichiojima/lawson-karaage-tencho
-        plugin_unique_identifier: yoichiojima/lawson-karaage-tencho:0.0.18@85e7005ef00d48c4a12f03b71a8bb38e67b4f9ebaa2a0b0eca3a8947cf22337f
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=0bb803d18c79efeee008d051ac6bc4fb3d1b9a63e385f1ff675b81292653ac55.webp
-        provider_id: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_name: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_type: builtin
-        selected: false
-        title: Karaage-kun angry
-        tool_configurations: {}
-        tool_description: Get Karaage-kun character image by emotion
-        tool_label: Karaage-kun Image
-        tool_name: karaage_kun_image
-        tool_node_version: '2'
-        tool_parameters:
-          emotion:
-            type: constant
-            value: happy
-        type: tool
-      height: 52
-      id: '17705043306750'
-      position:
-        x: 362
-        y: 609
-      positionAbsolute:
-        x: 362
-        y: 609
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The emotion/feeling to express
-            ja_JP: 表現する感情
-            pt_BR: The emotion/feeling to express
-            zh_Hans: The emotion/feeling to express
-          label:
-            en_US: Emotion
-            ja_JP: 感情
-            pt_BR: Emotion
-            zh_Hans: Emotion
-          llm_description: からあげクンの感情を選択
-          max: null
-          min: null
-          name: emotion
-          options:
-          - icon: ''
-            label:
-              en_US: Happy
-              ja_JP: 嬉しい
-              pt_BR: Happy
-              zh_Hans: Happy
-            value: happy
-          - icon: ''
-            label:
-              en_US: Sad
-              ja_JP: 悲しい
-              pt_BR: Sad
-              zh_Hans: Sad
-            value: sad
-          - icon: ''
-            label:
-              en_US: Angry
-              ja_JP: 怒り
-              pt_BR: Angry
-              zh_Hans: Angry
-            value: angry
-          - icon: ''
-            label:
-              en_US: Got an idea
-              ja_JP: ひらめき
-              pt_BR: Got an idea
-              zh_Hans: Got an idea
-            value: idea
-          - icon: ''
-            label:
-              en_US: Thinking
-              ja_JP: 考え中
-              pt_BR: Thinking
-              zh_Hans: Thinking
-            value: thinking
-          - icon: ''
-            label:
-              en_US: Working Hard
-              ja_JP: 頑張り中
-              pt_BR: Working Hard
-              zh_Hans: Working Hard
-            value: working-hard
-          - icon: ''
-            label:
-              en_US: Normal
-              ja_JP: 通常
-              pt_BR: Normal
-              zh_Hans: Normal
-            value: normal
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: select
-        params:
-          emotion: ''
-        plugin_id: yoichiojima/lawson-karaage-tencho
-        plugin_unique_identifier: yoichiojima/lawson-karaage-tencho:0.0.20@d05a13a46083556ee5cad958805645b35437cec8c982a59c90682947916be6aa
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=0bb803d18c79efeee008d051ac6bc4fb3d1b9a63e385f1ff675b81292653ac55.webp
-        provider_id: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_name: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_type: builtin
-        selected: false
-        title: Karaage-kun thinking
-        tool_configurations: {}
-        tool_description: Get Karaage-kun character image by emotion
-        tool_label: Karaage-kun Image
-        tool_name: karaage_kun_image
-        tool_node_version: '2'
-        tool_parameters:
-          emotion:
-            type: constant
-            value: thinking
-        type: tool
-      height: 52
-      id: '1770505489685'
-      position:
-        x: 362
-        y: 1005
-      positionAbsolute:
-        x: 362
-        y: 1005
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The emotion/feeling to express
-            ja_JP: 表現する感情
-            pt_BR: The emotion/feeling to express
-            zh_Hans: The emotion/feeling to express
-          label:
-            en_US: Emotion
-            ja_JP: 感情
-            pt_BR: Emotion
-            zh_Hans: Emotion
-          llm_description: からあげクンの感情を選択
-          max: null
-          min: null
-          name: emotion
-          options:
-          - icon: ''
-            label:
-              en_US: Happy
-              ja_JP: 嬉しい
-              pt_BR: Happy
-              zh_Hans: Happy
-            value: happy
-          - icon: ''
-            label:
-              en_US: Sad
-              ja_JP: 悲しい
-              pt_BR: Sad
-              zh_Hans: Sad
-            value: sad
-          - icon: ''
-            label:
-              en_US: Angry
-              ja_JP: 怒り
-              pt_BR: Angry
-              zh_Hans: Angry
-            value: angry
-          - icon: ''
-            label:
-              en_US: Got an idea
-              ja_JP: ひらめき
-              pt_BR: Got an idea
-              zh_Hans: Got an idea
-            value: idea
-          - icon: ''
-            label:
-              en_US: Thinking
-              ja_JP: 考え中
-              pt_BR: Thinking
-              zh_Hans: Thinking
-            value: thinking
-          - icon: ''
-            label:
-              en_US: Working Hard
-              ja_JP: 頑張り中
-              pt_BR: Working Hard
-              zh_Hans: Working Hard
-            value: working-hard
-          - icon: ''
-            label:
-              en_US: Normal
-              ja_JP: 通常
-              pt_BR: Normal
-              zh_Hans: Normal
-            value: normal
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: select
-        params:
-          emotion: ''
-        plugin_id: yoichiojima/lawson-karaage-tencho
-        plugin_unique_identifier: yoichiojima/lawson-karaage-tencho:0.0.20@d05a13a46083556ee5cad958805645b35437cec8c982a59c90682947916be6aa
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=0bb803d18c79efeee008d051ac6bc4fb3d1b9a63e385f1ff675b81292653ac55.webp
-        provider_id: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_name: yoichiojima/lawson-karaage-tencho/lawson-karaage-tencho
-        provider_type: builtin
-        selected: false
-        title: Karaage-kun working-hard
-        tool_configurations: {}
-        tool_description: Get Karaage-kun character image by emotion
-        tool_label: Karaage-kun Image
-        tool_name: karaage_kun_image
-        tool_node_version: '2'
-        tool_parameters:
-          emotion:
-            type: constant
-            value: working-hard
-        type: tool
-      height: 52
-      id: '1770505506065'
-      position:
-        x: 362
-        y: 1137
-      positionAbsolute:
-        x: 362
-        y: 1137
+        x: 1388
+        y: 1041
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: 0
-      y: 0
-      zoom: 0.7
+      x: 204.0658627578432
+      y: 54.61354629928849
+      zoom: 0.47284092958747365
   rag_pipeline_variables: []
