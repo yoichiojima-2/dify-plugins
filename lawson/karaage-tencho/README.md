@@ -1,6 +1,6 @@
 ## karaage-tencho
 
-**Author:** lawson-ds
+**Author:** yoichiojima
 **Version:** 0.0.1
 **Type:** tool
 
