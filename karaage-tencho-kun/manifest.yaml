@@ -1,12 +1,10 @@
 version: 0.0.27
 type: plugin
 author: yoichiojima
-name: lawson-karaage-tencho
+name: karaage-tencho-kun
 label:
-  en_US: Karaage Store Manager
-  ja_JP: からあげ店長
-  zh_Hans: 炸�的店长
-  pt_BR: Gerente Karaage
+  en_US: karaage-techno-kun
+  ja_JP: からあげ店長クン
 description:
   en_US: AI assistant for convenience store operations - shift management, weather-based demand forecasting, and product information
   ja_JP: コンビニ店舗運営AIアシスタント - シフト管理、天気に基づく需要予測、商品情報
@@ -20,7 +18,7 @@ resource:
       enabled: true
 plugins:
   tools:
-    - provider/karaage-tencho.yaml
+    - provider/karaage-tencho-kun.yaml
 meta:
   version: 0.0.27
   arch:
