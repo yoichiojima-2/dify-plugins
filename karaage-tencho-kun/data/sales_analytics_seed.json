@@ -1,0 +1,504 @@
+{
+  "items_master": [
+    {
+      "item_id": "K001",
+      "item_name": "からあげクン レギュラー",
+      "category": "ホットスナック",
+      "unit_price": 238
+    },
+    {
+      "item_id": "K002",
+      "item_name": "からあげクン レッド",
+      "category": "ホットスナック",
+      "unit_price": 238
+    },
+    {
+      "item_id": "K003",
+      "item_name": "からあげクン チーズ",
+      "category": "ホットスナック",
+      "unit_price": 238
+    },
+    {
+      "item_id": "L001",
+      "item_name": "Lチキ",
+      "category": "ホットスナック",
+      "unit_price": 210
+    },
+    {
+      "item_id": "L002",
+      "item_name": "Lチキ 旨辛",
+      "category": "ホットスナック",
+      "unit_price": 210
+    },
+    {
+      "item_id": "O001",
+      "item_name": "おにぎり 鮭",
+      "category": "おにぎり",
+      "unit_price": 140
+    },
+    {
+      "item_id": "O002",
+      "item_name": "おにぎり ツナマヨ",
+      "category": "おにぎり",
+      "unit_price": 130
+    },
+    {
+      "item_id": "O003",
+      "item_name": "おにぎり 明太子",
+      "category": "おにぎり",
+      "unit_price": 150
+    },
+    {
+      "item_id": "O004",
+      "item_name": "おにぎり 梅",
+      "category": "おにぎり",
+      "unit_price": 120
+    },
+    {
+      "item_id": "B001",
+      "item_name": "幕の内弁当",
+      "category": "弁当",
+      "unit_price": 498
+    },
+    {
+      "item_id": "B002",
+      "item_name": "のり弁当",
+      "category": "弁当",
+      "unit_price": 398
+    },
+    {
+      "item_id": "B003",
+      "item_name": "チキン南蛮弁当",
+      "category": "弁当",
+      "unit_price": 548
+    },
+    {
+      "item_id": "S001",
+      "item_name": "サンドイッチ たまご",
+      "category": "サンドイッチ",
+      "unit_price": 298
+    },
+    {
+      "item_id": "S002",
+      "item_name": "サンドイッチ ハムチーズ",
+      "category": "サンドイッチ",
+      "unit_price": 328
+    },
+    {
+      "item_id": "D001",
+      "item_name": "お茶 500ml",
+      "category": "飲料",
+      "unit_price": 150
+    },
+    {
+      "item_id": "D002",
+      "item_name": "コーヒー 缶",
+      "category": "飲料",
+      "unit_price": 130
+    },
+    {
+      "item_id": "D003",
+      "item_name": "スポーツドリンク",
+      "category": "飲料",
+      "unit_price": 160
+    },
+    {
+      "item_id": "D004",
+      "item_name": "コーラ 500ml",
+      "category": "飲料",
+      "unit_price": 170
+    },
+    {
+      "item_id": "I001",
+      "item_name": "アイスクリーム バニラ",
+      "category": "アイス",
+      "unit_price": 180
+    },
+    {
+      "item_id": "I002",
+      "item_name": "アイスクリーム チョコ",
+      "category": "アイス",
+      "unit_price": 180
+    },
+    {
+      "item_id": "N001",
+      "item_name": "肉まん",
+      "category": "中華まん",
+      "unit_price": 150
+    },
+    {
+      "item_id": "N002",
+      "item_name": "ピザまん",
+      "category": "中華まん",
+      "unit_price": 150
+    },
+    {
+      "item_id": "OD01",
+      "item_name": "おでん 大根",
+      "category": "おでん",
+      "unit_price": 90
+    },
+    {
+      "item_id": "OD02",
+      "item_name": "おでん たまご",
+      "category": "おでん",
+      "unit_price": 100
+    },
+    {
+      "item_id": "OD03",
+      "item_name": "おでん ちくわ",
+      "category": "おでん",
+      "unit_price": 110
+    },
+    {
+      "item_id": "C001",
+      "item_name": "カップ麺 醤油",
+      "category": "カップ麺",
+      "unit_price": 220
+    },
+    {
+      "item_id": "C002",
+      "item_name": "カップ麺 味噌",
+      "category": "カップ麺",
+      "unit_price": 220
+    },
+    {
+      "item_id": "SW01",
+      "item_name": "シュークリーム",
+      "category": "スイーツ",
+      "unit_price": 150
+    },
+    {
+      "item_id": "SW02",
+      "item_name": "プリン",
+      "category": "スイーツ",
+      "unit_price": 180
+    }
+  ],
+  "daily_patterns": [
+    {
+      "offset": -30,
+      "weather": "rainy",
+      "temperature": 8.4,
+      "day_of_week": 3
+    },
+    {
+      "offset": -29,
+      "weather": "sunny",
+      "temperature": 14.2,
+      "day_of_week": 4
+    },
+    {
+      "offset": -28,
+      "weather": "sunny",
+      "temperature": 15.1,
+      "day_of_week": 5
+    },
+    {
+      "offset": -27,
+      "weather": "sunny",
+      "temperature": 13.8,
+      "day_of_week": 6
+    },
+    {
+      "offset": -26,
+      "weather": "cloudy",
+      "temperature": 11.5,
+      "day_of_week": 0
+    },
+    {
+      "offset": -25,
+      "weather": "cloudy",
+      "temperature": 10.2,
+      "day_of_week": 1
+    },
+    {
+      "offset": -24,
+      "weather": "rainy",
+      "temperature": 9.1,
+      "day_of_week": 2
+    },
+    {
+      "offset": -23,
+      "weather": "sunny",
+      "temperature": 12.8,
+      "day_of_week": 3
+    },
+    {
+      "offset": -22,
+      "weather": "sunny",
+      "temperature": 14.5,
+      "day_of_week": 4
+    },
+    {
+      "offset": -21,
+      "weather": "cloudy",
+      "temperature": 11.9,
+      "day_of_week": 5
+    },
+    {
+      "offset": -20,
+      "weather": "sunny",
+      "temperature": 15.3,
+      "day_of_week": 6
+    },
+    {
+      "offset": -19,
+      "weather": "rainy",
+      "temperature": 8.7,
+      "day_of_week": 0
+    },
+    {
+      "offset": -18,
+      "weather": "cloudy",
+      "temperature": 10.4,
+      "day_of_week": 1
+    },
+    {
+      "offset": -17,
+      "weather": "sunny",
+      "temperature": 13.2,
+      "day_of_week": 2
+    },
+    {
+      "offset": -16,
+      "weather": "sunny",
+      "temperature": 14.8,
+      "day_of_week": 3
+    },
+    {
+      "offset": -15,
+      "weather": "rainy",
+      "temperature": 7.9,
+      "day_of_week": 4
+    },
+    {
+      "offset": -14,
+      "weather": "cloudy",
+      "temperature": 9.6,
+      "day_of_week": 5
+    },
+    {
+      "offset": -13,
+      "weather": "sunny",
+      "temperature": 12.1,
+      "day_of_week": 6
+    },
+    {
+      "offset": -12,
+      "weather": "sunny",
+      "temperature": 13.7,
+      "day_of_week": 0
+    },
+    {
+      "offset": -11,
+      "weather": "cloudy",
+      "temperature": 11.3,
+      "day_of_week": 1
+    },
+    {
+      "offset": -10,
+      "weather": "rainy",
+      "temperature": 8.2,
+      "day_of_week": 2
+    },
+    {
+      "offset": -9,
+      "weather": "sunny",
+      "temperature": 14.1,
+      "day_of_week": 3
+    },
+    {
+      "offset": -8,
+      "weather": "sunny",
+      "temperature": 15.6,
+      "day_of_week": 4
+    },
+    {
+      "offset": -7,
+      "weather": "cloudy",
+      "temperature": 12.4,
+      "day_of_week": 5
+    },
+    {
+      "offset": -6,
+      "weather": "sunny",
+      "temperature": 13.9,
+      "day_of_week": 6
+    },
+    {
+      "offset": -5,
+      "weather": "rainy",
+      "temperature": 9.3,
+      "day_of_week": 0
+    },
+    {
+      "offset": -4,
+      "weather": "cloudy",
+      "temperature": 10.8,
+      "day_of_week": 1
+    },
+    {
+      "offset": -3,
+      "weather": "sunny",
+      "temperature": 14.4,
+      "day_of_week": 2
+    },
+    {
+      "offset": -2,
+      "weather": "sunny",
+      "temperature": 15.2,
+      "day_of_week": 3
+    },
+    {
+      "offset": -1,
+      "weather": "cloudy",
+      "temperature": 11.7,
+      "day_of_week": 4
+    },
+    {
+      "offset": 0,
+      "weather": "sunny",
+      "temperature": 13.5,
+      "day_of_week": 5
+    }
+  ],
+  "hourly_item_profiles": [
+    {
+      "item_id": "K001",
+      "item_name": "からあげクン レギュラー",
+      "category": "ホットスナック",
+      "price": 238,
+      "base_qty": 3,
+      "demand_group": "hot_snack"
+    },
+    {
+      "item_id": "K002",
+      "item_name": "からあげクン レッド",
+      "category": "ホットスナック",
+      "price": 238,
+      "base_qty": 2,
+      "demand_group": "hot_snack"
+    },
+    {
+      "item_id": "K003",
+      "item_name": "からあげクン チーズ",
+      "category": "ホットスナック",
+      "price": 238,
+      "base_qty": 2,
+      "demand_group": "hot_snack"
+    },
+    {
+      "item_id": "L001",
+      "item_name": "Lチキ",
+      "category": "ホットスナック",
+      "price": 210,
+      "base_qty": 2,
+      "demand_group": "hot_snack"
+    },
+    {
+      "item_id": "O001",
+      "item_name": "おにぎり 鮭",
+      "category": "おにぎり",
+      "price": 140,
+      "base_qty": 4,
+      "demand_group": "normal"
+    },
+    {
+      "item_id": "O002",
+      "item_name": "おにぎり ツナマヨ",
+      "category": "おにぎり",
+      "price": 130,
+      "base_qty": 5,
+      "demand_group": "normal"
+    },
+    {
+      "item_id": "B001",
+      "item_name": "幕の内弁当",
+      "category": "弁当",
+      "price": 498,
+      "base_qty": 2,
+      "demand_group": "normal"
+    },
+    {
+      "item_id": "B002",
+      "item_name": "のり弁当",
+      "category": "弁当",
+      "price": 398,
+      "base_qty": 3,
+      "demand_group": "normal"
+    },
+    {
+      "item_id": "S001",
+      "item_name": "サンドイッチ たまご",
+      "category": "サンドイッチ",
+      "price": 298,
+      "base_qty": 2,
+      "demand_group": "normal"
+    },
+    {
+      "item_id": "D001",
+      "item_name": "お茶 500ml",
+      "category": "飲料",
+      "price": 150,
+      "base_qty": 4,
+      "demand_group": "cold"
+    },
+    {
+      "item_id": "D002",
+      "item_name": "コーヒー 缶",
+      "category": "飲料",
+      "price": 130,
+      "base_qty": 3,
+      "demand_group": "normal"
+    },
+    {
+      "item_id": "I001",
+      "item_name": "アイスクリーム バニラ",
+      "category": "アイス",
+      "price": 180,
+      "base_qty": 1,
+      "demand_group": "cold"
+    },
+    {
+      "item_id": "N001",
+      "item_name": "肉まん",
+      "category": "中華まん",
+      "price": 150,
+      "base_qty": 2,
+      "demand_group": "warm"
+    },
+    {
+      "item_id": "OD01",
+      "item_name": "おでん 大根",
+      "category": "おでん",
+      "price": 90,
+      "base_qty": 2,
+      "demand_group": "warm"
+    },
+    {
+      "item_id": "OD02",
+      "item_name": "おでん たまご",
+      "category": "おでん",
+      "price": 100,
+      "base_qty": 2,
+      "demand_group": "warm"
+    },
+    {
+      "item_id": "C001",
+      "item_name": "カップ麺 醤油",
+      "category": "カップ麺",
+      "price": 220,
+      "base_qty": 1,
+      "demand_group": "warm"
+    },
+    {
+      "item_id": "SW01",
+      "item_name": "シュークリーム",
+      "category": "スイーツ",
+      "price": 150,
+      "base_qty": 2,
+      "demand_group": "normal"
+    }
+  ]
+}

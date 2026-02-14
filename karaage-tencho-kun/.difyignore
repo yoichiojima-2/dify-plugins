@@ -182,6 +182,4 @@ Thumbs.db
 #  To prevent packaging repetitively
 *.difypkg
 
-# Plugin data files (shift state, etc.)
-data/
-
+# Plugin data files are included because tools load static datasets at runtime.

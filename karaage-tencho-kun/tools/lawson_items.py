@@ -1,545 +1,39 @@
 from collections.abc import Generator
+import json
+from pathlib import Path
 from typing import Any
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
+_DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "lawson_items.json"
+_DATA_CACHE: dict[str, Any] | None = None
 
-# Lawson product catalog (sample data)
-LAWSON_ITEMS = [
-    # ホットスナック (Hot Snacks)
-    {
-        "id": "HS001",
-        "name": "からあげクン レギュラー",
-        "name_en": "Karaage-kun Regular",
-        "category": "hot_snack",
-        "price": 238,
-        "calories": 220,
-        "is_seasonal": False,
-        "shelf_life_hours": 6,
-        "popular_times": ["12:00-13:00", "18:00-20:00"],
-    },
-    {
-        "id": "HS002",
-        "name": "からあげクン レッド",
-        "name_en": "Karaage-kun Red (Spicy)",
-        "category": "hot_snack",
-        "price": 238,
-        "calories": 222,
-        "is_seasonal": False,
-        "shelf_life_hours": 6,
-        "popular_times": ["12:00-13:00", "18:00-20:00"],
-    },
-    {
-        "id": "HS003",
-        "name": "からあげクン チーズ",
-        "name_en": "Karaage-kun Cheese",
-        "category": "hot_snack",
-        "price": 258,
-        "calories": 235,
-        "is_seasonal": False,
-        "shelf_life_hours": 6,
-        "popular_times": ["12:00-13:00", "18:00-20:00"],
-    },
-    {
-        "id": "HS004",
-        "name": "Lチキ レギュラー",
-        "name_en": "L-Chiki Regular",
-        "category": "hot_snack",
-        "price": 200,
-        "calories": 280,
-        "is_seasonal": False,
-        "shelf_life_hours": 6,
-        "popular_times": ["12:00-13:00", "17:00-19:00"],
-    },
-    {
-        "id": "HS005",
-        "name": "Lチキ 旨辛チキン",
-        "name_en": "L-Chiki Spicy",
-        "category": "hot_snack",
-        "price": 200,
-        "calories": 275,
-        "is_seasonal": False,
-        "shelf_life_hours": 6,
-        "popular_times": ["12:00-13:00", "17:00-19:00"],
-    },
-    {
-        "id": "HS006",
-        "name": "ジューシーハムカツ",
-        "name_en": "Juicy Ham Katsu",
-        "category": "hot_snack",
-        "price": 168,
-        "calories": 195,
-        "is_seasonal": False,
-        "shelf_life_hours": 6,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "HS007",
-        "name": "あらびきポークフランク",
-        "name_en": "Arabiki Pork Frank",
-        "category": "hot_snack",
-        "price": 158,
-        "calories": 250,
-        "is_seasonal": False,
-        "shelf_life_hours": 8,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "HS008",
-        "name": "げんこつメンチ",
-        "name_en": "Genkotsu Menchi",
-        "category": "hot_snack",
-        "price": 178,
-        "calories": 290,
-        "is_seasonal": False,
-        "shelf_life_hours": 6,
-        "popular_times": ["12:00-13:00", "18:00-20:00"],
-    },
-    # おにぎり (Onigiri)
-    {
-        "id": "ON001",
-        "name": "シャケおにぎり",
-        "name_en": "Salmon Onigiri",
-        "category": "onigiri",
-        "price": 158,
-        "calories": 185,
-        "is_seasonal": False,
-        "shelf_life_hours": 24,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "ON002",
-        "name": "ツナマヨおにぎり",
-        "name_en": "Tuna Mayo Onigiri",
-        "category": "onigiri",
-        "price": 138,
-        "calories": 220,
-        "is_seasonal": False,
-        "shelf_life_hours": 24,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "ON003",
-        "name": "明太子おにぎり",
-        "name_en": "Mentaiko Onigiri",
-        "category": "onigiri",
-        "price": 168,
-        "calories": 175,
-        "is_seasonal": False,
-        "shelf_life_hours": 24,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "ON004",
-        "name": "梅おにぎり",
-        "name_en": "Ume (Plum) Onigiri",
-        "category": "onigiri",
-        "price": 128,
-        "calories": 165,
-        "is_seasonal": False,
-        "shelf_life_hours": 24,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "ON005",
-        "name": "昆布おにぎり",
-        "name_en": "Konbu Onigiri",
-        "category": "onigiri",
-        "price": 128,
-        "calories": 170,
-        "is_seasonal": False,
-        "shelf_life_hours": 24,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "ON006",
-        "name": "悪魔のおにぎり",
-        "name_en": "Akuma no Onigiri",
-        "category": "onigiri",
-        "price": 168,
-        "calories": 210,
-        "is_seasonal": False,
-        "shelf_life_hours": 24,
-        "popular_times": ["12:00-13:00", "21:00-23:00"],
-    },
-    # お弁当 (Bento)
-    {
-        "id": "BT001",
-        "name": "のり弁当",
-        "name_en": "Nori Bento",
-        "category": "bento",
-        "price": 398,
-        "calories": 650,
-        "is_seasonal": False,
-        "shelf_life_hours": 18,
-        "popular_times": ["12:00-13:00", "18:00-20:00"],
-    },
-    {
-        "id": "BT002",
-        "name": "からあげ弁当",
-        "name_en": "Karaage Bento",
-        "category": "bento",
-        "price": 498,
-        "calories": 780,
-        "is_seasonal": False,
-        "shelf_life_hours": 18,
-        "popular_times": ["12:00-13:00", "18:00-20:00"],
-    },
-    {
-        "id": "BT003",
-        "name": "ハンバーグ弁当",
-        "name_en": "Hamburg Bento",
-        "category": "bento",
-        "price": 528,
-        "calories": 720,
-        "is_seasonal": False,
-        "shelf_life_hours": 18,
-        "popular_times": ["12:00-13:00", "18:00-20:00"],
-    },
-    {
-        "id": "BT004",
-        "name": "幕の内弁当",
-        "name_en": "Makunouchi Bento",
-        "category": "bento",
-        "price": 598,
-        "calories": 680,
-        "is_seasonal": False,
-        "shelf_life_hours": 18,
-        "popular_times": ["12:00-13:00"],
-    },
-    {
-        "id": "BT005",
-        "name": "チキン南蛮弁当",
-        "name_en": "Chicken Nanban Bento",
-        "category": "bento",
-        "price": 548,
-        "calories": 820,
-        "is_seasonal": False,
-        "shelf_life_hours": 18,
-        "popular_times": ["12:00-13:00", "18:00-20:00"],
-    },
-    # スイーツ (Sweets - Uchi Café)
-    {
-        "id": "SW001",
-        "name": "プレミアムロールケーキ",
-        "name_en": "Premium Roll Cake",
-        "category": "sweets",
-        "price": 295,
-        "calories": 210,
-        "is_seasonal": False,
-        "shelf_life_hours": 48,
-        "popular_times": ["14:00-17:00", "20:00-22:00"],
-    },
-    {
-        "id": "SW002",
-        "name": "バスチー",
-        "name_en": "Basque Cheesecake",
-        "category": "sweets",
-        "price": 258,
-        "calories": 245,
-        "is_seasonal": False,
-        "shelf_life_hours": 48,
-        "popular_times": ["14:00-17:00", "20:00-22:00"],
-    },
-    {
-        "id": "SW003",
-        "name": "シュークリーム",
-        "name_en": "Cream Puff",
-        "category": "sweets",
-        "price": 168,
-        "calories": 195,
-        "is_seasonal": False,
-        "shelf_life_hours": 36,
-        "popular_times": ["14:00-17:00"],
-    },
-    {
-        "id": "SW004",
-        "name": "どらもっち",
-        "name_en": "Doramocchi",
-        "category": "sweets",
-        "price": 198,
-        "calories": 225,
-        "is_seasonal": False,
-        "shelf_life_hours": 48,
-        "popular_times": ["14:00-17:00", "20:00-22:00"],
-    },
-    {
-        "id": "SW005",
-        "name": "生ガトーショコラ",
-        "name_en": "Fresh Gateau Chocolat",
-        "category": "sweets",
-        "price": 318,
-        "calories": 280,
-        "is_seasonal": True,
-        "shelf_life_hours": 36,
-        "popular_times": ["14:00-17:00"],
-    },
-    # 飲料 (Drinks)
-    {
-        "id": "DR001",
-        "name": "マチカフェ コーヒーM",
-        "name_en": "Machi Cafe Coffee M",
-        "category": "drinks",
-        "price": 150,
-        "calories": 8,
-        "is_seasonal": False,
-        "shelf_life_hours": None,
-        "popular_times": ["07:00-10:00", "14:00-16:00"],
-    },
-    {
-        "id": "DR002",
-        "name": "マチカフェ カフェラテM",
-        "name_en": "Machi Cafe Latte M",
-        "category": "drinks",
-        "price": 200,
-        "calories": 95,
-        "is_seasonal": False,
-        "shelf_life_hours": None,
-        "popular_times": ["07:00-10:00", "14:00-16:00"],
-    },
-    {
-        "id": "DR003",
-        "name": "マチカフェ アイスコーヒーM",
-        "name_en": "Machi Cafe Iced Coffee M",
-        "category": "drinks",
-        "price": 150,
-        "calories": 10,
-        "is_seasonal": False,
-        "shelf_life_hours": None,
-        "popular_times": ["11:00-15:00"],
-    },
-    {
-        "id": "DR004",
-        "name": "ウチカフェ タピオカミルクティー",
-        "name_en": "Uchi Cafe Tapioca Milk Tea",
-        "category": "drinks",
-        "price": 298,
-        "calories": 185,
-        "is_seasonal": True,
-        "shelf_life_hours": 24,
-        "popular_times": ["14:00-18:00"],
-    },
-    # 日配品 (Daily Items)
-    {
-        "id": "DL001",
-        "name": "たまごサンド",
-        "name_en": "Egg Sandwich",
-        "category": "daily",
-        "price": 258,
-        "calories": 320,
-        "is_seasonal": False,
-        "shelf_life_hours": 24,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "DL002",
-        "name": "ミックスサンド",
-        "name_en": "Mix Sandwich",
-        "category": "daily",
-        "price": 298,
-        "calories": 350,
-        "is_seasonal": False,
-        "shelf_life_hours": 24,
-        "popular_times": ["07:00-09:00", "12:00-13:00"],
-    },
-    {
-        "id": "DL003",
-        "name": "チルドパスタ カルボナーラ",
-        "name_en": "Chilled Pasta Carbonara",
-        "category": "daily",
-        "price": 498,
-        "calories": 580,
-        "is_seasonal": False,
-        "shelf_life_hours": 36,
-        "popular_times": ["12:00-14:00"],
-    },
-    {
-        "id": "DL004",
-        "name": "チルドパスタ ミートソース",
-        "name_en": "Chilled Pasta Meat Sauce",
-        "category": "daily",
-        "price": 468,
-        "calories": 520,
-        "is_seasonal": False,
-        "shelf_life_hours": 36,
-        "popular_times": ["12:00-14:00"],
-    },
-    # パン (Bread)
-    {
-        "id": "BR001",
-        "name": "塩バターパン",
-        "name_en": "Salted Butter Bread",
-        "category": "bread",
-        "price": 128,
-        "calories": 195,
-        "is_seasonal": False,
-        "shelf_life_hours": 48,
-        "popular_times": ["07:00-10:00"],
-    },
-    {
-        "id": "BR002",
-        "name": "メロンパン",
-        "name_en": "Melon Pan",
-        "category": "bread",
-        "price": 138,
-        "calories": 350,
-        "is_seasonal": False,
-        "shelf_life_hours": 48,
-        "popular_times": ["07:00-10:00", "14:00-16:00"],
-    },
-    {
-        "id": "BR003",
-        "name": "クロワッサン",
-        "name_en": "Croissant",
-        "category": "bread",
-        "price": 128,
-        "calories": 220,
-        "is_seasonal": False,
-        "shelf_life_hours": 36,
-        "popular_times": ["07:00-10:00"],
-    },
-    {
-        "id": "BR004",
-        "name": "チョココロネ",
-        "name_en": "Choco Cornet",
-        "category": "bread",
-        "price": 148,
-        "calories": 310,
-        "is_seasonal": False,
-        "shelf_life_hours": 48,
-        "popular_times": ["07:00-10:00", "14:00-16:00"],
-    },
-    # おでん (Oden) - Seasonal
-    {
-        "id": "OD001",
-        "name": "大根",
-        "name_en": "Daikon (Radish)",
-        "category": "hot_snack",
-        "price": 98,
-        "calories": 15,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["12:00-14:00", "17:00-21:00"],
-    },
-    {
-        "id": "OD002",
-        "name": "たまご",
-        "name_en": "Egg",
-        "category": "hot_snack",
-        "price": 98,
-        "calories": 80,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["12:00-14:00", "17:00-21:00"],
-    },
-    {
-        "id": "OD003",
-        "name": "こんにゃく",
-        "name_en": "Konnyaku",
-        "category": "hot_snack",
-        "price": 88,
-        "calories": 10,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["12:00-14:00", "17:00-21:00"],
-    },
-    {
-        "id": "OD004",
-        "name": "ちくわ",
-        "name_en": "Chikuwa",
-        "category": "hot_snack",
-        "price": 108,
-        "calories": 45,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["12:00-14:00", "17:00-21:00"],
-    },
-    {
-        "id": "OD005",
-        "name": "牛すじ",
-        "name_en": "Beef Tendon",
-        "category": "hot_snack",
-        "price": 148,
-        "calories": 95,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["17:00-21:00"],
-    },
-    # 中華まん (Nikuman) - Seasonal
-    {
-        "id": "NM001",
-        "name": "肉まん",
-        "name_en": "Nikuman (Pork Bun)",
-        "category": "hot_snack",
-        "price": 158,
-        "calories": 240,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["07:00-09:00", "12:00-14:00", "17:00-20:00"],
-    },
-    {
-        "id": "NM002",
-        "name": "ピザまん",
-        "name_en": "Pizza Man",
-        "category": "hot_snack",
-        "price": 158,
-        "calories": 220,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["12:00-14:00", "17:00-20:00"],
-    },
-    {
-        "id": "NM003",
-        "name": "あんまん",
-        "name_en": "Anman (Red Bean Bun)",
-        "category": "hot_snack",
-        "price": 138,
-        "calories": 260,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["14:00-17:00"],
-    },
-    {
-        "id": "NM004",
-        "name": "カレーまん",
-        "name_en": "Curry Man",
-        "category": "hot_snack",
-        "price": 168,
-        "calories": 235,
-        "is_seasonal": True,
-        "shelf_life_hours": 8,
-        "popular_times": ["12:00-14:00", "17:00-20:00"],
-    },
-]
 
-CATEGORIES = {
-    "hot_snack": {"ja": "ホットスナック", "en": "Hot Snacks"},
-    "onigiri": {"ja": "おにぎり", "en": "Onigiri"},
-    "bento": {"ja": "お弁当", "en": "Bento"},
-    "sweets": {"ja": "スイーツ", "en": "Sweets (Uchi Café)"},
-    "drinks": {"ja": "飲料", "en": "Drinks"},
-    "daily": {"ja": "日配品", "en": "Daily Items"},
-    "bread": {"ja": "パン", "en": "Bread"},
-}
+def _load_catalog() -> dict[str, Any]:
+    global _DATA_CACHE
+    if _DATA_CACHE is None:
+        _DATA_CACHE = json.loads(_DATA_FILE.read_text(encoding="utf-8"))
+    return _DATA_CACHE
 
 
 class LawsonItemsTool(Tool):
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
+        catalog = _load_catalog()
+        items = catalog["items"]
+        categories = catalog["categories"]
+
         category = tool_parameters.get("category", "").lower().strip()
         keyword = tool_parameters.get("keyword", "").strip()
         include_seasonal = tool_parameters.get("include_seasonal", True)
 
-        # Filter items
-        filtered_items = LAWSON_ITEMS.copy()
+        filtered_items = items.copy()
 
-        # Filter by category
         if category:
             filtered_items = [
                 item for item in filtered_items if item["category"] == category
             ]
 
-        # Filter by keyword
         if keyword:
             keyword_lower = keyword.lower()
             filtered_items = [
@@ -549,13 +43,11 @@ class LawsonItemsTool(Tool):
                 or keyword_lower in item["name_en"].lower()
             ]
 
-        # Filter seasonal
         if not include_seasonal:
             filtered_items = [
                 item for item in filtered_items if not item["is_seasonal"]
             ]
 
-        # Build response
         result = {
             "total_count": len(filtered_items),
             "filters_applied": {
@@ -563,7 +55,7 @@ class LawsonItemsTool(Tool):
                 "keyword": keyword if keyword else None,
                 "include_seasonal": include_seasonal,
             },
-            "categories": CATEGORIES,
+            "categories": categories,
             "items": filtered_items,
         }
 
