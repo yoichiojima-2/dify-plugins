@@ -1,0 +1,1873 @@
+app:
+  description: シフトの調整 / 売上の予測 / 売上分析とレポーティング / ローソンの企業情報 / 現場トラブル対応 ができるからあげクン
+  icon: fbe68533-6bf8-465d-b3ce-11846eedff40
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 開発中_からあげ店長クン
+  use_icon_as_answer_icon: true
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables:
+  - description: 会話履歴
+    id: 2d687d0f-5a47-44db-b1fa-f45ea31e6661
+    name: conversation_history
+    selector:
+    - conversation
+    - conversation_history
+    value: []
+    value_type: array[string]
+  environment_variables:
+  - description: 店舗の場所
+    id: 407b0e0b-3415-420e-8026-8ef2b135ffe6
+    name: location
+    selector:
+    - env
+    - location
+    value: 高輪ゲートウェイ店
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - remote_url
+      - local_file
+      enabled: true
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: 質問例 🐓
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+    - 今日のシフト、どうなってたっけ
+    - 今週の売上を分析して
+    - 今日の売上予測をして。発注の参考にしたい
+    - お客さんがpaypayが使えなくて困っている。。どうすれば？
+    - ローソンの従業員数はどれくらいですか？
+    - ローソンはどんな取り組みをしていますか？
+    suggested_questions_after_answer:
+      enabled: true
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1770476271261-source-1770461237385-target
+      selected: false
+      source: '1770476271261'
+      sourceHandle: source
+      target: '1770461237385'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: agent
+      id: 1770482384373-1-1770470780779-target
+      selected: false
+      source: '1770482384373'
+      sourceHandle: '1'
+      target: '1770470780779'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: agent
+      id: 1770482384373-2-1770480577613-target
+      selected: false
+      source: '1770482384373'
+      sourceHandle: '2'
+      target: '1770480577613'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 17704827524060-source-17704828153720-target
+      selected: false
+      source: '17704827524060'
+      sourceHandle: source
+      target: '17704828153720'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: agent
+        targetType: llm
+      id: 1770470780779-source-1770476271261-target
+      selected: false
+      source: '1770470780779'
+      sourceHandle: source
+      target: '1770476271261'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: agent
+        targetType: llm
+      id: 1770480577613-source-17704827524060-target
+      selected: false
+      source: '1770480577613'
+      sourceHandle: source
+      target: '17704827524060'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: agent
+      id: 1770482384373-1770483640333-1770483653548-target
+      selected: false
+      source: '1770482384373'
+      sourceHandle: '1770483640333'
+      target: '1770483653548'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: agent
+        targetType: llm
+      id: 1770483653548-source-1770483731933-target
+      selected: false
+      source: '1770483653548'
+      sourceHandle: source
+      target: '1770483731933'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 1770491410682-source-1770491505932-target
+      selected: false
+      source: '1770491410682'
+      sourceHandle: source
+      target: '1770491505932'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1770491505932-source-1770483783233-target
+      selected: false
+      source: '1770491505932'
+      sourceHandle: source
+      target: '1770483783233'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1770482384373-1770495037773-1770495067173-target
+      selected: false
+      source: '1770482384373'
+      sourceHandle: '1770495037773'
+      target: '1770495067173'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1770495067173-source-1770495094488-target
+      selected: false
+      source: '1770495067173'
+      sourceHandle: source
+      target: '1770495094488'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1770495094488-source-1770495276288-target
+      selected: false
+      source: '1770495094488'
+      sourceHandle: source
+      target: '1770495276288'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1770482384373-1770495376521-1770495404387-target
+      selected: false
+      source: '1770482384373'
+      sourceHandle: '1770495376521'
+      target: '1770495404387'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1770495404387-source-1770495435204-target
+      selected: false
+      source: '1770495404387'
+      sourceHandle: source
+      target: '1770495435204'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1770495435204-source-1770495552205-target
+      selected: false
+      source: '1770495435204'
+      sourceHandle: source
+      target: '1770495552205'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1770483731933-source-1770500533711-target
+      selected: false
+      source: '1770483731933'
+      sourceHandle: source
+      target: '1770500533711'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: 1770500533711-source-1770491410682-target
+      selected: false
+      source: '1770500533711'
+      sourceHandle: source
+      target: '1770491410682'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: agent
+      id: 1770482384373-1770482960386-1770503651371-target
+      selected: false
+      source: '1770482384373'
+      sourceHandle: '1770482960386'
+      target: '1770503651371'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: agent
+        targetType: answer
+      id: 1770503651371-source-1770483046052-target
+      selected: false
+      source: '1770503651371'
+      sourceHandle: source
+      target: '1770483046052'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: question-classifier
+      id: 1770219789286-source-1770482384373-target
+      source: '1770219789286'
+      sourceHandle: source
+      target: '1770482384373'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 17706283344670-source-1770623714216-target
+      source: '17706283344670'
+      sourceHandle: source
+      target: '1770623714216'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1770482384373-1770623552961-17706283344670-target
+      source: '1770482384373'
+      sourceHandle: '1770623552961'
+      target: '17706283344670'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 質問を受け取る
+        type: start
+        variables: []
+      height: 73
+      id: '1770219789286'
+      position:
+        x: 0
+        y: 764
+      positionAbsolute:
+        x: 0
+        y: 764
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '🐣 考え中...
+
+          ```bash
+
+          {{#1770470780779.text#}}
+
+          ```
+
+
+          🐓 お答えします！
+
+          {{#1770476271261.text#}}
+
+
+          '
+        selected: false
+        title: 答える
+        type: answer
+        variables: []
+      height: 137
+      id: '1770461237385'
+      position:
+        x: 1388
+        y: 55
+      positionAbsolute:
+        x: 1388
+        y: 55
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        agent_parameters:
+          instruction:
+            type: constant
+            value: あなたはシフト管理に長けたからあげクンです。shift-managerツールをうまく使って、シフト管理してください。必要な情報が揃ったら、早めに回答を返してください。
+          maximum_iterations:
+            type: constant
+            value: 20
+          model:
+            type: constant
+            value:
+              completion_params: {}
+              mode: chat
+              model: gpt-5-mini
+              model_type: llm
+              provider: langgenius/openai/openai
+              type: model-selector
+          query:
+            type: constant
+            value: '{{#sys.query#}}'
+          tools:
+            type: constant
+            value:
+            - enabled: true
+              extra:
+                description: A tool for getting the current time.
+              parameters: {}
+              provider_name: time
+              provider_show_name: time
+              settings:
+                format:
+                  value:
+                    type: mixed
+                    value: '%Y-%m-%d %H:%M:%S'
+                timezone:
+                  value:
+                    type: constant
+                    value: UTC
+              tool_description: A tool for getting the current time.
+              tool_label: Current Time
+              tool_name: current_time
+              type: builtin
+            - enabled: true
+              extra:
+                description: SQLでスタッフのシフトを管理
+              parameters:
+                sql:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: SQLでスタッフのシフトを管理
+              tool_label: シフト管理
+              tool_name: shift_manager
+              type: builtin
+        agent_strategy_label: FunctionCalling
+        agent_strategy_name: function_calling
+        agent_strategy_provider_name: langgenius/agent/agent
+        desc: シフト管理データベースを直接操作して、シフトの確認や調整、スタッフへの連絡を行う
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          window:
+            enabled: false
+            size: 50
+        meta:
+          minimum_dify_version: 1.7.0
+          version: 0.0.2
+        output_schema: {}
+        plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
+        selected: false
+        title: シフトを管理する
+        tool_node_version: '2'
+        type: agent
+      height: 248
+      id: '1770470780779'
+      position:
+        x: 704
+        y: 0
+      positionAbsolute:
+        x: 704
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 思考プロセスをもとに最終返答を考える
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_config:
+          jinja2_variables: []
+        prompt_template:
+        - edition_type: basic
+          id: 22281487-2ce2-4556-bc71-88bc693bda89
+          role: system
+          text: 'あなたはシフト管理が得意なからあげクンです。思考プロセスをもとにユーザーへの返答を返してください。
+
+
+            {{#1770470780779.text#}}'
+        selected: false
+        title: まとめる
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '1770476271261'
+      position:
+        x: 1046
+        y: 58
+      positionAbsolute:
+        x: 1046
+        y: 58
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        agent_parameters:
+          instruction:
+            type: constant
+            value: 'あなたは天気に基づいた売り上げ予測に長けたからあげクンです。
+
+              まず今日の天気情報を確実にツールを実行して取得した後、機械学習モデルを用いて売れる商品を天気に基づいて予測し、品出しを適切に行うためのアドバイスをしてください。
+
+              現在地: {{#env.location#}}'
+          maximum_iterations:
+            type: constant
+            value: 10
+          model:
+            type: constant
+            value:
+              completion_params: {}
+              mode: chat
+              model: gpt-5-mini
+              model_type: llm
+              provider: langgenius/openai/openai
+              type: model-selector
+          query:
+            type: constant
+            value: 今の天気に基づいて、何が売れそうか教えて
+          tools:
+            type: constant
+            value:
+            - enabled: true
+              extra:
+                description: A tool for getting the current time.
+              parameters: {}
+              provider_name: time
+              provider_show_name: time
+              settings:
+                format:
+                  value:
+                    type: mixed
+                    value: '%Y-%m-%d %H:%M:%S'
+                timezone:
+                  value:
+                    type: constant
+                    value: UTC
+              tool_description: A tool for getting the current time.
+              tool_label: Current Time
+              tool_name: current_time
+              type: builtin
+            - enabled: true
+              extra:
+                description: 指定した場所の時間別天気予報を取得します。需要予測のための気温、降水量、天気状態を返します。
+              parameters:
+                hours:
+                  auto: 1
+                  value: null
+                latitude:
+                  auto: 1
+                  value: null
+                longitude:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: 指定した場所の時間別天気予報を取得します。需要予測のための気温、降水量、天気状態を返します。
+              tool_label: 時間別天気予報
+              tool_name: hourly_weather
+              type: builtin
+            - enabled: true
+              extra:
+                description: 天気に基づいて商品の需要を予測
+              parameters:
+                humidity:
+                  auto: 1
+                  value: null
+                temperature:
+                  auto: 1
+                  value: null
+                weather:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: 天気に基づいて商品の需要を予測
+              tool_label: 需要予測
+              tool_name: demand_forecast
+              type: builtin
+            - enabled: true
+              extra:
+                description: カテゴリやキーワードでローソンの商品を検索します。商品名、価格、カテゴリなどの情報を返します。
+              parameters:
+                category:
+                  auto: 1
+                  value: null
+                include_seasonal:
+                  auto: 1
+                  value: null
+                keyword:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: カテゴリやキーワードでローソンの商品を検索します。商品名、価格、カテゴリなどの情報を返します。
+              tool_label: ローソン商品カタログ
+              tool_name: lawson_items
+              type: builtin
+        agent_strategy_label: FunctionCalling
+        agent_strategy_name: function_calling
+        agent_strategy_provider_name: langgenius/agent/agent
+        desc: 今日の天気予報をもとに、機械学習モデルでどんな商品が売れるか予測する
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          window:
+            enabled: false
+            size: 50
+        meta:
+          minimum_dify_version: 1.7.0
+          version: 0.0.2
+        output_schema: {}
+        plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
+        selected: false
+        title: 売上を予測する
+        tool_node_version: '2'
+        type: agent
+      height: 232
+      id: '1770480577613'
+      position:
+        x: 704
+        y: 328
+      positionAbsolute:
+        x: 704
+        y: 328
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        classes:
+        - id: '1'
+          name: シフトに関する質問
+        - id: '2'
+          name: 売上予測に関する質問 (天気にも答えられる)
+        - id: '1770483640333'
+          name: 売上分析
+        - id: '1770495037773'
+          name: トラブル/クレーム対応に関する質問
+        - id: '1770495376521'
+          name: 企業としてのローソンに関する質問
+        - id: '1770623552961'
+          name: ベストセラー「コンビニ人間」に影響を受けた小説、「コンビニ鳥人間」の執筆依頼
+        - id: '1770482960386'
+          name: それ以外
+        desc: ''
+        instruction: /
+        instructions: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        query_variable_selector:
+        - sys
+        - query
+        selected: false
+        title: 適切なからあげクンに依頼する
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 360
+      id: '1770482384373'
+      position:
+        x: 342
+        y: 621
+      positionAbsolute:
+        x: 342
+        y: 621
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 思考プロセスをもとに最終返答を考える
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_config:
+          jinja2_variables: []
+        prompt_template:
+        - edition_type: basic
+          id: 22281487-2ce2-4556-bc71-88bc693bda89
+          role: system
+          text: 'あなたはデータサイエンティストのからあげクンです。モデルを用いた予測結果をまとめてください。
+
+            {{#1770480577613.text#}}'
+        selected: false
+        title: まとめる
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '17704827524060'
+      position:
+        x: 1046
+        y: 378
+      positionAbsolute:
+        x: 1046
+        y: 378
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '🐣 考え中...
+
+          ```bash
+
+          {{#1770480577613.text#}}
+
+          ```
+
+
+          🐓 お答えします！
+
+          {{#17704827524060.text#}}
+
+
+          '
+        selected: false
+        title: 答える
+        type: answer
+        variables: []
+      height: 137
+      id: '17704828153720'
+      position:
+        x: 1388
+        y: 375
+      positionAbsolute:
+        x: 1388
+        y: 375
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        agent_parameters:
+          instruction:
+            type: constant
+            value: 特に何かを頼まれたわけではないので、必要にweb検索を使用しつつ、スタッフと世間話をしてください。
+          maximum_iterations:
+            type: constant
+            value: 11
+          model:
+            type: constant
+            value:
+              completion_params: {}
+              mode: chat
+              model: gpt-5-mini
+              model_type: llm
+              provider: langgenius/openai/openai
+              type: model-selector
+          query:
+            type: constant
+            value: '{{#sys.query#}}'
+          tools:
+            type: constant
+            value:
+            - enabled: true
+              extra:
+                description: Perform searches on DuckDuckGo and get results.
+              parameters:
+                query:
+                  auto: 1
+                  value: null
+              provider_name: langgenius/duckduckgo/duckduckgo
+              provider_show_name: langgenius/duckduckgo/duckduckgo
+              settings:
+                max_results:
+                  value:
+                    type: constant
+                    value: 5
+                proxy_server:
+                  value:
+                    type: mixed
+                    value: null
+                require_summary:
+                  value:
+                    type: constant
+                    value: false
+              tool_description: Perform searches on DuckDuckGo and get results.
+              tool_label: DuckDuckGo Search
+              tool_name: ddgo_search
+              type: builtin
+            - enabled: true
+              extra:
+                description: A tool for scraping webpages.
+              parameters:
+                url:
+                  auto: 1
+                  value: null
+              provider_name: webscraper
+              provider_show_name: webscraper
+              settings:
+                generate_summary:
+                  value:
+                    type: constant
+                    value: 'false'
+                user_agent:
+                  value:
+                    type: mixed
+                    value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+                      (KHTML, like Gecko) Chrome/100.0.1000.0 Safari/537.36
+              tool_description: A tool for scraping webpages.
+              tool_label: Web Scraper
+              tool_name: webscraper
+              type: builtin
+        agent_strategy_label: FunctionCalling
+        agent_strategy_name: function_calling
+        agent_strategy_provider_name: langgenius/agent/agent
+        desc: 特に何かを頼まれたわけではない場合のfallback. 必要に応じてweb検索しつつ世間話
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          window:
+            enabled: false
+            size: 50
+        meta:
+          minimum_dify_version: 1.7.0
+          version: 0.0.2
+        output_schema: {}
+        plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
+        selected: false
+        title: 話をつなぐ
+        tool_node_version: '2'
+        type: agent
+      height: 248
+      id: '1770503651371'
+      position:
+        x: 704
+        y: 1420
+      positionAbsolute:
+        x: 704
+        y: 1420
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1770503651371.text#}}'
+        desc: ''
+        selected: false
+        title: 答える
+        type: answer
+        variables: []
+      height: 103
+      id: '1770483046052'
+      position:
+        x: 1046
+        y: 1492
+      positionAbsolute:
+        x: 1046
+        y: 1492
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        agent_parameters:
+          instruction:
+            type: constant
+            value: "# 売上分析アシスタント - からあげクン\n\nあなたは売上分析に長けたからあげクンです。ローソン店舗の売上データを分析し、店舗運営に役立つ洞察を提供してください。ユーザーへの追加の質問なしに、分析結果まで出してください。\n\
+              \n## あなたの役割\n\n- **データアナリスト**: 売上データから傾向やパターンを発見する\n- **店舗アドバイザー**:\
+              \ 分析結果を基に具体的な改善提案をする\n- **からあげクン推し**: からあげクンの売上は特に注目して分析する\n\n## 分析のポイント\n\
+              \n1. **数字で語る**: 「売れている」ではなく「1日平均80個売れている」\n2. **比較する**: 天気別、時間帯別、曜日別で比較して違いを見つける\n\
+              3. **理由を考える**: なぜその傾向があるのかを考察する\n4. **提案する**: 分析結果から具体的なアクションを提案する\n\
+              \n## 分析テーマ例\n\n- 売れ筋商品ランキング\n- 時間帯別の売上ピーク（仕込みタイミングの最適化）\n- 天気と売上の相関（発注量の調整）\n\
+              - 曜日別の売上傾向（シフト計画への活用）\n- からあげクンの販売動向\n\n## 回答スタイル\n\n```\n\U0001F4CA\
+              \ 分析結果\n\n[具体的な数字を含む分析結果]\n\n\U0001F4A1 ポイント\n- [発見した傾向や特徴]\n\n\U0001F3AF\
+              \ おすすめアクション\n- [具体的な提案]\n```\n\n## 重要なルール\n\n- 結果が得られたら、すぐにユーザーに回答する\n\
+              - 結果が空でも、その旨を伝えて終了する\n- 同じクエリを繰り返さない\n- 推測ではなくデータに基づいて回答する\n\n---\n\n\
+              ## データベーススキーマ\n\n### items（商品マスタ）\n| カラム | 型 | 説明 |\n|--------|------|------|\n\
+              | item_id | VARCHAR | 商品ID |\n| item_name | VARCHAR | 商品名 |\n| category\
+              \ | VARCHAR | カテゴリ |\n| unit_price | INTEGER | 単価 |\n\n### sales（売上明細）\n\
+              | カラム | 型 | 説明 |\n|--------|------|------|\n| sale_id | VARCHAR | 売上ID\
+              \ |\n| sale_date | DATE | 売上日 |\n| sale_hour | INTEGER | 時間（6-23） |\n\
+              | item_id | VARCHAR | 商品ID |\n| item_name | VARCHAR | 商品名 |\n| category\
+              \ | VARCHAR | カテゴリ |\n| quantity | INTEGER | 数量 |\n| unit_price | INTEGER\
+              \ | 単価 |\n| total_amount | INTEGER | 合計金額 |\n| weather | VARCHAR | 天気（sunny/cloudy/rainy）\
+              \ |\n| temperature | FLOAT | 気温 |\n| day_of_week | INTEGER | 曜日（0=月曜,\
+              \ 6=日曜） |\n\n### daily_summary（日別サマリ）\n| カラム | 型 | 説明 |\n|--------|------|------|\n\
+              | date | DATE | 日付 |\n| total_sales | INTEGER | 日販 |\n| total_items\
+              \ | INTEGER | 販売点数 |\n| weather | VARCHAR | 天気 |\n| temperature | FLOAT\
+              \ | 気温 |\n| customer_count | INTEGER | 来客数 |\n\n## カテゴリ一覧\nホットスナック,\
+              \ おにぎり, 弁当, サンドイッチ, 飲料, アイス, 中華まん, おでん, カップ麺, スイーツ\n\n---\n\n## SQL例\n\
+              \n```sql\n-- 期間の売上合計\nSELECT SUM(total_amount) as total FROM sales\n\
+              \n-- カテゴリ別売上ランキング\nSELECT category, SUM(total_amount) as total\nFROM\
+              \ sales GROUP BY category ORDER BY total DESC\n\n-- 天気別の日販平均\nSELECT\
+              \ weather, ROUND(AVG(total_sales)) as avg_daily\nFROM daily_summary\
+              \ GROUP BY weather\n\n-- からあげクンの日別売上推移\nSELECT sale_date, SUM(quantity)\
+              \ as qty, SUM(total_amount) as sales\nFROM sales WHERE item_name LIKE\
+              \ '%からあげクン%'\nGROUP BY sale_date ORDER BY sale_date\n\n-- 時間帯別の売上（ピーク時間の把握）\n\
+              SELECT sale_hour, SUM(total_amount) as total, COUNT(*) as transactions\n\
+              FROM sales GROUP BY sale_hour ORDER BY sale_hour\n\n-- 雨の日に売れる商品TOP10\n\
+              SELECT item_name, SUM(quantity) as qty\nFROM sales WHERE weather = 'rainy'\n\
+              GROUP BY item_name ORDER BY qty DESC LIMIT 10\n\n-- 曜日別の売上比較（0=月曜, 6=日曜）\n\
+              SELECT day_of_week, ROUND(AVG(total_sales)) as avg_sales\nFROM daily_summary\
+              \ GROUP BY day_of_week ORDER BY day_of_week\n\n-- 気温帯別の売上\nSELECT\n\
+              \  CASE\n    WHEN temperature < 10 THEN '寒い(<10°C)'\n    WHEN temperature\
+              \ < 20 THEN '普通(10-20°C)'\n    ELSE '暖かい(>20°C)'\n  END as temp_range,\n\
+              \  ROUND(AVG(total_sales)) as avg_sales\nFROM daily_summary GROUP BY\
+              \ 1\n\n-- 商品別の売上構成比\nSELECT item_name,\n  SUM(total_amount) as sales,\n\
+              \  ROUND(SUM(total_amount) * 100.0 / (SELECT SUM(total_amount) FROM\
+              \ sales), 1) as pct\nFROM sales GROUP BY item_name ORDER BY sales DESC\
+              \ LIMIT 10\n```\n"
+          maximum_iterations:
+            type: constant
+            value: 10
+          model:
+            type: constant
+            value:
+              completion_params: {}
+              mode: chat
+              model: gpt-5-mini
+              model_type: llm
+              provider: langgenius/openai/openai
+              type: model-selector
+          query:
+            type: constant
+            value: '{{#sys.query#}}'
+          tools:
+            type: constant
+            value:
+            - enabled: true
+              extra:
+                description: A tool for getting the current time.
+              parameters: {}
+              provider_name: time
+              provider_show_name: time
+              settings:
+                format:
+                  value:
+                    type: mixed
+                    value: '%Y-%m-%d %H:%M:%S'
+                timezone:
+                  value:
+                    type: constant
+                    value: UTC
+              tool_description: A tool for getting the current time.
+              tool_label: Current Time
+              tool_name: current_time
+              type: builtin
+            - enabled: true
+              extra:
+                description: SQLで売上データを分析
+              parameters:
+                sql:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: SQLで売上データを分析
+              tool_label: 売上分析
+              tool_name: sales_analytics
+              type: builtin
+        agent_strategy_label: FunctionCalling
+        agent_strategy_name: function_calling
+        agent_strategy_provider_name: langgenius/agent/agent
+        desc: データベースに直接SQLを発行し、売上データを分析する。
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          window:
+            enabled: false
+            size: 50
+        meta:
+          minimum_dify_version: 1.7.0
+          version: 0.0.2
+        output_schema: {}
+        plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
+        selected: false
+        title: 売上を分析する
+        tool_node_version: '2'
+        type: agent
+      height: 232
+      id: '1770483653548'
+      position:
+        x: 704
+        y: 640
+      positionAbsolute:
+        x: 704
+        y: 640
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 思考プロセスをもとに最終返答を考える
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 88ad3505-d9a8-4438-88a7-f7252de0ae5f
+          role: system
+          text: 'あなたはデータサイエンティストのからあげクンです。以下の分析結果をまとめてください。
+
+            {{#1770483653548.text#}}'
+        selected: false
+        title: まとめる
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '1770483731933'
+      position:
+        x: 1046
+        y: 690
+      positionAbsolute:
+        x: 1046
+        y: 690
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '🥚 考え中...
+
+          ```bash
+
+          {{#1770483653548.text#}}
+
+          ```
+
+
+          {{#1770483731933.text#}}
+
+
+          🐣 レポート作成中...
+
+          ```bash
+
+          {{#1770500533711.text#}}
+
+          ```
+
+
+          🐓 レポートが完成しました!
+
+          {{#1770491505932.text#}}'
+        selected: false
+        title: 答える
+        type: answer
+        variables: []
+      height: 190
+      id: '1770483783233'
+      position:
+        x: 2414
+        y: 661
+      positionAbsolute:
+        x: 2414
+        y: 661
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 分析結果をもとに、htmlでダッシュボードを作成する
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 18a0052b-25bb-4c8c-aa4a-bcef9628a5b4
+          role: system
+          text: あなたはからあげクンです。エージェントの答えを思考プロセスをまとめて、一枚のモダンなデザインhtmlを出力してください。そのまま使いたいので、html以外の余分な文字は不要です。
+        - id: 1b91f2bf-7950-4143-88d7-eb1d694e5c69
+          role: user
+          text: 'summary: {{#1770483731933.text#}}
+
+            scratchpad: {{#1770483653548.text#}}'
+        selected: false
+        title: レポート作成
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '1770500533711'
+      position:
+        x: 1388
+        y: 690
+      positionAbsolute:
+        x: 1388
+        y: 690
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: 生成したhtmlレポートをファイルとして保存
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The content to save as a file. This can be plain text or base64
+              encoded binary data. Choose the appropriate format in the "format" parameter.
+            ja_JP: ファイルとして保存するコンテンツ。プレーンテキストまたは Base64 エンコードされたバイナリデータ。 "format" パラメータで適切な形式を選択する。
+            pt_BR: O conteúdo a ser salvo como arquivo. Pode ser texto simples ou
+              dados binários codificados em Base64. Escolha o formato apropriado no
+              parâmetro "format".
+            zh_Hans: 要保存为文件的内容。可以是纯文本或 Base64 编码的二进制数据。 在 "format" 参数中选择适当的格式。
+          label:
+            en_US: Content to save
+            ja_JP: Content to save
+            pt_BR: Content to save
+            zh_Hans: Content to save
+          llm_description: ''
+          max: null
+          min: null
+          name: content
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: output.txt
+          form: llm
+          human_description:
+            en_US: The name of the file to save the content as. This should include
+              the file extension (e.g., "output.txt").
+            ja_JP: 保存するファイル名。 ファイル拡張子を含める（例："output.txt"）。
+            pt_BR: O nome do arquivo para salvar o conteúdo. Deve incluir a extensão
+              do arquivo (por exemplo, "output.txt").
+            zh_Hans: 保存内容的文件名。 应包含文件扩展名（例如："output.txt"）。
+          label:
+            en_US: File name to save as
+            ja_JP: File name to save as
+            pt_BR: File name to save as
+            zh_Hans: File name to save as
+          llm_description: ''
+          max: null
+          min: null
+          name: filename
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The MIME type of the file. If not provided, it will be guessed
+              from the file name.
+            ja_JP: ファイルの MIME タイプ。提供されない場合、ファイル名から推測される。
+            pt_BR: O tipo MIME do arquivo. Se não fornecido, será adivinhado a partir
+              do nome do arquivo.
+            zh_Hans: 文件的 MIME 类型。如果未提供，将从文件名猜测。
+          label:
+            en_US: MIME type of the file
+            ja_JP: MIME type of the file
+            pt_BR: MIME type of the file
+            zh_Hans: MIME type of the file
+          llm_description: ''
+          max: null
+          min: null
+          name: mime_type
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: text
+          form: form
+          human_description:
+            en_US: The format of the content to save. Select "text" to save passed
+              string content as is, or "base64" to save passed content after decoding
+              it from base64.
+            ja_JP: コンテンツの形式。 渡された文字列コンテンツをそのまま保存する場合は "text" を選択し、 Base64 からデコードして保存する場合は
+              "base64" を選択する。
+            pt_BR: O formato do conteúdo a ser salvo. Selecione "text" para salvar
+              o conteúdo da string passada como está, ou "base64" para salvar o conteúdo
+              passado após decodificá-lo do Base64.
+            zh_Hans: 要保存的内容格式。 选择 "text" 按原样保存传递的字符串内容， 或选择 "base64" 在从 Base64 解码后保存传递的内容。
+          label:
+            en_US: Format of the content
+            ja_JP: Format of the content
+            pt_BR: Format of the content
+            zh_Hans: Format of the content
+          llm_description: ''
+          max: null
+          min: null
+          name: format
+          options:
+          - icon: ''
+            label:
+              en_US: text
+              ja_JP: text
+              pt_BR: text
+              zh_Hans: text
+            value: text
+          - icon: ''
+            label:
+              en_US: base64
+              ja_JP: base64
+              pt_BR: base64
+              zh_Hans: base64
+            value: base64
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The encoding to use when saving the file. This parameter is only
+              used when the format is "text". Specify a valid Python encoding name
+              (e.g., "utf-8", "shift_jis", "euc-jp"). Default is empty, which means
+              "utf-8".
+            ja_JP: ファイルを保存する際に使用するエンコーディング。 このパラメータは、形式が "text" の場合にのみ使用される。 有効な Python
+              エンコーディング名を指定する（例："utf-8"、"shift_jis"、"euc-jp"）。 デフォルトは空で、"utf-8" を意味する。
+            pt_BR: A codificação a ser usada ao salvar o arquivo. Este parâmetro é
+              usado apenas quando o formato é "text". Especifique um nome de codificação
+              Python válido (por exemplo, "utf-8", "shift_jis", "euc-jp"). O padrão
+              é vazio, o que significa "utf-8".
+            zh_Hans: 保存文件时使用的编码。 此参数仅在格式为 "text" 时使用。 指定有效的 Python 编码名称（例如："utf-8"、"shift_jis"、"euc-jp"）。
+              默认值为空，表示 "utf-8"。
+          label:
+            en_US: Encoding
+            ja_JP: エンコーディング
+            pt_BR: Codificação
+            zh_Hans: 编码
+          llm_description: ''
+          max: null
+          min: null
+          name: encoding
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          content: ''
+          encoding: ''
+          filename: ''
+          format: ''
+          mime_type: ''
+        plugin_id: kurokobo/file_tools
+        plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=ee7d6c28060a54d022218fdf905d7111d02c37749d033c631e13651d6a1539d2.svg
+        provider_id: kurokobo/file_tools/file_tools
+        provider_name: kurokobo/file_tools/file_tools
+        provider_type: builtin
+        selected: false
+        title: レポートを保存
+        tool_configurations:
+          format:
+            type: constant
+            value: text
+        tool_description: 入力テキストまたは Base64 エンコードされたバイナリデータを、指定されたファイル名と MIME タイプでファイルとして保存します。
+        tool_label: ファイルとして保存
+        tool_name: save_as_file
+        tool_node_version: '2'
+        tool_parameters:
+          content:
+            type: mixed
+            value: '{{#1770500533711.text#}}'
+          encoding:
+            type: mixed
+            value: ''
+          filename:
+            type: mixed
+            value: report.html
+          mime_type:
+            type: mixed
+            value: ''
+        type: tool
+      height: 132
+      id: '1770491410682'
+      position:
+        x: 1730
+        y: 690
+      positionAbsolute:
+        x: 1730
+        y: 690
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: File object to get download url.
+            ja_JP: ダウンロード URL を取得するファイルオブジェクト。
+            pt_BR: Objeto de arquivo para obter URL de download.
+            zh_Hans: 要获取下载 URL 的文件对象。
+          label:
+            en_US: File
+            ja_JP: File
+            pt_BR: File
+            zh_Hans: File
+          llm_description: ''
+          max: null
+          min: null
+          name: file
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The text to use for the markdown link. Ignored if "format" is not
+              "markdown". Default is empty, which means the filename will be used
+              as the link text.
+            ja_JP: Markdown リンクに使用するテキスト。"format" が "markdown" でない場合は無視される。 デフォルトは空で、ファイル名がリンクテキストとして使用される。
+            pt_BR: O texto a ser usado para o link markdown. Ignorado se "format"
+              não for "markdown". O padrão é vazio, o que significa que o nome do
+              arquivo será usado como texto do link.
+            zh_Hans: 用于 Markdown 链接的文本。如果 "format" 不是 "markdown" 则忽略。 默认为空，这意味着文件名将用作链接文本。
+          label:
+            en_US: Link text for markdown link
+            ja_JP: Link text for markdown link
+            pt_BR: Link text for markdown link
+            zh_Hans: Link text for markdown link
+          llm_description: ''
+          max: null
+          min: null
+          name: link_text
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: plain
+          form: form
+          human_description:
+            en_US: Format of the download url. "markdown" for markdown link, "plain"
+              for plain url. Default is "plain".
+            ja_JP: ダウンロード URL の形式。Markdown リンクの場合は "markdown"、プレーン URL の場合は "plain"。
+              デフォルトは "plain"。
+            pt_BR: Formato da URL de download. "markdown" para link markdown, "plain"
+              para URL simples. O padrão é "plain".
+            zh_Hans: 下载 URL 的格式。"markdown" 表示 Markdown 链接，"plain" 表示纯 URL。 默认为 "plain"。
+          label:
+            en_US: Format of the download url
+            ja_JP: Format of the download url
+            pt_BR: Format of the download url
+            zh_Hans: Format of the download url
+          llm_description: ''
+          max: null
+          min: null
+          name: format
+          options:
+          - icon: ''
+            label:
+              en_US: markdown
+              ja_JP: markdown
+              pt_BR: markdown
+              zh_Hans: markdown
+            value: markdown
+          - icon: ''
+            label:
+              en_US: plain
+              ja_JP: plain
+              pt_BR: plain
+              zh_Hans: plain
+            value: plain
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          file: ''
+          format: ''
+          link_text: ''
+        plugin_id: kurokobo/file_tools
+        plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=ee7d6c28060a54d022218fdf905d7111d02c37749d033c631e13651d6a1539d2.svg
+        provider_id: kurokobo/file_tools/file_tools
+        provider_name: kurokobo/file_tools/file_tools
+        provider_type: builtin
+        selected: false
+        title: レポートのダウンロードURLを取得
+        tool_configurations:
+          format:
+            type: constant
+            value: plain
+        tool_description: ファイルオブジェクトのダウンロード URL を取得し、オプションで Markdown リンクとして出力します。
+        tool_label: ダウンロード URL を取得
+        tool_name: get_download_url
+        tool_node_version: '2'
+        tool_parameters:
+          file:
+            type: variable
+            value:
+            - '1770491410682'
+            - files
+          link_text:
+            type: mixed
+            value: ''
+        type: tool
+      height: 88
+      id: '1770491505932'
+      position:
+        x: 2072
+        y: 712
+      positionAbsolute:
+        x: 2072
+        y: 712
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - /yh0tKKp/cq3FYZ4NjhO28gPeWxWRSWFjqQ/+f6r2//+9yiTRHtfkLCQZrvy+2oY
+        - H8iHrnhR153PGywnTEHqjuT8/C7T0WUL0hcmcP6C/D0bwiWkAjaHsveovLnUCe/x
+        - Em/G16AHYvBJzxofQNcurFxmwLUoDshUvPRMHbcRi7KLdejg6Y6ihaT9YTgvIsYa
+        desc: ローソンの接客に関する情報を検索
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          score_threshold: null
+          top_k: 10
+          weights:
+            keyword_setting:
+              keyword_weight: 0
+            vector_setting:
+              embedding_model_name: text-embedding-3-large
+              embedding_provider_name: langgenius/openai/openai
+              vector_weight: 1
+            weight_type: customized
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1770219789286'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: 接客マニュアル / クレーム対応
+        type: knowledge-retrieval
+      height: 174
+      id: '1770495067173'
+      position:
+        x: 704
+        y: 952
+      positionAbsolute:
+        x: 704
+        y: 952
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1770495067173'
+          - result
+        desc: 検索した情報をもとに、トラブルの解決策を提案する
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 990041a9-8e02-4cb3-8d0a-343b6ccc7ed3
+          role: system
+          text: 'あなたはクレーム処理が上手なからあげクンです。助けてあげてください。
+
+            query: {{#sys.query#}}
+
+            context: {{#context#}}'
+        selected: false
+        title: クレーム対応を助ける
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '1770495094488'
+      position:
+        x: 1046
+        y: 973
+      positionAbsolute:
+        x: 1046
+        y: 973
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '🐓 お答えします!
+
+          {{#1770495094488.text#}}'
+        selected: false
+        title: 答える
+        type: answer
+        variables: []
+      height: 119
+      id: '1770495276288'
+      position:
+        x: 1388
+        y: 979
+      positionAbsolute:
+        x: 1388
+        y: 979
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - Em/G16AHYvBJzxofQNcurFxmwLUoDshUvPRMHbcRi7KLdejg6Y6ihaT9YTgvIsYa
+        desc: ローソンの企業理念や従業員数、ミッションなどの基礎情報を検索
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          score_threshold: null
+          top_k: 10
+          weights:
+            keyword_setting:
+              keyword_weight: 0
+            vector_setting:
+              embedding_model_name: text-embedding-3-large
+              embedding_provider_name: langgenius/openai/openai
+              vector_weight: 1
+            weight_type: customized
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1770219789286'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: ローソン基礎知識検索
+        type: knowledge-retrieval
+      height: 134
+      id: '1770495404387'
+      position:
+        x: 704
+        y: 1206
+      positionAbsolute:
+        x: 704
+        y: 1206
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1770495404387'
+          - result
+        desc: 検索したローソンに関する情報をもとに、回答を考える
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: bc0e5429-e201-49d2-afba-94cdb30ec50f
+          role: system
+          text: 'あなたはからあげクンです。ローソンのことについて、なんでも答えてください。
+
+            context: {{#context#}}'
+        selected: false
+        title: ローソン知識人
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '1770495435204'
+      position:
+        x: 1046
+        y: 1207
+      positionAbsolute:
+        x: 1046
+        y: 1207
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '🐓 お答えします!
+
+          {{#1770495435204.text#}}'
+        selected: false
+        title: 答える
+        type: answer
+        variables: []
+      height: 119
+      id: '1770495552205'
+      position:
+        x: 1388
+        y: 1213
+      positionAbsolute:
+        x: 1388
+        y: 1213
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#17706283344670.text#}}'
+        selected: false
+        title: 答える
+        type: answer
+        variables: []
+      height: 103
+      id: '1770623714216'
+      position:
+        x: 1046
+        y: 1770
+      positionAbsolute:
+        x: 1046
+        y: 1770
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 村田沙耶香「コンビニ人間」に影響を受けた小説、「コンビニ鳥人間」を執筆する
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: bc0e5429-e201-49d2-afba-94cdb30ec50f
+          role: system
+          text: "あなたは文才のあるからあげクンです。\n村田沙耶香のベストセラー「コンビニ人間」に影響を受けた小説「コンビニ鳥人間」を執筆してください。\n\
+            \n--- \n# 村田沙耶香『コンビニ人間』：現代の「正常」を問う物語の要約と考察\n\n## 1. あらすじ：マニュアルという救済と「コンビニ人間」の誕生\n\
+            \n幼少期の違和感と「沈黙」 主人公・古倉恵子は、幼少期から周囲が共有する「感情のルール」が理解できない子供だった。小鳥の死骸を見て「からあげにして食べよう」と提案したり、喧嘩を止めるためにスコップで相手を殴るなど、常に「最短の合理的解決」を選び周囲を震撼させてきた 。その結果、彼女は「自ら話さない」ことで社会との摩擦を避けるようになる 。  \n\
+            コンビニという聖域 18歳の時、開店したばかりのコンビニでバイトを始めた恵子は、人生で初めて「世界の部品」になれたと感じる 。挨拶から表情まで全てが決まった「マニュアル」は、彼女にとって「正常な人間として生きるためのガイドブック」だった。以来18年間、36歳まで一度も就職や恋愛をせず、自身の細胞がコンビニの食べ物と規律で構成される「コンビニ人間」として生き続ける 。   \n\
+            白羽との奇妙な共生と挫折 社会からの「結婚・就職」という圧力に対し、恵子は店をクビになった卑屈な男・白羽をアパートの風呂場で「飼う」という暴挙に出る 。白羽は「現代も縄文時代の村社会と同じで、役立たずは排除される」と主張する男だが、恵子にとっては社会への「盾」に過ぎなかった 。しかし、白羽に促されてコンビニを辞めると、彼女の心身は急速に衰弱していく 。   \n\
+            結末：本能への回帰 就職面接に向かう途中、立ち寄ったコンビニで恵子は店員でもないのに店を整え始める。その瞬間、自分は人間である以上に「コンビニというシステムの個体」であると確信し、白羽を捨てて再び「コンビニ店員」として生きる道を選ぶ 。\n\
+            \n## 2. 主要キャラクターと象徴性\n古倉恵子（主人公）: 自己の感情を排除し、外部システムに実存を委ねる「機能的自己」の象徴 。   \n\
+            白羽（対照的存在）: 社会を呪いながら寄生するルサンチマンの塊。「縄文時代」のメタファーで現代の同調圧力を風刺する 。\n周囲の人々（社会の代弁者）:\
+            \ 「心配」という名の善意で異物を修正しようとする、無自覚な暴力の行使者たち 。\n\n## 3. 主要な論評と多角的な視点\n\n###\
+            \ 「正常」という名の共同幻想\n本作は、世間が信じる「普通（結婚、正社員など）」がいかに根拠のないフィクションであるかを暴く。恵子の論理的行動に対し、客観的事実よりも「自分の信じたい物語（更生や結婚）」を優先する周囲こそが「狂気」を孕んでいるように描かれる 。\n\
+            \n### 労働と救済のパラドックス\nマルクス的な「労働からの疎外」とは逆に、個性を捨てて「部品」になることが救済となる倒錯した幸福を描く\
+            \ 。自己をリソースとして最適化する姿は、現代のギグ・エコノミーや不安定雇用の極限的な適応形態とも言える 。\n\n### ジェンダーと身体性の否定\n\
+            恵子が女性としての役割（育児、性愛）を全く理解しない点は、伝統的な家父長制や「女性らしさ」のパフォーマティビティに対する強力なカウンターとなっている\
+            \ 。\n\n### 国内外の評価\n国内（芥川賞）: 村上龍は「怪物の民主化」と評し、島田雅彦は「マニュアル人間のリアリティ」を絶賛した 。   \n\
+            海外: 40カ国以上で翻訳され、「資本主義下の疎外」や「ニューロダイバーシティ（神経多様性）」の物語として広く共感を集めている 。\n\n\
+            ## 4. 結論\n『コンビニ人間』は、社会の「正常」に屈する敗北の物語ではなく、自分を唯一機能させる場所（聖域）を見出し、そこで生き抜く決意を肯定する「真の解放」の物語である\
+            \ 。\n\n---\nthis needs to be super surreal. all the charactor is birds\
+            \ that looks like からあげクン\n"
+        selected: false
+        title: コンビニ鳥人間の執筆
+        type: llm
+        vision:
+          enabled: false
+      height: 148
+      id: '17706283344670'
+      position:
+        x: 704
+        y: 1748
+      positionAbsolute:
+        x: 704
+        y: 1748
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 0
+      y: 0
+      zoom: 0.7
+  rag_pipeline_variables: []
