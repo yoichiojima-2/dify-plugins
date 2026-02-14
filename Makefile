@@ -1,5 +1,5 @@
-PLUGIN_DIR := karaage-tencho-kun
 PLUGIN_NAME := karaage-tencho-kun
+PLUGIN_DIR := $(PLUGIN_NAME)
 BUILD_DIR := build
 PACKAGE_FILE := $(BUILD_DIR)/$(PLUGIN_NAME).difypkg
 
