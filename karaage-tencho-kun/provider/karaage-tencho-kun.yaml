@@ -59,4 +59,4 @@ tools:
   - tools/sales_analytics.yaml
 extra:
   python:
-    source: provider/karaage-tencho.py
+    source: provider/karaage-tencho-kun.py
