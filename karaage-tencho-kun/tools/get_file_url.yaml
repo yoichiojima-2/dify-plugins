@@ -53,3 +53,6 @@ parameters:
       ja_JP: マークダウンリンクのカスタムテキスト（デフォルトはファイル名）
     llm_description: Custom text to display for the markdown link. Leave empty to use filename.
     form: llm
+extra:
+  python:
+    source: tools/get_file_url.py
