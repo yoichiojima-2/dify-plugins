@@ -19,7 +19,15 @@ dependencies:
 kind: app
 version: 2026.2.15-7
 workflow:
-  conversation_variables: []
+  conversation_variables:
+  - description: HTML content to be written to file
+    id: html_content
+    name: html_content
+    value_type: string
+  - description: Filename for HTML file
+    id: html_filename
+    name: html_filename
+    value_type: string
   environment_variables: []
   features:
     file_upload:
@@ -89,13 +97,25 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
-    # Agent -> If-Else
+    # Agent -> Code
     - data:
         isInLoop: false
         sourceType: agent
-        targetType: if-else
-      id: agent-ifelse
+        targetType: code
+      id: agent-code
       source: agent
+      sourceHandle: source
+      target: extract_html
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    # Code -> If-Else
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: code-ifelse
+      source: extract_html
       sourceHandle: source
       target: ifelse
       targetHandle: target
@@ -156,7 +176,7 @@ workflow:
       targetPosition: left
       type: custom
       width: 242
-    # Agent Node (without file_writer, with output_schema)
+    # Agent Node
     - data:
         agent_parameters:
           instruction:
@@ -166,16 +186,15 @@ workflow:
 
               あなたはローソン店舗のからあげ店長クンです。
               店舗運営に関するあらゆる業務をこなせる万能アシスタントです。
-              ユーザーの質問に対して、適切なツールを選んで自律的に対応してください。
 
               ## 重要: ファイル出力について
 
-              HTMLファイル（ダッシュボード、シフト表など）を作成する場合は、file_writerツールを使わず、
-              代わりに以下の変数を出力してください：
-              - html_content: 完成したHTML全文
-              - html_filename: ファイル名（拡張子なし、例: weekly_dashboard_2026-02-16）
+              HTMLファイル（ダッシュボード、シフト表など）を作成する場合：
+              1. dashboard_generator や shift_table_generator でデータを取得
+              2. HTMLを生成
+              3. **file_writerツールを使って、生成したHTMLを保存**
 
-              ファイル作成が不要な場合は、html_contentを空文字列にしてください。
+              file_writerツールを呼び出すと、ダウンロード可能なファイルが作成されます。
 
               ## ナレッジベース（RAG）
 
@@ -198,6 +217,7 @@ workflow:
               - **sales_analytics**: 売上分析SQL
               - **dashboard_generator**: ダッシュボードデータ取得（JSON）
               - **inventory_manager**: 在庫管理
+              - **file_writer**: HTMLファイル作成（ダウンロード可能）
 
               ## HTML生成時のデザインルール（ローソンブランドカラー）
 
@@ -206,11 +226,6 @@ workflow:
               - 背景: #FFFFFF または #F8FAFC
               - テキスト: #1F2937
               - Chart.js カラー: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']
-
-              ## 重要なルール
-
-              - ダッシュボードやシフト表を作成する場合は、必ずhtml_contentとhtml_filenameを出力すること
-              - 通常の質問応答ではhtml_contentは空にすること
           maximum_iterations:
             type: constant
             value: 10
@@ -473,6 +488,26 @@ workflow:
               tool_label: Shift Table Generator
               tool_name: shift_table_generator
               type: builtin
+            - enabled: true
+              extra:
+                description: Write content to a downloadable file
+              parameters:
+                content:
+                  auto: 1
+                  value: null
+                file_type:
+                  auto: 1
+                  value: null
+                filename:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: Write content to a downloadable file
+              tool_label: File Writer
+              tool_name: file_writer
+              type: builtin
         agent_strategy_label: FunctionCalling
         agent_strategy_name: function_calling
         agent_strategy_provider_name: langgenius/agent/agent
@@ -484,15 +519,7 @@ workflow:
         meta:
           minimum_dify_version: 1.7.0
           version: 0.0.2
-        output_schema:
-          html_content:
-            children: null
-            description: Complete HTML content for file output. Empty if no file needed.
-            type: string
-          html_filename:
-            children: null
-            description: Filename without extension (e.g. weekly_dashboard_2026-02-16)
-            type: string
+        output_schema: {}
         plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
         selected: false
         title: Agent
@@ -510,22 +537,87 @@ workflow:
       targetPosition: left
       type: custom
       width: 241
-    # If-Else Node
+    # Code Node - Extract HTML from agent json output
     - data:
-        cases:
-        - case_id: 'true'
-          conditions:
-          - comparison_operator: not empty
-            value: ''
-            variable_selector:
-            - agent
-            - html_content
-          logical_operator: and
+        code: |
+          import json
+          import re
+
+          def main(agent_json: list, agent_text: str) -> dict:
+              """
+              Extract HTML content and filename from agent's tool calls.
+              Look for file_writer calls in the agent's json output.
+              """
+              html_content = ""
+              html_filename = "output"
+
+              if not agent_json:
+                  return {"html_content": "", "html_filename": "", "has_html": False}
+
+              # Search through the agent's json output for file_writer calls
+              for item in agent_json:
+                  if isinstance(item, dict):
+                      # Check for tool responses
+                      data = item.get("data", {})
+                      output = data.get("output", {})
+
+                      # Check tool_responses
+                      tool_responses = output.get("tool_responses", [])
+                      for tr in tool_responses:
+                          if tr.get("tool_call_name") == "file_writer":
+                              input_data = tr.get("tool_call_input", {})
+                              content = input_data.get("content", "")
+                              filename = input_data.get("filename", "output")
+                              if content and content.strip().startswith("<!"):
+                                  html_content = content
+                                  html_filename = filename
+                                  break
+
+                      # Also check tool_input
+                      tool_input = data.get("tool_input", [])
+                      for ti in tool_input:
+                          if ti.get("name") == "file_writer":
+                              args = ti.get("args", {})
+                              content = args.get("content", "")
+                              filename = args.get("filename", "output")
+                              if content and content.strip().startswith("<!"):
+                                  html_content = content
+                                  html_filename = filename
+                                  break
+
+                  if html_content:
+                      break
+
+              return {
+                  "html_content": html_content,
+                  "html_filename": html_filename,
+                  "has_html": len(html_content) > 0
+              }
+        code_language: python3
+        outputs:
+          has_html:
+            children: null
+            type: boolean
+          html_content:
+            children: null
+            type: string
+          html_filename:
+            children: null
+            type: string
         selected: false
-        title: Has HTML?
-        type: if-else
-      height: 125
-      id: ifelse
+        title: Extract HTML
+        type: code
+        variables:
+        - value_selector:
+          - agent
+          - json
+          variable: agent_json
+        - value_selector:
+          - agent
+          - text
+          variable: agent_text
+      height: 54
+      id: extract_html
       position:
         x: 680
         y: 282
@@ -536,7 +628,33 @@ workflow:
       targetPosition: left
       type: custom
       width: 241
-    # Tool Node (file_writer)
+    # If-Else Node
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: '='
+            value: 'true'
+            variable_selector:
+            - extract_html
+            - has_html
+          logical_operator: and
+        selected: false
+        title: Has HTML?
+        type: if-else
+      height: 125
+      id: ifelse
+      position:
+        x: 980
+        y: 282
+      positionAbsolute:
+        x: 980
+        y: 282
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    # Tool Node (file_writer) - Standalone tool for file creation
     - data:
         desc: Create downloadable HTML file
         provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
@@ -551,7 +669,7 @@ workflow:
           content:
             type: variable
             value:
-            - agent
+            - extract_html
             - html_content
           file_type:
             type: constant
@@ -559,16 +677,16 @@ workflow:
           filename:
             type: variable
             value:
-            - agent
+            - extract_html
             - html_filename
         type: tool
       height: 90
       id: file_writer_tool
       position:
-        x: 980
+        x: 1280
         y: 220
       positionAbsolute:
-        x: 980
+        x: 1280
         y: 220
       sourcePosition: right
       targetPosition: left
@@ -584,10 +702,10 @@ workflow:
       height: 102
       id: answer
       position:
-        x: 1280
+        x: 1580
         y: 282
       positionAbsolute:
-        x: 1280
+        x: 1580
         y: 282
       sourcePosition: right
       targetPosition: left
