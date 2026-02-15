@@ -233,9 +233,20 @@ workflow:
     - data:
         isInLoop: false
         sourceType: start
-        targetType: question-classifier
-      id: 1770219789286-source-1770482384373-target
+        targetType: llm
+      id: 1770219789286-source-1770482380000-target
       source: '1770219789286'
+      sourceHandle: source
+      target: '1770482380000'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: question-classifier
+      id: 1770482380000-source-1770482384373-target
+      source: '1770482380000'
       sourceHandle: source
       target: '1770482384373'
       targetHandle: target
@@ -532,8 +543,8 @@ workflow:
 
             {{#sys.files#}}'
           window:
-            enabled: false
-            size: 50
+            enabled: true
+            size: 10
         meta:
           minimum_dify_version: 1.7.0
           version: 0.0.2
@@ -672,8 +683,8 @@ workflow:
 
             {{#sys.files#}}'
           window:
-            enabled: false
-            size: 50
+            enabled: true
+            size: 10
         meta:
           minimum_dify_version: 1.7.0
           version: 0.0.2
@@ -697,6 +708,56 @@ workflow:
       type: custom
       width: 241
     - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 会話履歴を参照し、フォローアップ質問を自己完結した質問に書き換える
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: true
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.3
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+          role: system
+          text: "あなたはユーザーの質問を文脈に基づいて解釈するアシスタントです。\n会話履歴を参照し、現在の質問が前の会話の文脈に依存している場合（例：「もっと詳しく」「それについて」「他には？」「さっきの」「続き」など）、\n\
+            会話履歴の内容を踏まえて、自己完結した質問に書き換えてください。\n文脈に依存していない新しい質問の場合は、元の質問をそのまま返してください。\n\
+            \n【ルール】\n- 質問文のみを出力してください\n- 余計な説明や前置きは不要です\n- 元の質問の意図を変えないでください\n\
+            - 日本語で出力してください\n\n【例】\n会話履歴: ユーザーが売上分析について質問し、回答を得た\n\
+            現在の質問: 「もっと詳しく」\n出力: 「売上分析についてもっと詳しく教えてください」\n\n\
+            会話履歴: ユーザーがシフトの確認を依頼した\n現在の質問: 「来週も見せて」\n出力: 「来週のシフトを見せてください」\n\n\
+            会話履歴: なし\n現在の質問: 「今日の天気に基づいて売上予測して」\n出力: 「今日の天気に基づいて売上予測して」"
+        selected: false
+        title: 質問を文脈化する
+        type: llm
+        vision:
+          enabled: false
+      height: 131
+      id: '1770482380000'
+      position:
+        x: 171
+        y: 930
+      positionAbsolute:
+        x: 171
+        y: 930
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
         classes:
         - id: '1'
           name: シフトに関する質問（確認、最適化、シフト表作成、LINE連絡）
@@ -712,26 +773,27 @@ workflow:
           name: ベストセラー「コンビニ人間」に影響を受けた小説、「コンビニ鳥人間」の執筆依頼
         - id: '1770482960386'
           name: それ以外
-        desc: ''
-        instruction: /
-        instructions: ''
+        desc: 会話履歴を考慮してユーザーの意図を正確に分類する
+        instruction: ''
+        instructions: "会話の文脈を考慮して分類してください。フォローアップの質問（「もっと詳しく」「他には？」「さっきの続き」など）は、\
+          直前の会話内容に基づいて適切なカテゴリに分類してください。"
         memory:
           query_prompt_template: '{{#sys.query#}}
 
 
             {{#sys.files#}}'
           window:
-            enabled: false
-            size: 50
+            enabled: true
+            size: 10
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
           name: gpt-5-mini
           provider: langgenius/openai/openai
         query_variable_selector:
-        - sys
-        - query
+        - '1770482380000'
+        - text
         selected: false
         title: 適切なからあげクンに依頼する
         type: question-classifier
@@ -851,8 +913,8 @@ workflow:
 
             {{#sys.files#}}'
           window:
-            enabled: false
-            size: 50
+            enabled: true
+            size: 10
         meta:
           minimum_dify_version: 1.7.0
           version: 0.0.2
@@ -1062,8 +1124,8 @@ workflow:
 
             {{#sys.files#}}'
           window:
-            enabled: false
-            size: 50
+            enabled: true
+            size: 10
         meta:
           minimum_dify_version: 1.7.0
           version: 0.0.2
@@ -1158,8 +1220,8 @@ workflow:
             assistant: ''
             user: ''
           window:
-            enabled: false
-            size: 50
+            enabled: true
+            size: 10
         model:
           completion_params: {}
           mode: chat
@@ -1263,8 +1325,8 @@ workflow:
             assistant: ''
             user: ''
           window:
-            enabled: false
-            size: 50
+            enabled: true
+            size: 10
         model:
           completion_params: {}
           mode: chat
@@ -1346,8 +1408,8 @@ workflow:
             assistant: ''
             user: ''
           window:
-            enabled: false
-            size: 50
+            enabled: true
+            size: 10
         model:
           completion_params: {}
           mode: chat

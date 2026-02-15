@@ -1,2 +1,2 @@
 - this still does not give us a preview url
-- add planner, with coversation history
+- ~~add planner, with coversation history~~ done: added context-rewriter LLM node + enabled memory on all nodes
