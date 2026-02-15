@@ -1,6 +1,6 @@
 app:
   description: シフトの調整 / 売上の予測 / 売上分析とレポーティング / ローソンの企業情報 / 現場トラブル対応 ができるからあげクン
-  icon: fbe68533-6bf8-465d-b3ce-11846eedff40
+  icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
   name: 開発中_からあげ店長クン
@@ -9,15 +9,10 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
-    version: null
-- current_identifier: null
-  type: marketplace
-  value:
     marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
     version: null
 kind: app
-version: 0.5.0
+version: 0.6.0
 workflow:
   conversation_variables:
   - description: 会話履歴
@@ -57,7 +52,7 @@ workflow:
         audio_file_size_limit: 50
         batch_count_limit: 5
         file_size_limit: 15
-        file_upload_limit: 50
+        file_upload_limit: 20
         image_file_batch_limit: 10
         image_file_size_limit: 10
         single_chunk_attachment_limit: 10
@@ -98,18 +93,6 @@ workflow:
     edges:
     - data:
         isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 1770476271261-source-1770461237385-target
-      selected: false
-      source: '1770476271261'
-      sourceHandle: source
-      target: '1770461237385'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: question-classifier
         targetType: agent
       id: 1770482384373-1-1770470780779-target
@@ -133,42 +116,6 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 17704827524060-source-17704828153720-target
-      selected: false
-      source: '17704827524060'
-      sourceHandle: source
-      target: '17704828153720'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: agent
-        targetType: llm
-      id: 1770470780779-source-1770476271261-target
-      selected: false
-      source: '1770470780779'
-      sourceHandle: source
-      target: '1770476271261'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: agent
-        targetType: llm
-      id: 1770480577613-source-17704827524060-target
-      selected: false
-      source: '1770480577613'
-      sourceHandle: source
-      target: '17704827524060'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: false
         isInLoop: false
         sourceType: question-classifier
@@ -178,19 +125,6 @@ workflow:
       source: '1770482384373'
       sourceHandle: '1770483640333'
       target: '1770483653548'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: agent
-        targetType: llm
-      id: 1770483653548-source-1770483731933-target
-      selected: false
-      source: '1770483653548'
-      sourceHandle: source
-      target: '1770483731933'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -274,18 +208,6 @@ workflow:
       zIndex: 0
     - data:
         isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 1770483731933-source-1770483783233-target
-      selected: false
-      source: '1770483731933'
-      sourceHandle: source
-      target: '1770483783233'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: question-classifier
         targetType: agent
       id: 1770482384373-1770482960386-1770503651371-target
@@ -341,6 +263,39 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: agent
+        targetType: answer
+      id: 1770470780779-source-1770461237385-target
+      source: '1770470780779'
+      sourceHandle: source
+      target: '1770461237385'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: agent
+        targetType: answer
+      id: 1770480577613-source-17704828153720-target
+      source: '1770480577613'
+      sourceHandle: source
+      target: '17704828153720'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: agent
+        targetType: answer
+      id: 1770483653548-source-1770483783233-target
+      source: '1770483653548'
+      sourceHandle: source
+      target: '1770483783233'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         desc: ''
@@ -348,66 +303,85 @@ workflow:
         title: 質問を受け取る
         type: start
         variables: []
-      height: 73
+      height: 72
       id: '1770219789286'
       position:
         x: 0
-        y: 764
+        y: 1002
       positionAbsolute:
         x: 0
-        y: 764
+        y: 1002
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '🐣 考え中...
-
-          ```bash
-
-          {{#1770470780779.text#}}
-
-          ```
-
-
-          🐓 お答えします！
-
-          {{#1770476271261.text#}}
-
-
-          '
+        answer: '{{#1770470780779.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 137
+      height: 102
       id: '1770461237385'
       position:
-        x: 1388
-        y: 55
+        x: 1046
+        y: 73
       positionAbsolute:
-        x: 1388
-        y: 55
+        x: 1046
+        y: 73
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         agent_parameters:
           instruction:
             type: constant
-            value: |
-              あなたはシフト管理に長けたからあげクンです。以下のツールを使ってシフト管理してください。
+            value: 'あなたはシフト管理に長けたからあげクンです。以下のツールを使ってシフト管理してください。
+
 
               ## 使えるツール
+
               - shift_manager: SQLでシフトの確認・作成・変更・削除
+
               - shift_optimizer: 最適なシフト配置を提案（日付と天気を指定）
-              - shift_table_generator: HTMLシフト表を生成（weekly/daily/staff）
+
+              - shift_table_generator: シフトデータをJSON形式で取得
+
               - line_composer: スタッフ連絡用LINEメッセージを生成
 
+              - file_writer: HTML/CSV/JSONファイルを出力
+
+
+              ## シフト表/レポートを作成する流れ
+
+              1. shift_table_generatorでJSONデータを取得
+
+              2. 取得したデータをもとに、見やすいHTMLを生成
+
+              3. file_writerでHTMLファイルとして出力
+
+
+              ## HTML生成時のデザインルール（ローソンブランドカラー）
+
+              - メインカラー: #1475C5（ローソンブルー）
+
+              - セカンダリカラー: #F5A623（からあげオレンジ）
+
+              - 背景: #FFFFFF または #F8FAFC
+
+              - テキスト: #1F2937
+
+              - ボーダー/アクセント: #E5E7EB
+
+              - 成功/確定: #22C55E、警告/仮: #F59E0B、キャンセル: #EF4444
+
+
               必要な情報が揃ったら、早めに回答を返してください。
+
+              '
           maximum_iterations:
             type: constant
             value: 20
@@ -466,10 +440,10 @@ workflow:
                 date:
                   auto: 1
                   value: null
-                weather:
+                optimize_cost:
                   auto: 1
                   value: null
-                optimize_cost:
+                weather:
                   auto: 1
                   value: null
               provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
@@ -483,10 +457,10 @@ workflow:
               extra:
                 description: 見やすいHTMLシフト表を生成
               parameters:
-                view_type:
+                start_date:
                   auto: 1
                   value: null
-                start_date:
+                view_type:
                   auto: 1
                   value: null
               provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
@@ -500,25 +474,25 @@ workflow:
               extra:
                 description: スタッフ連絡用のLINEメッセージを生成
               parameters:
-                message_type:
-                  auto: 1
-                  value: null
-                staff_name:
-                  auto: 1
-                  value: null
-                original_staff:
-                  auto: 1
-                  value: null
                 date:
-                  auto: 1
-                  value: null
-                start_time:
                   auto: 1
                   value: null
                 end_time:
                   auto: 1
                   value: null
+                message_type:
+                  auto: 1
+                  value: null
+                original_staff:
+                  auto: 1
+                  value: null
                 reason:
+                  auto: 1
+                  value: null
+                staff_name:
+                  auto: 1
+                  value: null
+                start_time:
                   auto: 1
                   value: null
               provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
@@ -528,8 +502,28 @@ workflow:
               tool_label: LINEメッセージ作成
               tool_name: line_composer
               type: builtin
-        agent_strategy_label: FunctionCalling
-        agent_strategy_name: function_calling
+            - enabled: true
+              extra:
+                description: コンテンツをダウンロード可能なファイルとして出力
+              parameters:
+                content:
+                  auto: 1
+                  value: null
+                filename:
+                  auto: 1
+                  value: null
+                file_type:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: コンテンツをダウンロード可能なファイルとして出力
+              tool_label: ファイル出力
+              tool_name: file_writer
+              type: builtin
+        agent_strategy_label: ReAct
+        agent_strategy_name: ReAct
         agent_strategy_provider_name: langgenius/agent/agent
         desc: シフト管理データベースを直接操作して、シフトの確認や調整、スタッフへの連絡を行う
         memory:
@@ -549,7 +543,7 @@ workflow:
         title: シフトを管理する
         tool_node_version: '2'
         type: agent
-      height: 248
+      height: 247
       id: '1770470780779'
       position:
         x: 704
@@ -561,56 +555,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: 思考プロセスをもとに最終返答を考える
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: false
-            size: 50
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_config:
-          jinja2_variables: []
-        prompt_template:
-        - edition_type: basic
-          id: 22281487-2ce2-4556-bc71-88bc693bda89
-          role: system
-          text: 'あなたはシフト管理が得意なからあげクンです。思考プロセスをもとにユーザーへの返答を返してください。
-
-
-            {{#1770470780779.text#}}'
-        selected: false
-        title: まとめる
-        type: llm
-        vision:
-          enabled: false
-      height: 132
-      id: '1770476271261'
-      position:
-        x: 1046
-        y: 58
-      positionAbsolute:
-        x: 1046
-        y: 58
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
+      width: 241
     - data:
         agent_parameters:
           instruction:
@@ -717,8 +662,8 @@ workflow:
               tool_label: ローソン商品カタログ
               tool_name: lawson_items
               type: builtin
-        agent_strategy_label: FunctionCalling
-        agent_strategy_name: function_calling
+        agent_strategy_label: ReAct
+        agent_strategy_name: ReAct
         agent_strategy_provider_name: langgenius/agent/agent
         desc: 今日の天気予報をもとに、機械学習モデルでどんな商品が売れるか予測する
         memory:
@@ -738,7 +683,7 @@ workflow:
         title: 売上を予測する
         tool_node_version: '2'
         type: agent
-      height: 232
+      height: 231
       id: '1770480577613'
       position:
         x: 704
@@ -750,7 +695,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         classes:
         - id: '1'
@@ -792,100 +737,38 @@ workflow:
         type: question-classifier
         vision:
           enabled: false
-      height: 360
+      height: 359
       id: '1770482384373'
       position:
         x: 342
-        y: 621
+        y: 859
       positionAbsolute:
         x: 342
-        y: 621
+        y: 859
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: 思考プロセスをもとに最終返答を考える
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: false
-            size: 50
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_config:
-          jinja2_variables: []
-        prompt_template:
-        - edition_type: basic
-          id: 22281487-2ce2-4556-bc71-88bc693bda89
-          role: system
-          text: 'あなたはデータサイエンティストのからあげクンです。モデルを用いた予測結果をまとめてください。
-
-            {{#1770480577613.text#}}'
-        selected: false
-        title: まとめる
-        type: llm
-        vision:
-          enabled: false
-      height: 132
-      id: '17704827524060'
-      position:
-        x: 1046
-        y: 378
-      positionAbsolute:
-        x: 1046
-        y: 378
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        answer: '🐣 考え中...
-
-          ```bash
-
-          {{#1770480577613.text#}}
-
-          ```
-
-
-          🐓 お答えします！
-
-          {{#17704827524060.text#}}
-
-
-          '
+        answer: '{{#1770480577613.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 137
+      height: 102
       id: '17704828153720'
       position:
-        x: 1388
-        y: 375
+        x: 1046
+        y: 393
       positionAbsolute:
-        x: 1388
-        y: 375
+        x: 1046
+        y: 393
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         agent_parameters:
           instruction:
@@ -979,7 +862,7 @@ workflow:
         title: 話をつなぐ
         tool_node_version: '2'
         type: agent
-      height: 248
+      height: 247
       id: '1770503651371'
       position:
         x: 704
@@ -991,7 +874,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         answer: '{{#1770503651371.text#}}'
         desc: ''
@@ -999,7 +882,7 @@ workflow:
         title: 答える
         type: answer
         variables: []
-      height: 103
+      height: 102
       id: '1770483046052'
       position:
         x: 1046
@@ -1011,12 +894,16 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         agent_parameters:
           instruction:
             type: constant
-            value: "# 売上分析アシスタント - からあげクン\n\nあなたは売上分析に長けたからあげクンです。ローソン店舗の売上データを分析し、店舗運営に役立つ洞察を提供してください。ユーザーへの追加の質問なしに、分析結果まで出してください。\n\n## 使えるツール\n- sales_analytics: SQLで売上データを分析\n- dashboard_generator: HTMLダッシュボードを生成（daily/weekly/comparison）\n- expiration_alert: 消費期限チェックと見切り品提案\n\
+            value: "# 売上分析アシスタント - からあげクン\n\nあなたは売上分析に長けたからあげクンです。ローソン店舗の売上データを分析し、店舗運営に役立つ洞察を提供してください。ユーザーへの追加の質問なしに、分析結果まで出してください。\n\
+              \n## 使えるツール\n- sales_analytics: SQLで売上データを分析\n- dashboard_generator:\
+              \ ダッシュボードデータをJSON形式で取得（daily/weekly/comparison）\n- expiration_alert: 消費期限チェックと見切り品提案\n- file_writer: HTML/CSV/JSONファイルを出力\n\
+              \n## ダッシュボード/レポートを作成する流れ\n1. dashboard_generatorでJSONデータを取得\n2. 取得したデータをもとに、Chart.jsを使った見やすいHTMLダッシュボードを生成\n3. file_writerでHTMLファイルとして出力\n\
+              \n## HTML生成時のデザインルール（ローソンブランドカラー）\n- メインカラー: #1475C5（ローソンブルー）\n- セカンダリカラー: #F5A623（からあげオレンジ）\n- 背景: linear-gradient(135deg, #1475C5 0%, #0D5A9E 100%) または #F8FAFC\n- カード背景: #FFFFFF\n- テキスト: #1F2937\n- ボーダー: #E5E7EB\n- ポジティブ: #22C55E、ネガティブ: #EF4444\n- Chart.js カラー: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']\n\
               \n## あなたの役割\n\n- **データアナリスト**: 売上データから傾向やパターンを発見する\n- **店舗アドバイザー**:\
               \ 分析結果を基に具体的な改善提案をする\n- **からあげクン推し**: からあげクンの売上は特に注目して分析する\n\n## 分析のポイント\n\
               \n1. **数字で語る**: 「売れている」ではなく「1日平均80個売れている」\n2. **比較する**: 天気別、時間帯別、曜日別で比較して違いを見つける\n\
@@ -1132,10 +1019,10 @@ workflow:
                 category:
                   auto: 1
                   value: null
-                urgency:
+                hours_threshold:
                   auto: 1
                   value: null
-                hours_threshold:
+                urgency:
                   auto: 1
                   value: null
               provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
@@ -1145,8 +1032,28 @@ workflow:
               tool_label: 消費期限アラート
               tool_name: expiration_alert
               type: builtin
-        agent_strategy_label: FunctionCalling
-        agent_strategy_name: function_calling
+            - enabled: true
+              extra:
+                description: コンテンツをダウンロード可能なファイルとして出力
+              parameters:
+                content:
+                  auto: 1
+                  value: null
+                filename:
+                  auto: 1
+                  value: null
+                file_type:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: コンテンツをダウンロード可能なファイルとして出力
+              tool_label: ファイル出力
+              tool_name: file_writer
+              type: builtin
+        agent_strategy_label: ReAct
+        agent_strategy_name: ReAct
         agent_strategy_provider_name: langgenius/agent/agent
         desc: データベースに直接SQLを発行し、売上データを分析する。
         memory:
@@ -1166,7 +1073,7 @@ workflow:
         title: 売上を分析する
         tool_node_version: '2'
         type: agent
-      height: 232
+      height: 231
       id: '1770483653548'
       position:
         x: 704
@@ -1174,82 +1081,32 @@ workflow:
       positionAbsolute:
         x: 704
         y: 640
-      selected: true
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: 思考プロセスをもとに最終返答を考える
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: false
-            size: 50
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: 88ad3505-d9a8-4438-88a7-f7252de0ae5f
-          role: system
-          text: 'あなたはデータサイエンティストのからあげクンです。以下の分析結果をまとめてください。
-
-            {{#1770483653548.text#}}'
-        selected: false
-        title: まとめる
-        type: llm
-        vision:
-          enabled: false
-      height: 132
-      id: '1770483731933'
-      position:
-        x: 1046
-        y: 690
-      positionAbsolute:
-        x: 1046
-        y: 690
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
-        answer: '🐓 お答えします！
-
-          {{#1770483731933.text#}}'
+        answer: '{{#1770483653548.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 103
+      height: 102
       id: '1770483783233'
       position:
-        x: 2414
-        y: 661
+        x: 1046
+        y: 704
       positionAbsolute:
-        x: 2414
-        y: 661
+        x: 1046
+        y: 704
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
-        dataset_ids:
-        - /yh0tKKp/cq3FYZ4NjhO28gPeWxWRSWFjqQ/+f6r2//+9yiTRHtfkLCQZrvy+2oY
-        - H8iHrnhR153PGywnTEHqjuT8/C7T0WUL0hcmcP6C/D0bwiWkAjaHsveovLnUCe/x
-        - Em/G16AHYvBJzxofQNcurFxmwLUoDshUvPRMHbcRi7KLdejg6Y6ihaT9YTgvIsYa
+        dataset_ids: []
         desc: ローソンの接客に関する情報を検索
         multiple_retrieval_config:
           reranking_enable: false
@@ -1269,10 +1126,10 @@ workflow:
         - '1770219789286'
         - sys.query
         retrieval_mode: multiple
-        selected: false
+        selected: true
         title: 接客マニュアル / クレーム対応
         type: knowledge-retrieval
-      height: 174
+      height: 79
       id: '1770495067173'
       position:
         x: 704
@@ -1284,7 +1141,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         context:
           enabled: true
@@ -1321,7 +1178,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 132
+      height: 131
       id: '1770495094488'
       position:
         x: 1046
@@ -1333,31 +1190,28 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
-        answer: '🐓 お答えします!
-
-          {{#1770495094488.text#}}'
+        answer: '{{#1770495094488.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 119
+      height: 102
       id: '1770495276288'
       position:
         x: 1388
-        y: 979
+        y: 980
       positionAbsolute:
         x: 1388
-        y: 979
+        y: 980
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
-        dataset_ids:
-        - Em/G16AHYvBJzxofQNcurFxmwLUoDshUvPRMHbcRi7KLdejg6Y6ihaT9YTgvIsYa
+        dataset_ids: []
         desc: ローソンの企業理念や従業員数、ミッションなどの基礎情報を検索
         multiple_retrieval_config:
           reranking_enable: false
@@ -1380,7 +1234,7 @@ workflow:
         selected: false
         title: ローソン基礎知識検索
         type: knowledge-retrieval
-      height: 134
+      height: 95
       id: '1770495404387'
       position:
         x: 704
@@ -1388,11 +1242,11 @@ workflow:
       positionAbsolute:
         x: 704
         y: 1206
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         context:
           enabled: true
@@ -1427,7 +1281,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 132
+      height: 131
       id: '1770495435204'
       position:
         x: 1046
@@ -1439,35 +1293,33 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
-        answer: '🐓 お答えします!
-
-          {{#1770495435204.text#}}'
+        answer: '{{#1770495435204.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 119
+      height: 102
       id: '1770495552205'
       position:
         x: 1388
-        y: 1213
+        y: 1214
       positionAbsolute:
         x: 1388
-        y: 1213
+        y: 1214
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         answer: '{{#17706283344670.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 103
+      height: 102
       id: '1770623714216'
       position:
         x: 1046
@@ -1479,7 +1331,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     - data:
         context:
           enabled: false
@@ -1527,7 +1379,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 148
+      height: 131
       id: '17706283344670'
       position:
         x: 704
@@ -1539,9 +1391,9 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 241
     viewport:
-      x: 0
-      y: 0
+      x: 59.00000000000006
+      y: -400
       zoom: 0.7
   rag_pipeline_variables: []

@@ -6,34 +6,35 @@ identity:
     ja_JP: "ダッシュボード生成"
 description:
   human:
-    en_US: "Generate HTML dashboards with Chart.js visualizations"
-    ja_JP: "Chart.jsを使ったHTMLダッシュボードを生成"
+    en_US: "Get sales dashboard data in JSON format"
+    ja_JP: "売上ダッシュボードデータをJSON形式で取得"
   llm: |
-    売上データを可視化したHTMLダッシュボードを生成します。
-    Chart.js CDNを使用した自己完結型HTMLを出力します。
+    売上データをダッシュボード用のJSON形式で取得します。
+    取得したデータをもとに、HTMLダッシュボードを生成してください。
 
     ## レポートタイプ
-    - daily: 本日の売上ダッシュボード
-      - 時間別売上グラフ
-      - カテゴリ別売上円グラフ
-      - KPI（売上、販売点数、客単価、取引件数）
-    - weekly: 週間売上ダッシュボード
+    - daily: 本日の売上データ
+      - KPI（売上、販売点数、客単価、取引件数、前日比）
+      - 時間別売上（6時〜24時）
+      - カテゴリ別売上
+    - weekly: 週間売上データ
+      - KPI（週間売上、日平均、前週比）
       - 日別売上推移
       - カテゴリ別週間売上
-      - 週間KPI
-    - comparison: 今週 vs 先週 比較ダッシュボード
+      - 天気別売上
+    - comparison: 今週 vs 先週 比較データ
+      - KPI（今週/先週の合計、差額、変化率）
       - 曜日別売上比較
       - カテゴリ別売上比較
-      - 差分分析
 
     ## 使用例
-    - 本日のダッシュボード: report_type="daily"
-    - 週間ダッシュボード: report_type="weekly"
+    - 本日のデータ: report_type="daily"
+    - 週間データ: report_type="weekly"
     - 週間比較: report_type="comparison"
 
     ## 出力
-    自己完結型のHTMLを返します。ファイルとして保存してブラウザで開くか、
-    HTMLプレビューで表示できます。
+    JSON形式のデータを返します。このデータをもとにHTMLダッシュボードを生成し、
+    file_writerツールで出力してください。
 parameters:
   - name: report_type
     type: string
@@ -42,8 +43,8 @@ parameters:
       en_US: Report Type
       ja_JP: レポートタイプ
     human_description:
-      en_US: "Type of dashboard to generate (daily/weekly/comparison)"
-      ja_JP: "生成するダッシュボードの種類（daily/weekly/comparison）"
+      en_US: "Type of dashboard data to retrieve (daily/weekly/comparison)"
+      ja_JP: "取得するダッシュボードデータの種類（daily/weekly/comparison）"
     llm_description: "レポートタイプ: daily（本日）、weekly（週間）、comparison（今週vs先週）。省略時は daily"
     form: llm
     default: daily

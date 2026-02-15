@@ -1,0 +1,64 @@
+identity:
+  name: "file_writer"
+  author: "yoichiojima"
+  label:
+    en_US: "File Writer"
+    ja_JP: "ファイル出力"
+description:
+  human:
+    en_US: "Write content to a downloadable file"
+    ja_JP: "コンテンツをダウンロード可能なファイルとして出力"
+  llm: |
+    コンテンツ（HTML、JSON、CSVなど）をダウンロード可能なファイルとして出力します。
+
+    ## 使用例
+    - HTMLシフト表を生成した後、ファイルとして出力
+    - 分析結果をCSVで出力
+    - レポートをHTMLで出力
+
+    ## パラメータ
+    - content: ファイルに書き込む内容（必須）
+    - filename: 出力ファイル名（拡張子は自動付与）
+    - file_type: html / json / csv / txt / md
+
+    ## 出力
+    ダウンロード可能なファイルを返します。
+parameters:
+  - name: content
+    type: string
+    required: true
+    label:
+      en_US: Content
+      ja_JP: コンテンツ
+    human_description:
+      en_US: "Content to write to the file"
+      ja_JP: "ファイルに書き込む内容"
+    llm_description: "ファイルに出力するコンテンツ（HTML、JSON、テキストなど）"
+    form: llm
+  - name: filename
+    type: string
+    required: false
+    label:
+      en_US: Filename
+      ja_JP: ファイル名
+    human_description:
+      en_US: "Output filename (without extension)"
+      ja_JP: "出力ファイル名（拡張子なし）"
+    llm_description: "出力ファイル名。省略時は output"
+    form: llm
+    default: output
+  - name: file_type
+    type: string
+    required: false
+    label:
+      en_US: File Type
+      ja_JP: ファイル形式
+    human_description:
+      en_US: "File type (html/json/csv/txt/md)"
+      ja_JP: "ファイル形式（html/json/csv/txt/md）"
+    llm_description: "出力形式: html, json, csv, txt, md のいずれか。省略時は html"
+    form: llm
+    default: html
+extra:
+  python:
+    source: tools/file_writer.py

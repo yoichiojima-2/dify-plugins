@@ -6,39 +6,35 @@ identity:
     ja_JP: "シフト表生成"
 description:
   human:
-    en_US: "Generate beautiful HTML shift tables"
-    ja_JP: "見やすいHTMLシフト表を生成"
+    en_US: "Get shift table data in JSON format"
+    ja_JP: "シフト表データをJSON形式で取得"
   llm: |
-    シフトデータを可視化したHTMLシフト表を生成します。
-    スタッフのスキル、役職、シフト状態を色分けして表示します。
+    シフトデータをJSON形式で取得します。
+    取得したデータをもとに、HTMLシフト表を生成してください。
 
     ## ビュータイプ
-    - weekly: 週間シフト表（スタッフ × 日付のマトリクス）
-      - スタッフごとに各日のシフト時間を表示
-      - スキルバッジ付き
-      - 店長/パートの色分け
-    - daily: 日次シフト表（時間帯 × スタッフのガントチャート風）
-      - 特定の日の時間帯別カバレッジを可視化
-      - 6時〜24時の時間帯表示
-    - staff: スタッフ別2週間ビュー
-      - 各スタッフの2週間分のシフトを一覧表示
-      - 時給情報付き
-
-    ## 色分け
-    - 緑: 店長シフト
-    - 青: 確定シフト
-    - オレンジ枠: 仮シフト（pending）
-    - スキルバッジ: からあげ(オレンジ), レジ(シアン), 品出し(青), etc.
+    - weekly: 週間シフトデータ
+      - スタッフ情報（id, name, role, skills, hourly_rate）
+      - 日付情報（date, weekday, is_weekend, is_today）
+      - スタッフごとの日付別シフト（start, end, status）
+      - 集計（total_shifts, total_hours, staff_count, daily_avg_hours）
+    - daily: 日次シフトデータ
+      - 指定日のシフト一覧（staff_id, name, role, skills, start, end, status）
+      - 時間帯別カバレッジ（6時〜24時、各時間に誰がいるか）
+    - staff: スタッフ別2週間データ
+      - スタッフ情報
+      - 2週間分のシフト
+      - 合計時間と推定給与
 
     ## 使用例
-    - 今週のシフト表: view_type="weekly"
+    - 今週のシフト: view_type="weekly"
     - 特定週: view_type="weekly", start_date="2026-02-16"
     - 特定日: view_type="daily", start_date="2026-02-20"
     - スタッフ別: view_type="staff"
 
     ## 出力
-    自己完結型のHTMLを返します。ファイルとして保存してブラウザで開くか、
-    HTMLプレビューで表示できます。
+    JSON形式のデータを返します。このデータをもとにHTMLシフト表を生成し、
+    file_writerツールで出力してください。
 parameters:
   - name: view_type
     type: string
@@ -47,8 +43,8 @@ parameters:
       en_US: View Type
       ja_JP: ビュータイプ
     human_description:
-      en_US: "Type of shift table to generate (weekly/daily/staff)"
-      ja_JP: "生成するシフト表の種類（weekly/daily/staff）"
+      en_US: "Type of shift data to retrieve (weekly/daily/staff)"
+      ja_JP: "取得するシフトデータの種類（weekly/daily/staff）"
     llm_description: "ビュータイプ: weekly（週間）、daily（日次）、staff（スタッフ別2週間）。省略時は weekly"
     form: llm
     default: weekly
