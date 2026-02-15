@@ -81,9 +81,10 @@ cd .. && make build
 
 ## Versioning
 
-**Format:** Date-based versioning `YYYY.M.D.N` (e.g., `2026.2.15.1`)
-- `YYYY.M.D` = date without leading zeros
-- `.N` = division number for multiple releases on the same day
+**Format:** Date-based versioning `YYYY.MMDD.N` (e.g., `2026.215.1`)
+- `YYYY` = year
+- `MMDD` = month and day as single number (Feb 15 = 215, not 0215)
+- `N` = division number (increment for multiple releases on same day)
 
 **When releasing:**
 1. Update version in `manifest.yaml` (both `version:` and `meta.version:` fields)
