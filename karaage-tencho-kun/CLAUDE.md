@@ -25,7 +25,11 @@ To work around these constraints, this custom plugin bundles all necessary funct
 ├── main.py                    # Entry point
 ├── provider/
 │   └── karaage-tencho-kun.yaml/py   # Tool provider definition
+├── endpoints/                 # Plugin endpoints
+│   ├── file_preview.yaml      # Endpoint provider definition
+│   └── file_preview.py        # Serves stored HTML files
 ├── tools/                     # Dify tools
+│   ├── _file_store.py         # In-memory HTML file store (shared with endpoint)
 │   ├── shift_manager.*        # Shift management (SQL/DuckDB)
 │   ├── shift_optimizer.*      # Shift optimization
 │   ├── shift_table_generator.*# HTML shift table generation
@@ -37,8 +41,7 @@ To work around these constraints, this custom plugin bundles all necessary funct
 │   ├── line_composer.*        # LINE message generation
 │   ├── lawson_items.*         # Product catalog
 │   ├── datetime_utils.*       # JST conversion utilities
-│   ├── file_writer.*          # Create downloadable files (HTML, JSON, CSV, etc.)
-│   └── get_file_url.*         # Get download URL from file object
+│   └── file_writer.*          # Create files (HTML returns clickable preview link)
 ├── data/                      # Static data files
 │   ├── inventory_manager_seed.json
 │   ├── line_templates.json
@@ -62,8 +65,7 @@ To work around these constraints, this custom plugin bundles all necessary funct
 | `line_composer` | Generate LINE messages | Templates for staff communication |
 | `lawson_items` | Product catalog search | Static JSON data |
 | `datetime_utils` | Convert datetime to JST | Pure Python (zoneinfo) |
-| `file_writer` | Create downloadable files | Returns blob message (use with get_file_url) |
-| `get_file_url` | Get download URL from file | Extracts URL from file object for clickable links |
+| `file_writer` | Create files | HTML: stores in memory, returns clickable endpoint URL. Others: blob message |
 
 ## Development
 

@@ -1,4 +1,4 @@
-version: 2026.2.15-1
+version: 2026.2.15-2
 type: plugin
 author: yoichiojima
 name: karaage-tencho-kun
@@ -16,11 +16,15 @@ resource:
   permission:
     tool:
       enabled: true
+    endpoint:
+      enabled: true
 plugins:
   tools:
     - provider/karaage-tencho-kun.yaml
+  endpoints:
+    - endpoints/file_preview.yaml
 meta:
-  version: 2026.2.15-1
+  version: 2026.2.15-2
   arch:
     - amd64
     - arm64

@@ -5,6 +5,8 @@ from collections.abc import Generator
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
+from tools._file_store import store_file
+
 
 # Supported MIME types
 MIME_TYPES = {
@@ -34,7 +36,16 @@ class FileWriterTool(Tool):
         if not filename.lower().endswith(extension):
             filename = f"{filename}{extension}"
 
-        # Return as blob message - Dify will assign a download URL
+        # HTML files: store in memory and return a clickable endpoint URL
+        if file_type == "html":
+            endpoint_base_url = self.runtime.credentials.get("endpoint_base_url", "").rstrip("/")
+            if endpoint_base_url:
+                file_id = store_file(content.encode("utf-8"))
+                url = f"{endpoint_base_url}/preview/{file_id}"
+                yield self.create_text_message(f"[📊 {filename}]({url})")
+                return
+
+        # Non-HTML or no endpoint configured: fall back to blob message
         yield self.create_blob_message(
             blob=content.encode("utf-8"),
             meta={
