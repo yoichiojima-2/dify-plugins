@@ -37,27 +37,27 @@ jobs:
           CHECKSUM=$(dify plugin checksum build/karaage-tencho-kun.difypkg 2>&1 | grep -oP 'checksum=\K[a-f0-9]+')
           echo "checksum=$CHECKSUM" >> $GITHUB_OUTPUT
 
-      - name: Update agent.yml versions
+      - name: Update chatflow.yml versions
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           CHECKSUM="${{ steps.checksum.outputs.checksum }}"
-          AGENT_YML="karaage-tencho-kun/examples/agent.yml"
+          CHATFLOW_YML="karaage-tencho-kun/examples/chatflow.yml"
 
           # Update app name version
-          sed -i "s/name: 開発中_からあげ店長クン_v[0-9.-]*/name: 開発中_からあげ店長クン_v${VERSION}/" "$AGENT_YML"
+          sed -i "s/name: 開発中_からあげ店長クン_v[0-9.-]*/name: 開発中_からあげ店長クン_v${VERSION}/" "$CHATFLOW_YML"
 
           # Update plugin_unique_identifier
-          sed -i "s|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:[^@]*@[a-f0-9]*|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:${VERSION}@${CHECKSUM}|" "$AGENT_YML"
+          sed -i "s|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:[^@]*@[a-f0-9]*|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:${VERSION}@${CHECKSUM}|" "$CHATFLOW_YML"
 
           # Update app version at end of file
-          sed -i "s/^version: [0-9.-]*$/version: ${VERSION}/" "$AGENT_YML"
+          sed -i "s/^version: [0-9.-]*$/version: ${VERSION}/" "$CHATFLOW_YML"
 
       - name: Commit version updates
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add karaage-tencho-kun/examples/agent.yml
-          git commit -m "chore: update agent.yml to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
+          git add karaage-tencho-kun/examples/chatflow.yml
+          git commit -m "chore: update chatflow.yml to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
           git push
 
       - name: Upload release asset

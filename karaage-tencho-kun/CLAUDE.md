@@ -91,11 +91,11 @@ cd .. && make build
 
 The CI workflow (`.github/workflows/build.yml`) will automatically:
 - Build the `.difypkg` package
-- Update `examples/agent.yml`:
+- Update `examples/chatflow.yml`:
   - App name version (`name: 開発中_からあげ店長クン_vX.X.X`)
   - Plugin reference (`plugin_unique_identifier: ...`) with version and checksum
   - App version at end of file
-- Commit the agent.yml changes
+- Commit the chatflow.yml changes
 - Upload the package to the release
 
 ## Constraints
@@ -104,13 +104,12 @@ The CI workflow (`.github/workflows/build.yml`) will automatically:
 - **In-memory only** - Dify cloud has read-only filesystem
 - **Single plugin** - Bundle everything to avoid marketplace dependencies
 
-## Example Workflow
+## Example Chatflow
 
-See `examples/開発中_からあげ店長クン.yml` for the full Dify workflow that uses this plugin. It includes:
-- Question classifier routing to specialized agents
-- Shift management agent
-- Sales prediction agent (weather-based)
-- Sales analysis agent with HTML report generation
-- Complaint handling (RAG)
-- Lawson company info (RAG)
-- General conversation fallback
+See `examples/chatflow.yml` for a Dify chatflow (advanced-chat mode) that uses this plugin.
+Structure: Start → Agent node (with all tools) → Answer node.
+Chatflow mode is used instead of agent-chat because `create_blob_message` file downloads
+only work properly in chatflow mode on Dify cloud.
+
+**Note:** Knowledge bases (RAG datasets) need to be added manually in the Dify UI after import,
+as dataset IDs are environment-specific.
