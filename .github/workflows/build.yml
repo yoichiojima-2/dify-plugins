@@ -20,8 +20,43 @@ jobs:
             -O /usr/local/bin/dify
           sudo chmod +x /usr/local/bin/dify
 
+      - name: Get version from manifest
+        id: version
+        run: |
+          VERSION=$(grep "^version:" karaage-tencho-kun/manifest.yaml | head -1 | cut -d' ' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Build package
         run: make build
+
+      - name: Get package checksum
+        id: checksum
+        run: |
+          CHECKSUM=$(dify plugin checksum build/karaage-tencho-kun.difypkg 2>&1 | grep -oP 'checksum=\K[a-f0-9]+')
+          echo "checksum=$CHECKSUM" >> $GITHUB_OUTPUT
+
+      - name: Update agent.yml versions
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          CHECKSUM="${{ steps.checksum.outputs.checksum }}"
+          AGENT_YML="karaage-tencho-kun/examples/agent.yml"
+
+          # Update app name version
+          sed -i "s/name: 開発中_からあげ店長クン_v[0-9.]*/name: 開発中_からあげ店長クン_v${VERSION}/" "$AGENT_YML"
+
+          # Update plugin_unique_identifier
+          sed -i "s|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:[^@]*@[a-f0-9]*|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:${VERSION}@${CHECKSUM}|" "$AGENT_YML"
+
+          # Update app version at end of file
+          sed -i "s/^version: [0-9.]*$/version: ${VERSION}/" "$AGENT_YML"
+
+      - name: Commit version updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add karaage-tencho-kun/examples/agent.yml
+          git commit -m "chore: update agent.yml to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
+          git push
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
