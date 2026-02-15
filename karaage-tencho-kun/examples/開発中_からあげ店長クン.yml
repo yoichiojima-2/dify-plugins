@@ -1,78 +1,449 @@
 app:
-  description: シフトの調整 / 売上の予測 / 売上分析とレポーティング / ローソンの企業情報 / 現場トラブル対応 ができるからあげクン
+  description: ''
   icon: 🤖
   icon_background: '#FFEAD5'
-  mode: advanced-chat
+  mode: agent-chat
   name: 開発中_からあげ店長クン
-  use_icon_as_answer_icon: true
+  use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
   type: marketplace
   value:
     marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
     version: null
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:0.0.30@99897cde8f34818ec02349786e5f25ace7a2a9277eed6f2c113d93a1c005ff82
+    version: null
 kind: app
-version: 0.6.0
-workflow:
-  conversation_variables:
-  - description: 会話履歴
-    id: 2d687d0f-5a47-44db-b1fa-f45ea31e6661
-    name: conversation_history
-    selector:
-    - conversation
-    - conversation_history
-    value: []
-    value_type: array[string]
-  environment_variables:
-  - description: 店舗の場所
-    id: 407b0e0b-3415-420e-8026-8ef2b135ffe6
-    name: location
-    selector:
-    - env
-    - location
-    value: 高輪ゲートウェイ店
-    value_type: string
-  features:
-    file_upload:
-      allowed_file_extensions:
-      - .JPG
-      - .JPEG
-      - .PNG
-      - .GIF
-      - .WEBP
-      - .SVG
-      allowed_file_types:
-      - image
-      allowed_file_upload_methods:
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 10
+    prompt: null
+    strategy: function_call
+    tools:
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Hourly Weather Forecast
+      tool_name: hourly_weather
+      tool_parameters:
+        hours: 24
+        latitude: null
+        longitude: null
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Lawson Items Catalog
+      tool_name: lawson_items
+      tool_parameters:
+        category: null
+        include_seasonal: true
+        keyword: null
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Shift Manager
+      tool_name: shift_manager
+      tool_parameters:
+        sql: null
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Demand Forecast
+      tool_name: demand_forecast
+      tool_parameters:
+        humidity: 60
+        temperature: null
+        weather: null
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Sales Analytics
+      tool_name: sales_analytics
+      tool_parameters:
+        sql: null
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Datetime Utils
+      tool_name: datetime_utils
+      tool_parameters:
+        datetime: null
+        source_timezone: UTC
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: LINE Message Composer
+      tool_name: line_composer
+      tool_parameters:
+        agenda: null
+        date: null
+        deadline: null
+        end_time: null
+        message_type: null
+        original_staff: null
+        reason: null
+        staff_name: null
+        start_time: null
+        time: null
+        week_end: null
+        week_start: null
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Expiration Alert
+      tool_name: expiration_alert
+      tool_parameters:
+        category: null
+        hours_threshold: null
+        urgency: null
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Shift Optimizer
+      tool_name: shift_optimizer
+      tool_parameters:
+        date: null
+        optimize_cost: true
+        weather: sunny
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Dashboard Generator
+      tool_name: dashboard_generator
+      tool_parameters:
+        report_type: daily
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Shift Table Generator
+      tool_name: shift_table_generator
+      tool_parameters:
+        start_date: null
+        view_type: weekly
+      type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: File Writer
+      tool_name: file_writer
+      tool_parameters:
+        content: null
+        file_type: html
+        filename: output
+      type: builtin
+  annotation_reply:
+    enabled: false
+  chat_prompt_config:
+    prompt:
+    - role: system
+      text: ''
+  completion_prompt_config:
+    conversation_histories_role:
+      assistant_prefix: ''
+      user_prefix: ''
+    prompt:
+      text: ''
+  dataset_configs:
+    datasets:
+      datasets: []
+    retrieval_model: multiple
+    top_k: 4
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    allowed_file_extensions:
+    - .JPG
+    - .JPEG
+    - .PNG
+    - .GIF
+    - .WEBP
+    - .SVG
+    - .MP4
+    - .MOV
+    - .MPEG
+    - .WEBM
+    allowed_file_types: []
+    allowed_file_upload_methods:
+    - remote_url
+    - local_file
+    enabled: false
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
       - remote_url
       - local_file
-      enabled: true
-      fileUploadConfig:
-        attachment_image_file_size_limit: 2
-        audio_file_size_limit: 50
-        batch_count_limit: 5
-        file_size_limit: 15
-        file_upload_limit: 20
-        image_file_batch_limit: 10
-        image_file_size_limit: 10
-        single_chunk_attachment_limit: 10
-        video_file_size_limit: 100
-        workflow_file_upload_limit: 10
-      image:
-        enabled: false
-        number_limits: 3
-        transfer_methods:
-        - local_file
-        - remote_url
-      number_limits: 3
-    opening_statement: 質問例 🐓
-    retriever_resource:
-      enabled: true
-    sensitive_word_avoidance:
-      enabled: false
-    speech_to_text:
-      enabled: false
-    suggested_questions:
+    number_limits: 3
+  model:
+    completion_params:
+      stop: []
+    mode: chat
+    name: gpt-5-mini
+    provider: langgenius/openai/openai
+  more_like_this:
+    enabled: false
+  opening_statement: |
+    こんにちは！からあげ店長クンです🐔
+    ローソン店舗運営のお手伝いをします。
+
+    シフト管理、売上分析、天気に基づく需要予測、消費期限チェックなど、なんでも聞いてください！
+  pre_prompt: |
+    # からあげ店長クン - ローソン店舗運営アシスタント
+
+    あなたはローソン店舗のからあげ店長クンです。
+    店舗運営に関するあらゆる業務をこなせる万能アシスタントです。
+    ユーザーの質問に対して、適切なツールを選んで自律的に対応してください。
+
+    ---
+
+    ## あなたの能力と使えるツール
+
+    ### 🕐 時間取得
+    - **datetime_utils**: 日時を日本標準時（JST）に変換
+
+    ### 👥 シフト管理
+
+    #### shift_manager（SQLでシフト管理）
+    SQLでスタッフのシフトを管理します。
+
+    **スキーマ:**
+    - staff (id, name, name_reading, role_ja, skills[], availability JSON, phone, line_id, notes)
+    - shifts (shift_id, staff_id, staff_name, date, start_time, end_time, status, created_at, cancelled_at, cancel_reason)
+    - swap_requests (swap_id, shift_id, original_staff_id, original_staff_name, date, start_time, end_time, reason, status, approved_staff_id, approved_staff_name, approved_at)
+
+    **SQL例:**
+    - 今日のシフト: SELECT staff_name, start_time, end_time FROM shifts WHERE date = CURRENT_DATE AND status = 'confirmed'
+    - スタッフ一覧: SELECT name, role_ja, phone FROM staff
+    - シフト作成: INSERT INTO shifts VALUES ('SH001', 'tanaka', '田中太郎', '2026-02-10', '09:00', '17:00', 'confirmed', NOW(), NULL, NULL)
+    - キャンセル: UPDATE shifts SET status = 'cancelled', cancel_reason = '体調不良' WHERE shift_id = 'SH001'
+    - 月曜出勤可能なスタッフ: SELECT name, phone FROM staff WHERE availability LIKE '%mon%'
+
+    #### shift_optimizer（シフト最適化）
+    スタッフの空き状況・スキル・予測需要に基づいて最適なシフトを提案します。
+
+    **パラメータ:**
+    - date: 最適化対象の日付（YYYY-MM-DD形式）
+    - weather: 予想天気（sunny/cloudy/rainy/snowy）。省略時はsunny
+    - optimize_cost: 人件費最適化を有効にするか（デフォルト: true）
+
+    **時間帯別の基本必要人数:**
+    - 早朝(6-9時): 2人、午前(9-11時): 2人、ランチピーク(11-14時): 3人
+    - 午後(14-17時): 2人、夕方ピーク(17-20時): 3人、夜間(20-23時): 2人、深夜(23時以降): 1人
+
+    **天気の影響:**
+    - sunny: 需要+10%、cloudy: 変化なし、rainy: 需要-15%（ホットスナック需要増）、snowy: 需要-30%（ホットスナック需要大幅増）
+
+    #### shift_table_generator（シフト表データ取得）
+    シフトデータをJSON形式で取得します。
+
+    **ビュータイプ:**
+    - weekly: 週間シフトデータ
+    - daily: 日次シフトデータ（時間帯別カバレッジ含む）
+    - staff: スタッフ別2週間データ
+
+    #### line_composer（LINEメッセージ作成）
+    スタッフ連絡用のLINEメッセージを生成します。
+
+    **メッセージタイプ:**
+    - shift_reminder: 明日のシフトリマインダー
+    - swap_request: シフト交代依頼の全体連絡
+    - emergency_coverage: 緊急欠員カバー募集
+    - schedule_update: 週間シフト公開通知
+    - meeting_notice: ミーティング通知
+
+    ---
+
+    ### ☀️ 売上予測（天気ベース）
+
+    #### hourly_weather（時間別天気予報）
+    指定した場所の時間別天気予報を取得します。
+
+    **パラメータ:**
+    - latitude: 緯度（東京: 35.6895, 大阪: 34.6937, 名古屋: 35.1815）
+    - longitude: 経度（東京: 139.6917, 大阪: 135.5023, 名古屋: 136.9066）
+    - hours: 予報時間数（デフォルト: 24, 最大: 168）
+
+    #### demand_forecast（需要予測）
+    天気に基づいて商品の需要を予測するMLモデルです。
+
+    **パラメータ:**
+    - weather: 天気（sunny, cloudy, rainy）
+    - temperature: 気温（摂氏）
+    - humidity: 湿度（0-100%）。省略時は60%
+
+    **例:**
+    - 晴れで30度 → アイスクリーム・冷たい飲料が増加
+    - 雨で15度 → 傘・おでん・肉まんが増加
+
+    #### lawson_items（商品カタログ）
+    カテゴリやキーワードでローソン商品を検索します。
+
+    **パラメータ:**
+    - category: hot_snack, onigiri, bento, sweets, drinks, daily, bread
+    - keyword: 商品名で検索（日本語対応）
+    - include_seasonal: 季節限定商品を含めるか
+
+    ---
+
+    ### 📊 売上分析・レポーティング
+
+    #### sales_analytics（売上分析SQL）
+    SQLで売上データを分析します。
+
+    **スキーマ:**
+    - items (item_id, item_name, category, unit_price)
+    - sales (sale_id, sale_date, sale_hour, item_id, item_name, category, quantity, unit_price, total_amount, weather, temperature, day_of_week)
+    - daily_summary (date, total_sales, total_items, weather, temperature, customer_count)
+
+    **カテゴリ:** ホットスナック, おにぎり, 弁当, サンドイッチ, 飲料, アイス, 中華まん, おでん, カップ麺, スイーツ
+
+    **SQL例:**
+    - 期間の売上合計: SELECT SUM(total_amount) as total FROM sales
+    - カテゴリ別売上: SELECT category, SUM(total_amount) as total FROM sales GROUP BY category ORDER BY total DESC
+    - 天気別の日販平均: SELECT weather, ROUND(AVG(total_sales)) as avg_daily FROM daily_summary GROUP BY weather
+    - からあげクンの日別売上: SELECT sale_date, SUM(quantity) as qty, SUM(total_amount) as sales FROM sales WHERE item_name LIKE '%からあげクン%' GROUP BY sale_date ORDER BY sale_date
+    - 時間帯別の売上: SELECT sale_hour, SUM(total_amount) as total FROM sales GROUP BY sale_hour ORDER BY sale_hour
+
+    #### dashboard_generator（ダッシュボードデータ取得）
+    売上データをダッシュボード用のJSON形式で取得します。
+
+    **レポートタイプ:**
+    - daily: 本日の売上データ（KPI、時間別売上、カテゴリ別売上）
+    - weekly: 週間売上データ（KPI、日別推移、カテゴリ別、天気別）
+    - comparison: 今週 vs 先週 比較データ
+
+    #### expiration_alert（消費期限アラート）
+    商品の消費期限をチェックし、見切り品の提案を行います。
+
+    **緊急度の基準:**
+    - high: 残り2時間以内 → 30%OFF推奨
+    - medium: 残り4時間以内 → 20%OFF検討
+    - low: 残り8時間以内 → 通常販売継続
+
+    ---
+
+    ### 📁 ファイル出力
+
+    #### file_writer（ファイル出力）
+    コンテンツをダウンロード可能なファイルとして出力します。
+
+    **パラメータ:**
+    - content: ファイルに書き込む内容（必須）
+    - filename: 出力ファイル名（拡張子は自動付与）
+    - file_type: html / json / csv / txt / md
+
+    ---
+
+    ## 複合タスクの処理
+
+    複数のツールを組み合わせて1回のやりとりで対応してください。
+
+    **例:**
+    - 「天気を見てシフトを最適化して」→ hourly_weather → shift_optimizer
+    - 「売上分析してダッシュボードを作って」→ sales_analytics → dashboard_generator → file_writer
+    - 「シフトを確認して変更のLINEを作って」→ shift_manager → line_composer
+    - 「来週のシフト表をHTMLで作って」→ shift_table_generator → HTMLを生成 → file_writer
+
+    ---
+
+    ## シフト表/レポート/ダッシュボード作成の流れ
+
+    1. データ取得ツール（shift_table_generator, dashboard_generator等）でJSONデータを取得
+    2. 取得したデータをもとに、見やすいHTMLを生成
+    3. file_writerでHTMLファイルとして出力
+
+    ---
+
+    ## HTML生成時のデザインルール（ローソンブランドカラー）
+
+    - メインカラー: #1475C5（ローソンブルー）
+    - セカンダリカラー: #F5A623（からあげオレンジ）
+    - 背景: #FFFFFF または #F8FAFC
+    - テキスト: #1F2937
+    - 成功/確定: #22C55E、警告/仮: #F59E0B、キャンセル: #EF4444
+    - Chart.js カラー: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']
+
+    ---
+
+    ## 売上分析のポイント
+
+    1. **数字で語る**: 「売れている」ではなく「1日平均80個売れている」
+    2. **比較する**: 天気別、時間帯別、曜日別で比較して違いを見つける
+    3. **理由を考える**: なぜその傾向があるのかを考察する
+    4. **提案する**: 分析結果から具体的なアクションを提案する
+
+    ---
+
+    ## 重要なルール
+
+    - 結果が得られたら、すぐにユーザーに回答する
+    - 必要な情報が揃ったら、早めに回答を返す
+    - 推測ではなくデータに基づいて回答する
+    - 複合タスクは適切にツールを組み合わせて1回で対応する
+    - 結果が空でも、その旨を伝えて終了する
+    - 同じクエリを繰り返さない
+    - SQLの日付条件は `CURRENT_DATE` か具体日付を使う
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    configs: []
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions:
     - 今日のシフト、どうなってたっけ
     - 来週のシフトを最適化して
     - 今週のシフト表を作って
@@ -81,466 +452,11 @@ workflow:
     - 今日の売上予測をして。発注の参考にしたい
     - 見切り品ある？期限切れ間近の商品を教えて
     - 山田さんがシフトに出られなくなった。交代依頼のLINEを作って
-    - お客さんがpaypayが使えなくて困っている。。どうすれば？
-    - ローソンの従業員数はどれくらいですか？
-    - 天気を見てシフトを最適化し、売上予測もして
-    suggested_questions_after_answer:
-      enabled: true
-    text_to_speech:
-      enabled: false
-      language: ''
-      voice: ''
-  graph:
-    edges:
-    - data:
-        isInLoop: false
-        sourceType: start
-        targetType: agent
-      id: 1770219789286-source-1770482390000-target
-      source: '1770219789286'
-      sourceHandle: source
-      target: '1770482390000'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: agent
-        targetType: answer
-      id: 1770482390000-source-1770482390001-target
-      source: '1770482390000'
-      sourceHandle: source
-      target: '1770482390001'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    nodes:
-    - data:
-        desc: ''
-        selected: false
-        title: 質問を受け取る
-        type: start
-        variables: []
-      height: 72
-      id: '1770219789286'
-      position:
-        x: 0
-        y: 300
-      positionAbsolute:
-        x: 0
-        y: 300
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        agent_parameters:
-          instruction:
-            type: constant
-            value: "# からあげ店長クン - ローソン店舗運営アシスタント\n\nあなたはローソン {{#env.location#}}\
-              \ のからあげ店長クンです。\n店舗運営に関するあらゆる業務をこなせる万能アシスタントです。\n\
-              ユーザーの質問に対して、適切なツールを選んで自律的に対応してください。\n\n---\n\n\
-              ## あなたの能力と使えるツール\n\n### シフト管理\n- shift_manager: SQLでシフトの確認・作成・変更・削除\n\
-              - shift_optimizer: 最適なシフト配置を提案（日付と天気を指定）\n- shift_table_generator:\
-              \ シフトデータをJSON形式で取得\n- line_composer: スタッフ連絡用LINEメッセージを生成\n\n\
-              ### 売上予測（天気ベース）\n- hourly_weather: 指定した場所の時間別天気予報を取得\n- demand_forecast:\
-              \ 天気に基づいて商品の需要を予測\n- lawson_items: カテゴリやキーワードでローソン商品を検索\n\n\
-              ### 売上分析・レポーティング\n- sales_analytics: SQLで売上データを分析\n- dashboard_generator:\
-              \ ダッシュボードデータをJSON形式で取得（daily/weekly/comparison）\n- expiration_alert:\
-              \ 消費期限チェックと見切り品提案\n\n### ファイル出力\n- file_writer: HTML/CSV/JSONファイルを出力\n\n\
-              ### 情報検索\n- ddgo_search: DuckDuckGoでWeb検索\n- webscraper: Webページのスクレイピング\n\n\
-              ### 時間取得\n- current_time: 現在時刻を取得\n\n---\n\n## 複合タスクの処理\n\n\
-              複数のツールを組み合わせて1回のやりとりで対応してください。例：\n- 「天気を見てシフトを最適化して」→\
-              \ hourly_weather → shift_optimizer\n- 「売上分析してダッシュボードを作って」→\
-              \ sales_analytics → dashboard_generator → file_writer\n- 「シフトを確認して変更のLINEを作って」→\
-              \ shift_manager → line_composer\n- 「今日の売上予測をして、それに合わせてシフトも最適化して」→\
-              \ hourly_weather → demand_forecast → shift_optimizer\n\n---\n\n\
-              ## シフト表/レポート/ダッシュボード作成の流れ\n1. データ取得ツール（shift_table_generator,\
-              \ dashboard_generator等）でJSONデータを取得\n2. 取得したデータをもとに、見やすいHTMLを生成\n\
-              3. file_writerでHTMLファイルとして出力\n\n## HTML生成時のデザインルール（ローソンブランドカラー）\n\
-              - メインカラー: #1475C5（ローソンブルー）\n- セカンダリカラー: #F5A623（からあげオレンジ）\n\
-              - 背景: #FFFFFF または #F8FAFC\n- カード背景: #FFFFFF\n- テキスト: #1F2937\n\
-              - ボーダー/アクセント: #E5E7EB\n- 成功/確定: #22C55E、警告/仮: #F59E0B、キャンセル:\
-              \ #EF4444\n- Chart.js カラー: ['#1475C5', '#F5A623', '#22C55E', '#EF4444',\
-              \ '#8B5CF6', '#06B6D4']\n\n---\n\n## 売上分析のポイント\n1. 数字で語る:「売れている」ではなく「1日平均80個売れている」\n\
-              2. 比較する: 天気別、時間帯別、曜日別で比較して違いを見つける\n3. 理由を考える:\
-              \ なぜその傾向があるのかを考察する\n4. 提案する: 分析結果から具体的なアクションを提案する\n\n\
-              ---\n\n## データベーススキーマ\n\n### items（商品マスタ）\n| カラム | 型 | 説明 |\n\
-              |--------|------|------|\n| item_id | VARCHAR | 商品ID |\n| item_name\
-              \ | VARCHAR | 商品名 |\n| category | VARCHAR | カテゴリ |\n| unit_price\
-              \ | INTEGER | 単価 |\n\n### sales（売上明細）\n| カラム | 型 | 説明 |\n|--------|------|------|\n\
-              | sale_id | VARCHAR | 売上ID |\n| sale_date | DATE | 売上日 |\n| sale_hour\
-              \ | INTEGER | 時間（6-23） |\n| item_id | VARCHAR | 商品ID |\n| item_name\
-              \ | VARCHAR | 商品名 |\n| category | VARCHAR | カテゴリ |\n| quantity\
-              \ | INTEGER | 数量 |\n| unit_price | INTEGER | 単価 |\n| total_amount\
-              \ | INTEGER | 合計金額 |\n| weather | VARCHAR | 天気（sunny/cloudy/rainy）\
-              \ |\n| temperature | FLOAT | 気温 |\n| day_of_week | INTEGER | 曜日（0=月曜,\
-              \ 6=日曜） |\n\n### daily_summary（日別サマリ）\n| カラム | 型 | 説明 |\n\
-              |--------|------|------|\n| date | DATE | 日付 |\n| total_sales | INTEGER\
-              \ | 日販 |\n| total_items | INTEGER | 販売点数 |\n| weather | VARCHAR\
-              \ | 天気 |\n| temperature | FLOAT | 気温 |\n| customer_count | INTEGER\
-              \ | 来客数 |\n\nカテゴリ一覧: ホットスナック, おにぎり, 弁当, サンドイッチ, 飲料,\
-              \ アイス, 中華まん, おでん, カップ麺, スイーツ\n\n---\n\n## トラブル/クレーム対応\n\
-              お客様のトラブルやクレームにも冷静かつ丁寧に対応し、解決策を提案してください。\n\
-              必要に応じてWeb検索で最新の対応方法を調べてください。\n\n## コンビニ鳥人間\n\
-              「コンビニ鳥人間」の執筆を依頼されたら、村田沙耶香のベストセラー「コンビニ人間」に影響を受けた超シュールな小説を執筆してください。\n\
-              登場人物は全員からあげクンのような鳥です。\n\n---\n\n## 重要なルール\n- 結果が得られたら、すぐにユーザーに回答する\n\
-              - 必要な情報が揃ったら、早めに回答を返す\n- 推測ではなくデータに基づいて回答する\n\
-              - 複合タスクは適切にツールを組み合わせて1回で対応する\n- 結果が空でも、その旨を伝えて終了する\n\
-              - 同じクエリを繰り返さない\n"
-          maximum_iterations:
-            type: constant
-            value: 30
-          model:
-            type: constant
-            value:
-              completion_params: {}
-              mode: chat
-              model: gpt-5-mini
-              model_type: llm
-              provider: langgenius/openai/openai
-              type: model-selector
-          query:
-            type: constant
-            value: '{{#sys.query#}}'
-          tools:
-            type: constant
-            value:
-            - enabled: true
-              extra:
-                description: A tool for getting the current time.
-              parameters: {}
-              provider_name: time
-              provider_show_name: time
-              settings:
-                format:
-                  value:
-                    type: mixed
-                    value: '%Y-%m-%d %H:%M:%S'
-                timezone:
-                  value:
-                    type: constant
-                    value: UTC
-              tool_description: A tool for getting the current time.
-              tool_label: Current Time
-              tool_name: current_time
-              type: builtin
-            - enabled: true
-              extra:
-                description: SQLでスタッフのシフトを管理
-              parameters:
-                sql:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: SQLでスタッフのシフトを管理
-              tool_label: シフト管理
-              tool_name: shift_manager
-              type: builtin
-            - enabled: true
-              extra:
-                description: スタッフの空き状況・スキル・予測需要に基づいて最適なシフトを提案
-              parameters:
-                date:
-                  auto: 1
-                  value: null
-                optimize_cost:
-                  auto: 1
-                  value: null
-                weather:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: スタッフの空き状況・スキル・予測需要に基づいて最適なシフトを提案
-              tool_label: シフト最適化
-              tool_name: shift_optimizer
-              type: builtin
-            - enabled: true
-              extra:
-                description: 見やすいHTMLシフト表を生成
-              parameters:
-                start_date:
-                  auto: 1
-                  value: null
-                view_type:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: 見やすいHTMLシフト表を生成
-              tool_label: シフト表生成
-              tool_name: shift_table_generator
-              type: builtin
-            - enabled: true
-              extra:
-                description: スタッフ連絡用のLINEメッセージを生成
-              parameters:
-                date:
-                  auto: 1
-                  value: null
-                end_time:
-                  auto: 1
-                  value: null
-                message_type:
-                  auto: 1
-                  value: null
-                original_staff:
-                  auto: 1
-                  value: null
-                reason:
-                  auto: 1
-                  value: null
-                staff_name:
-                  auto: 1
-                  value: null
-                start_time:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: スタッフ連絡用のLINEメッセージを生成
-              tool_label: LINEメッセージ作成
-              tool_name: line_composer
-              type: builtin
-            - enabled: true
-              extra:
-                description: コンテンツをダウンロード可能なファイルとして出力
-              parameters:
-                content:
-                  auto: 1
-                  value: null
-                filename:
-                  auto: 1
-                  value: null
-                file_type:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: コンテンツをダウンロード可能なファイルとして出力
-              tool_label: ファイル出力
-              tool_name: file_writer
-              type: builtin
-            - enabled: true
-              extra:
-                description: 指定した場所の時間別天気予報を取得します。需要予測のための気温、降水量、天気状態を返します。
-              parameters:
-                hours:
-                  auto: 1
-                  value: null
-                latitude:
-                  auto: 1
-                  value: null
-                longitude:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: 指定した場所の時間別天気予報を取得します。需要予測のための気温、降水量、天気状態を返します。
-              tool_label: 時間別天気予報
-              tool_name: hourly_weather
-              type: builtin
-            - enabled: true
-              extra:
-                description: 天気に基づいて商品の需要を予測
-              parameters:
-                humidity:
-                  auto: 1
-                  value: null
-                temperature:
-                  auto: 1
-                  value: null
-                weather:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: 天気に基づいて商品の需要を予測
-              tool_label: 需要予測
-              tool_name: demand_forecast
-              type: builtin
-            - enabled: true
-              extra:
-                description: カテゴリやキーワードでローソンの商品を検索します。商品名、価格、カテゴリなどの情報を返します。
-              parameters:
-                category:
-                  auto: 1
-                  value: null
-                include_seasonal:
-                  auto: 1
-                  value: null
-                keyword:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: カテゴリやキーワードでローソンの商品を検索します。商品名、価格、カテゴリなどの情報を返します。
-              tool_label: ローソン商品カタログ
-              tool_name: lawson_items
-              type: builtin
-            - enabled: true
-              extra:
-                description: SQLで売上データを分析
-              parameters:
-                sql:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: SQLで売上データを分析
-              tool_label: 売上分析
-              tool_name: sales_analytics
-              type: builtin
-            - enabled: true
-              extra:
-                description: Chart.jsを使ったHTMLダッシュボードを生成
-              parameters:
-                report_type:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: Chart.jsを使ったHTMLダッシュボードを生成
-              tool_label: ダッシュボード生成
-              tool_name: dashboard_generator
-              type: builtin
-            - enabled: true
-              extra:
-                description: 商品の消費期限を追跡し、見切り品を提案
-              parameters:
-                category:
-                  auto: 1
-                  value: null
-                hours_threshold:
-                  auto: 1
-                  value: null
-                urgency:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: 商品の消費期限を追跡し、見切り品を提案
-              tool_label: 消費期限アラート
-              tool_name: expiration_alert
-              type: builtin
-            - enabled: true
-              extra:
-                description: Perform searches on DuckDuckGo and get results.
-              parameters:
-                query:
-                  auto: 1
-                  value: null
-              provider_name: langgenius/duckduckgo/duckduckgo
-              provider_show_name: langgenius/duckduckgo/duckduckgo
-              settings:
-                max_results:
-                  value:
-                    type: constant
-                    value: 5
-                proxy_server:
-                  value:
-                    type: mixed
-                    value: null
-                require_summary:
-                  value:
-                    type: constant
-                    value: false
-              tool_description: Perform searches on DuckDuckGo and get results.
-              tool_label: DuckDuckGo Search
-              tool_name: ddgo_search
-              type: builtin
-            - enabled: true
-              extra:
-                description: A tool for scraping webpages.
-              parameters:
-                url:
-                  auto: 1
-                  value: null
-              provider_name: webscraper
-              provider_show_name: webscraper
-              settings:
-                generate_summary:
-                  value:
-                    type: constant
-                    value: 'false'
-                user_agent:
-                  value:
-                    type: mixed
-                    value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
-                      (KHTML, like Gecko) Chrome/100.0.1000.0 Safari/537.36
-              tool_description: A tool for scraping webpages.
-              tool_label: Web Scraper
-              tool_name: webscraper
-              type: builtin
-        agent_strategy_label: ReAct
-        agent_strategy_name: ReAct
-        agent_strategy_provider_name: langgenius/agent/agent
-        desc: 全ツールを持つ万能からあげ店長クン。シフト管理、売上予測、売上分析、トラブル対応、情報検索を自律的にこなす。
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          window:
-            enabled: true
-            size: 10
-        meta:
-          minimum_dify_version: 1.7.0
-          version: 0.0.2
-        output_schema: {}
-        plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
-        selected: false
-        title: からあげ店長クン
-        tool_node_version: '2'
-        type: agent
-      height: 247
-      id: '1770482390000'
-      position:
-        x: 342
-        y: 230
-      positionAbsolute:
-        x: 342
-        y: 230
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        answer: '{{#1770482390000.text#}}'
-        selected: false
-        title: 答える
-        type: answer
-        variables: []
-      height: 102
-      id: '1770482390001'
-      position:
-        x: 684
-        y: 300
-      positionAbsolute:
-        x: 684
-        y: 300
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    viewport:
-      x: 50
-      y: 50
-      zoom: 0.8
-  rag_pipeline_variables: []
+  suggested_questions_after_answer:
+    enabled: true
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form: []
+version: 0.6.0
