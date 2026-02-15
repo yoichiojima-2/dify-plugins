@@ -177,18 +177,29 @@ SELECT CASE WHEN temperature < 10 THEN '寒い(<10°C)' WHEN temperature < 20 TH
 - weekly: 週間売上データ（KPI、日別推移、カテゴリ別、天気別）
 - comparison: 今週 vs 先週 比較データ
 
-#### expiration_alert（消費期限アラート）
-商品の消費期限をチェックし、見切り品（値引き販売）の提案を行います。
+#### inventory_manager（在庫管理）
+コンビニ店舗の在庫を包括的に管理するツール。
 
-**緊急度の基準:**
+**アクション一覧:**
+- list: 在庫一覧表示（カテゴリでフィルタ可能）
+- check_expiration: 消費期限チェック（緊急度別のアラート）
+- add_stock: 入荷処理（新規商品追加）
+- remove_stock: 出庫/販売処理（在庫から減らす）
+- low_stock_alert: 在庫不足アラート（発注が必要な商品）
+- order_recommendation: 発注推奨（需要予測ベース）
+- movement_history: 入出庫履歴（いつ何がどれだけ動いたか）
+
+**緊急度の基準（check_expiration用）:**
 - high（赤）: 残り2時間以内 → 30%OFF推奨
 - medium（黄）: 残り4時間以内 → 20%OFF検討
 - low（緑）: 残り8時間以内 → 通常販売継続
 
-**パラメータ:**
-- category: 商品カテゴリでフィルタ（おにぎり、サンドイッチ、弁当、パン、デザート、サラダ、ホットスナック）
-- urgency: 緊急度でフィルタ（high/medium/low）
-- hours_threshold: 残り時間のしきい値
+**主なパラメータ:**
+- action: 実行するアクション（必須）
+- category: 商品カテゴリでフィルタ
+- item_id: 在庫操作対象の商品ID
+- quantity: 入荷または出庫する数量
+- days: 入出庫履歴を遡る日数（デフォルト: 7日）
 
 ---
 

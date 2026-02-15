@@ -1,6 +1,6 @@
 app:
   description: ''
-  icon: c09eb1c0-ee5a-49d7-b0df-5bafde498494
+  icon: 🤖
   icon_background: '#FFEAD5'
   mode: agent-chat
   name: 開発中_からあげ店長クン_v0.2
@@ -14,7 +14,7 @@ dependencies:
 - current_identifier: null
   type: package
   value:
-    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:0.0.30@99897cde8f34818ec02349786e5f25ace7a2a9277eed6f2c113d93a1c005ff82
+    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:0.0.31@ce53e9839f59b844793a549aaea102a972b7c368095178218cfef7f5572160af
     version: null
 kind: app
 model_config:
@@ -125,11 +125,18 @@ model_config:
       provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
       provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
       provider_type: builtin
-      tool_label: Expiration Alert
-      tool_name: expiration_alert
+      tool_label: Inventory Manager
+      tool_name: inventory_manager
       tool_parameters:
+        action: null
         category: null
+        days: null
+        expires_in_hours: null
         hours_threshold: null
+        item_id: null
+        item_name: null
+        quantity: null
+        reason: null
         urgency: null
       type: builtin
     - enabled: true
@@ -264,7 +271,7 @@ model_config:
     ローソン店舗運営のお手伝いをします。こんなことができます：
 
 
-    📊 **売上分析** — 日次・週次の売上レポートやグラフ付きダッシュボードを作成
+    📊 **売上分析** — 売上レポートやグラフ付きダッシュボードを作成
 
     👥 **シフト管理** — シフトの作成・変更・最適化、シフト表の作成、LINE連絡文の作成
 
@@ -272,7 +279,9 @@ model_config:
 
     ⏰ **消費期限チェック** — 期限が近い商品のアラートと見切り品の提案
 
-    🔍 **商品検索** — ローソン商品カタログから商品情報を検索
+    🛒 **接客・トラブル対応** — 接客マニュアルの確認、過去のトラブル事例から対応方法を検索
+
+    📖 **ローソン知識** — 商品情報、サービス内容、企業情報の確認
 
 
     なんでも気軽に聞いてください！
@@ -286,6 +295,16 @@ model_config:
     店舗運営に関するあらゆる業務をこなせる万能アシスタントです。
 
     ユーザーの質問に対して、適切なツールを選んで自律的に対応してください。
+
+
+    ## ナレッジベース（RAG）
+
+    以下の情報がナレッジとして参照可能です。接客やトラブル対応、商品・企業情報に関する質問には、ナレッジの内容をもとに回答してください。
+
+    - **接客マニュアル**: レジ対応、支払い方法別対応、ポイントカード、年齢確認、温め対応、MACHI café、各種サービス（公共料金・宅配便・メルカリ・Loppi・ATM）、クレーム対応、防犯対応、清掃・衛生管理
+    - **トラブル事例集**: レジ・会計、商品、お客様対応、設備・機器、衛生・食品安全、防犯、配送、公共料金、Loppi・チケット、MACHI café、スタッフ間、災害・緊急、外国人対応、深夜帯、季節イベントに関する過去事例と対応策
+    - **ローソン企業情報**: 企業概要、沿革、店舗フォーマット、サービス、ポイントプログラム、海外展開、競合情報、サステナビリティ、テクノロジー - **商品データベース**:
+    おにぎり、弁当、からあげクン、ホットスナック、スイーツ、MACHI café、サンドイッチ・パン、麺類、冷凍食品、ナチュラルローソン商品の価格・特徴
 
 
     ---
@@ -504,12 +523,29 @@ model_config:
     - comparison: 今週 vs 先週 比較データ
 
 
-    #### expiration_alert（消費期限アラート）
+    #### inventory_manager（在庫管理）
 
-    商品の消費期限をチェックし、見切り品の提案を行います。
+    コンビニ店舗の在庫を包括的に管理するツール。
 
 
-    **緊急度の基準:**
+    **アクション一覧:**
+
+    - list: 在庫一覧表示
+
+    - check_expiration: 消費期限チェック
+
+    - add_stock: 入荷処理
+
+    - remove_stock: 出庫/販売処理
+
+    - low_stock_alert: 在庫不足アラート
+
+    - order_recommendation: 発注推奨
+
+    - movement_history: 入出庫履歴
+
+
+    **緊急度の基準（check_expiration用）:**
 
     - high: 残り2時間以内 → 30%OFF推奨
 
@@ -570,9 +606,10 @@ model_config:
 
     3. file_writerでHTMLファイルとして出力
 
-    4. **重要**: HTMLファイル出力後は、ファイルのプレビューリンクを分かりやすく案内すること
-       - 「こちらからプレビューできます」などの説明を添える
-       - ファイルパスが `/files/tools/xxx.html` 形式で返ってきたら、それがプレビューURLです
+    4. **重要**: file_writerはHTMLファイルの場合、preview_url（data:text/html;base64,...形式）を返します
+    - このpreview_urlをマークダウンリンクとして表示してください
+    - 例: [📊 ダッシュボードをプレビュー](data:text/html;base64,...)
+    - ユーザーがクリックするとブラウザの新しいタブでHTMLが開きます
 
 
     ---
@@ -643,10 +680,10 @@ model_config:
   suggested_questions:
   - 今週の売上ダッシュボードを作って
   - 明日の天気を見てシフトを最適化して
-  - 今週と先週の売上を比較して
   - 消費期限が近い商品ある？
   - 田中さんが明日休みになった。交代依頼のLINEを作って
-  - 明日の天気を見て、発注量を予測して
+  - お客様からお釣りが足りないと言われた。どう対応すればいい？
+  - Loppiの使い方を聞かれたんだけど、どう案内すればいい？
   suggested_questions_after_answer:
     enabled: true
   text_to_speech:
@@ -654,4 +691,4 @@ model_config:
     language: ''
     voice: ''
   user_input_form: []
-version: 0.5.0
+version: 0.6.0

@@ -1,0 +1,190 @@
+identity:
+  name: "inventory_manager"
+  author: "yoichiojima"
+  label:
+    en_US: "Inventory Manager"
+    ja_JP: "在庫管理"
+description:
+  human:
+    en_US: "Comprehensive inventory management including stock tracking, expiration alerts, and order recommendations"
+    ja_JP: "在庫追跡、消費期限アラート、発注推奨を含む包括的な在庫管理"
+  llm: |
+    コンビニ店舗の在庫を包括的に管理するツール。
+
+    ## アクション一覧
+    - list: 在庫一覧表示（カテゴリでフィルタ可能）
+    - check_expiration: 消費期限チェック（緊急度別のアラート）
+    - add_stock: 入荷処理（新規商品追加）
+    - remove_stock: 出庫/販売処理（在庫から減らす）
+    - low_stock_alert: 在庫不足アラート（発注が必要な商品）
+    - order_recommendation: 発注推奨（需要予測ベース）
+    - movement_history: 入出庫履歴（いつ何がどれだけ動いたか）
+
+    ## 緊急度の基準（check_expiration用）
+    - high（赤）: 残り2時間以内 → 30%OFF推奨
+    - medium（黄）: 残り4時間以内 → 20%OFF検討
+    - low（緑）: 残り8時間以内 → 通常販売継続
+
+    ## カテゴリ別の消費期限目安
+    - おにぎり: 8時間
+    - サンドイッチ: 6時間
+    - 弁当: 12時間
+    - パン: 24時間
+    - デザート: 48時間
+    - サラダ: 12時間
+    - ホットスナック: 4時間
+
+    ## 使用例
+    - 在庫一覧: action="list"
+    - おにぎりの在庫: action="list", category="おにぎり"
+    - 消費期限が近い商品: action="check_expiration"
+    - 緊急の期限切れのみ: action="check_expiration", urgency="high"
+    - 在庫不足の商品: action="low_stock_alert"
+    - 発注すべき商品: action="order_recommendation"
+    - 過去7日の入出庫履歴: action="movement_history", days=7
+    - 入荷処理: action="add_stock", item_id="INV001", quantity=10, expires_in_hours=8
+    - 出庫処理: action="remove_stock", item_id="INV001", quantity=3, reason="販売"
+parameters:
+  - name: action
+    type: select
+    required: true
+    label:
+      en_US: Action
+      ja_JP: アクション
+    human_description:
+      en_US: "Select the inventory management action to perform"
+      ja_JP: "実行する在庫管理アクションを選択"
+    llm_description: "実行するアクション: list（在庫一覧）、check_expiration（消費期限チェック）、add_stock（入荷）、remove_stock（出庫）、low_stock_alert（在庫不足アラート）、order_recommendation（発注推奨）、movement_history（入出庫履歴）"
+    form: llm
+    options:
+      - value: list
+        label:
+          en_US: Stock List
+          ja_JP: 在庫一覧
+      - value: check_expiration
+        label:
+          en_US: Expiration Check
+          ja_JP: 消費期限チェック
+      - value: add_stock
+        label:
+          en_US: Add Stock
+          ja_JP: 入荷
+      - value: remove_stock
+        label:
+          en_US: Remove Stock
+          ja_JP: 出庫
+      - value: low_stock_alert
+        label:
+          en_US: Low Stock Alert
+          ja_JP: 在庫不足アラート
+      - value: order_recommendation
+        label:
+          en_US: Order Recommendation
+          ja_JP: 発注推奨
+      - value: movement_history
+        label:
+          en_US: Movement History
+          ja_JP: 入出庫履歴
+  - name: category
+    type: string
+    required: false
+    label:
+      en_US: Category
+      ja_JP: カテゴリ
+    human_description:
+      en_US: "Filter by product category"
+      ja_JP: "商品カテゴリでフィルタ"
+    llm_description: "商品カテゴリでフィルタ（おにぎり、サンドイッチ、弁当、パン、デザート、サラダ、ホットスナック）。list, check_expiration, low_stock_alert, movement_history で使用"
+    form: llm
+  - name: urgency
+    type: string
+    required: false
+    label:
+      en_US: Urgency
+      ja_JP: 緊急度
+    human_description:
+      en_US: "Filter by urgency level (high/medium/low)"
+      ja_JP: "緊急度でフィルタ（high/medium/low）"
+    llm_description: "緊急度でフィルタ: high（2時間以内）、medium（4時間以内）、low（8時間以内）。check_expiration で使用"
+    form: llm
+  - name: hours_threshold
+    type: number
+    required: false
+    label:
+      en_US: Hours Threshold
+      ja_JP: 時間しきい値
+    human_description:
+      en_US: "Show items expiring within this many hours"
+      ja_JP: "指定時間以内に期限切れになる商品のみ表示"
+    llm_description: "残り時間のしきい値（この時間以内に期限切れになる商品のみ表示）。check_expiration で使用"
+    form: llm
+  - name: item_id
+    type: string
+    required: false
+    label:
+      en_US: Item ID
+      ja_JP: 商品ID
+    human_description:
+      en_US: "Product ID for stock operations"
+      ja_JP: "在庫操作対象の商品ID"
+    llm_description: "在庫操作対象の商品ID（例: INV001）。add_stock, remove_stock で使用"
+    form: llm
+  - name: item_name
+    type: string
+    required: false
+    label:
+      en_US: Item Name
+      ja_JP: 商品名
+    human_description:
+      en_US: "Product name for new stock"
+      ja_JP: "新規商品の名前"
+    llm_description: "新規商品の名前。add_stock で新規商品登録時に使用"
+    form: llm
+  - name: quantity
+    type: number
+    required: false
+    label:
+      en_US: Quantity
+      ja_JP: 数量
+    human_description:
+      en_US: "Quantity to add or remove"
+      ja_JP: "入荷または出庫する数量"
+    llm_description: "入荷または出庫する数量。add_stock, remove_stock で使用"
+    form: llm
+  - name: reason
+    type: string
+    required: false
+    label:
+      en_US: Reason
+      ja_JP: 理由
+    human_description:
+      en_US: "Reason for stock movement"
+      ja_JP: "在庫移動の理由"
+    llm_description: "在庫移動の理由（例: 販売、廃棄、入荷）。remove_stock で使用"
+    form: llm
+  - name: expires_in_hours
+    type: number
+    required: false
+    label:
+      en_US: Expires In Hours
+      ja_JP: 消費期限（時間）
+    human_description:
+      en_US: "Hours until expiration for new stock"
+      ja_JP: "新規入荷商品の消費期限（現在からの時間）"
+    llm_description: "新規入荷商品の消費期限（現在から何時間後に期限切れか）。add_stock で使用"
+    form: llm
+  - name: days
+    type: number
+    required: false
+    default: 7
+    label:
+      en_US: Days
+      ja_JP: 日数
+    human_description:
+      en_US: "Number of days to look back for movement history"
+      ja_JP: "入出庫履歴を遡る日数"
+    llm_description: "入出庫履歴を遡る日数（デフォルト: 7日）。movement_history で使用"
+    form: llm
+extra:
+  python:
+    source: tools/inventory_manager.py

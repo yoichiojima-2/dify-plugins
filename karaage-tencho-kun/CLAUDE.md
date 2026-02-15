@@ -33,12 +33,12 @@ To work around these constraints, this custom plugin bundles all necessary funct
 │   ├── dashboard_generator.*  # HTML dashboard with Chart.js
 │   ├── hourly_weather.*       # Weather forecast (Open-Meteo)
 │   ├── demand_forecast.*      # ML demand prediction
-│   ├── expiration_alert.*     # Product expiration tracking
+│   ├── inventory_manager.*    # Inventory management (stock, expiration, orders)
 │   ├── line_composer.*        # LINE message generation
 │   ├── lawson_items.*         # Product catalog
 │   └── datetime_utils.*       # JST conversion utilities
 ├── data/                      # Static data files
-│   ├── expiration_alert_seed.json
+│   ├── inventory_manager_seed.json
 │   ├── line_templates.json
 │   └── ...
 ├── tests/                     # Unit tests
@@ -56,7 +56,7 @@ To work around these constraints, this custom plugin bundles all necessary funct
 | `dashboard_generator` | HTML dashboards with Chart.js | Daily/weekly/comparison reports |
 | `hourly_weather` | Weather forecast | Open-Meteo API (real weather) |
 | `demand_forecast` | Demand prediction | ML model based on weather |
-| `expiration_alert` | Track product expiration | In-memory DuckDB with markdown suggestions |
+| `inventory_manager` | Inventory management | In-memory DuckDB with stock tracking, expiration alerts, order recommendations |
 | `line_composer` | Generate LINE messages | Templates for staff communication |
 | `lawson_items` | Product catalog search | Static JSON data |
 | `datetime_utils` | Convert datetime to JST | Pure Python (zoneinfo) |
