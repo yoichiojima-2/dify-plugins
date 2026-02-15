@@ -1,4 +1,4 @@
-version: 0.0.31
+version: 0.0.33
 type: plugin
 author: yoichiojima
 name: karaage-tencho-kun
@@ -20,7 +20,7 @@ plugins:
   tools:
     - provider/karaage-tencho-kun.yaml
 meta:
-  version: 0.0.31
+  version: 0.0.33
   arch:
     - amd64
     - arm64

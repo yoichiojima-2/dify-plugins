@@ -23,9 +23,7 @@ class FileWriterTool(Tool):
         file_type = tool_parameters.get("file_type", "html").strip().lower()
 
         if not content:
-            yield self.create_json_message(
-                {"error": "content is required"}
-            )
+            yield self.create_json_message({"error": "content is required"})
             return
 
         # Determine MIME type
@@ -36,7 +34,7 @@ class FileWriterTool(Tool):
         if not filename.lower().endswith(extension):
             filename = f"{filename}{extension}"
 
-        # Return as downloadable blob
+        # Return as blob message - Dify will assign a download URL
         yield self.create_blob_message(
             blob=content.encode("utf-8"),
             meta={

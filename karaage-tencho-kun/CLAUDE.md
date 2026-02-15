@@ -36,7 +36,9 @@ To work around these constraints, this custom plugin bundles all necessary funct
 │   ├── inventory_manager.*    # Inventory management (stock, expiration, orders)
 │   ├── line_composer.*        # LINE message generation
 │   ├── lawson_items.*         # Product catalog
-│   └── datetime_utils.*       # JST conversion utilities
+│   ├── datetime_utils.*       # JST conversion utilities
+│   ├── file_writer.*          # Create downloadable files (HTML, JSON, CSV, etc.)
+│   └── get_file_url.*         # Get download URL from file object
 ├── data/                      # Static data files
 │   ├── inventory_manager_seed.json
 │   ├── line_templates.json
@@ -60,6 +62,8 @@ To work around these constraints, this custom plugin bundles all necessary funct
 | `line_composer` | Generate LINE messages | Templates for staff communication |
 | `lawson_items` | Product catalog search | Static JSON data |
 | `datetime_utils` | Convert datetime to JST | Pure Python (zoneinfo) |
+| `file_writer` | Create downloadable files | Returns blob message (use with get_file_url) |
+| `get_file_url` | Get download URL from file | Extracts URL from file object for clickable links |
 
 ## Development
 

@@ -64,6 +64,7 @@ tools:
   - tools/dashboard_generator.yaml
   - tools/shift_table_generator.yaml
   - tools/file_writer.yaml
+  - tools/get_file_url.yaml
 extra:
   python:
     source: provider/karaage-tencho-kun.py

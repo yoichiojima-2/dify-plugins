@@ -1,0 +1,55 @@
+identity:
+  name: get_file_url
+  author: yoichiojima
+  label:
+    en_US: Get File URL
+    ja_JP: ファイルURL取得
+description:
+  human:
+    en_US: Get the download URL of a file object. Use this after file_writer to get a clickable link.
+    ja_JP: ファイルオブジェクトのダウンロードURLを取得します。file_writerで作成したファイルのリンクを取得する際に使用します。
+  llm: Get the download URL from a file object. Chain this tool after file_writer to get a clickable download/preview link for the user.
+parameters:
+  - name: file
+    type: file
+    required: true
+    label:
+      en_US: File
+      ja_JP: ファイル
+    human_description:
+      en_US: The file object to get the URL from
+      ja_JP: URLを取得するファイルオブジェクト
+    llm_description: The file object returned by file_writer or other file-creating tools
+    form: llm
+  - name: format
+    type: select
+    required: false
+    default: markdown
+    label:
+      en_US: Output Format
+      ja_JP: 出力形式
+    human_description:
+      en_US: Output format - markdown link or plain URL
+      ja_JP: 出力形式 - マークダウンリンクまたはプレーンURL
+    llm_description: Output format. Use 'markdown' for clickable link format, 'plain' for raw URL.
+    form: form
+    options:
+      - value: markdown
+        label:
+          en_US: Markdown Link
+          ja_JP: マークダウンリンク
+      - value: plain
+        label:
+          en_US: Plain URL
+          ja_JP: プレーンURL
+  - name: link_text
+    type: string
+    required: false
+    label:
+      en_US: Link Text
+      ja_JP: リンクテキスト
+    human_description:
+      en_US: Custom text for the markdown link (defaults to filename)
+      ja_JP: マークダウンリンクのカスタムテキスト（デフォルトはファイル名）
+    llm_description: Custom text to display for the markdown link. Leave empty to use filename.
+    form: llm
