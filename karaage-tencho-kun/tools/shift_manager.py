@@ -20,10 +20,22 @@ def _get_connection() -> duckdb.DuckDBPyConnection:
 
 class ShiftManagerTool(Tool):
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
-        sql = tool_parameters.get("sql", "").strip()
+        # Some agents may send alternative keys after a failed call.
+        # Accept aliases to avoid retry loops caused only by key mismatch.
+        sql = (
+            tool_parameters.get("sql")
+            or tool_parameters.get("query")
+            or tool_parameters.get("statement")
+            or ""
+        ).strip()
 
         if not sql:
-            yield self.create_json_message({"error": "SQLが指定されていません"})
+            yield self.create_json_message(
+                {
+                    "error": "SQLが指定されていません",
+                    "hint": "tool_parameters に `sql` キーでSQL文字列を指定してください",
+                }
+            )
             return
 
         try:
@@ -127,7 +139,32 @@ def _init_schema(conn: duckdb.DuckDBPyConnection) -> None:
         ('watanabe', '渡辺リサ', 'わたなべりさ', 'part_time', 'パート', 1100,
          ['レジ', '清掃', '品出し'],
          '{"mon": ["14:00-20:00"], "wed": ["14:00-20:00"], "fri": ["14:00-20:00"], "sun": ["14:00-20:00"]}',
-         20, '090-7890-1234', 'watanabe_r', '#795548', '主婦パート。午後希望。')
+         20, '090-7890-1234', 'watanabe_r', '#795548', '主婦パート。午後希望。'),
+
+        ('nakamura', '中村大輔', 'なかむらだいすけ', 'part_time', 'パート', 1200,
+         ['レジ', 'からあげ', '品出し', '発注'],
+         '{"mon": ["06:00-14:00"], "tue": ["06:00-14:00"], "wed": ["06:00-14:00"], "thu": ["06:00-14:00"], "fri": ["06:00-14:00"]}',
+         35, '090-8901-2345', 'nakamura_d', '#3F51B5', 'ベテランパート。早朝シフト可。店長代理経験あり。'),
+
+        ('kobayashi', '小林あかり', 'こばやしあかり', 'part_time', 'パート', 1050,
+         ['レジ', '清掃'],
+         '{"tue": ["18:00-22:00"], "wed": ["18:00-22:00"], "fri": ["18:00-22:00"]}',
+         12, '090-9012-3456', 'kobayashi_a', '#009688', '高校生。テスト期間は休み希望。'),
+
+        ('kato', '加藤雄太', 'かとうゆうた', 'part_time', 'パート', 1150,
+         ['レジ', 'からあげ', '品出し'],
+         '{"sat": ["08:00-16:00"], "sun": ["08:00-16:00"], "wed": ["17:00-22:00"]}',
+         20, '090-0123-4567', 'kato_yuta', '#607D8B', '専門学生。週末メイン。からあげ調理得意。'),
+
+        ('yoshida', '吉田恵', 'よしだめぐみ', 'part_time', 'パート', 1100,
+         ['レジ', '清掃', '品出し'],
+         '{"mon": ["10:00-15:00"], "tue": ["10:00-15:00"], "thu": ["10:00-15:00"]}',
+         15, '090-1234-5670', 'yoshida_m', '#8BC34A', '主婦パート。子供のお迎えまで。'),
+
+        ('morita', '森田健太', 'もりたけんた', 'part_time', 'パート', 1300,
+         ['レジ', 'からあげ', '品出し', '発注', 'クレーム対応'],
+         '{"tue": ["22:00-06:00"], "thu": ["22:00-06:00"], "sat": ["22:00-06:00"]}',
+         25, '090-2345-6780', 'morita_k', '#FF5722', 'フリーター。深夜専門。副店長候補。')
     """)
 
     # サンプルシフト（過去2週間 + 今日から2週間分 = 約4週間分）

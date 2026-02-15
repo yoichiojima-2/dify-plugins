@@ -27,6 +27,22 @@
     "bread": {
       "ja": "パン",
       "en": "Bread"
+    },
+    "frozen": {
+      "ja": "冷凍食品",
+      "en": "Frozen Foods"
+    },
+    "alcohol": {
+      "ja": "酒類",
+      "en": "Alcoholic Beverages"
+    },
+    "household": {
+      "ja": "日用品",
+      "en": "Household Items"
+    },
+    "snacks": {
+      "ja": "お菓子",
+      "en": "Snacks"
     }
   },
   "items": [
@@ -648,6 +664,307 @@
       "popular_times": [
         "12:00-14:00",
         "17:00-20:00"
+      ]
+    },
+    {
+      "id": "FZ001",
+      "name": "冷凍からあげクン",
+      "name_en": "Frozen Karaage-kun",
+      "category": "frozen",
+      "price": 298,
+      "calories": 220,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "18:00-22:00"
+      ]
+    },
+    {
+      "id": "FZ002",
+      "name": "冷凍たこ焼き",
+      "name_en": "Frozen Takoyaki",
+      "category": "frozen",
+      "price": 248,
+      "calories": 280,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "18:00-22:00"
+      ]
+    },
+    {
+      "id": "FZ003",
+      "name": "冷凍チャーハン",
+      "name_en": "Frozen Fried Rice",
+      "category": "frozen",
+      "price": 298,
+      "calories": 450,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "12:00-14:00",
+        "18:00-22:00"
+      ]
+    },
+    {
+      "id": "FZ004",
+      "name": "冷凍うどん",
+      "name_en": "Frozen Udon",
+      "category": "frozen",
+      "price": 178,
+      "calories": 280,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "12:00-14:00"
+      ]
+    },
+    {
+      "id": "FZ005",
+      "name": "冷凍枝豆",
+      "name_en": "Frozen Edamame",
+      "category": "frozen",
+      "price": 198,
+      "calories": 135,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "18:00-22:00"
+      ]
+    },
+    {
+      "id": "FZ006",
+      "name": "冷凍餃子",
+      "name_en": "Frozen Gyoza",
+      "category": "frozen",
+      "price": 268,
+      "calories": 320,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "18:00-22:00"
+      ]
+    },
+    {
+      "id": "AL001",
+      "name": "アサヒスーパードライ 350ml",
+      "name_en": "Asahi Super Dry 350ml",
+      "category": "alcohol",
+      "price": 228,
+      "calories": 147,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "17:00-23:00"
+      ]
+    },
+    {
+      "id": "AL002",
+      "name": "キリン一番搾り 350ml",
+      "name_en": "Kirin Ichiban Shibori 350ml",
+      "category": "alcohol",
+      "price": 228,
+      "calories": 144,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "17:00-23:00"
+      ]
+    },
+    {
+      "id": "AL003",
+      "name": "サントリー金麦 350ml",
+      "name_en": "Suntory Kinmugi 350ml",
+      "category": "alcohol",
+      "price": 148,
+      "calories": 144,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "17:00-23:00"
+      ]
+    },
+    {
+      "id": "AL004",
+      "name": "ストロングゼロ ダブルレモン 350ml",
+      "name_en": "Strong Zero Double Lemon 350ml",
+      "category": "alcohol",
+      "price": 168,
+      "calories": 189,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "17:00-23:00"
+      ]
+    },
+    {
+      "id": "AL005",
+      "name": "ほろよい 白いサワー 350ml",
+      "name_en": "Horoyoi White Sour 350ml",
+      "category": "alcohol",
+      "price": 148,
+      "calories": 105,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "17:00-23:00"
+      ]
+    },
+    {
+      "id": "AL006",
+      "name": "ワンカップ大関 180ml",
+      "name_en": "One Cup Ozeki 180ml",
+      "category": "alcohol",
+      "price": 248,
+      "calories": 185,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "17:00-23:00"
+      ]
+    },
+    {
+      "id": "HH001",
+      "name": "ティッシュペーパー 5箱",
+      "name_en": "Tissue Paper 5 boxes",
+      "category": "household",
+      "price": 398,
+      "calories": null,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": []
+    },
+    {
+      "id": "HH002",
+      "name": "トイレットペーパー 12ロール",
+      "name_en": "Toilet Paper 12 rolls",
+      "category": "household",
+      "price": 498,
+      "calories": null,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": []
+    },
+    {
+      "id": "HH003",
+      "name": "除菌ウェットティッシュ",
+      "name_en": "Disinfecting Wet Wipes",
+      "category": "household",
+      "price": 198,
+      "calories": null,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": []
+    },
+    {
+      "id": "HH004",
+      "name": "乾電池 単3 4本",
+      "name_en": "AA Batteries 4 pack",
+      "category": "household",
+      "price": 398,
+      "calories": null,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": []
+    },
+    {
+      "id": "HH005",
+      "name": "折りたたみ傘",
+      "name_en": "Folding Umbrella",
+      "category": "household",
+      "price": 880,
+      "calories": null,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": []
+    },
+    {
+      "id": "HH006",
+      "name": "歯ブラシ",
+      "name_en": "Toothbrush",
+      "category": "household",
+      "price": 148,
+      "calories": null,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": []
+    },
+    {
+      "id": "SN001",
+      "name": "ポテトチップス うすしお味",
+      "name_en": "Potato Chips Lightly Salted",
+      "category": "snacks",
+      "price": 168,
+      "calories": 336,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "14:00-22:00"
+      ]
+    },
+    {
+      "id": "SN002",
+      "name": "じゃがりこ サラダ",
+      "name_en": "Jagariko Salad",
+      "category": "snacks",
+      "price": 178,
+      "calories": 298,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "14:00-22:00"
+      ]
+    },
+    {
+      "id": "SN003",
+      "name": "チョコレート効果 72%",
+      "name_en": "Chocolate Kouka 72%",
+      "category": "snacks",
+      "price": 248,
+      "calories": 280,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "14:00-17:00"
+      ]
+    },
+    {
+      "id": "SN004",
+      "name": "柿の種 6袋詰",
+      "name_en": "Kaki no Tane 6 pack",
+      "category": "snacks",
+      "price": 228,
+      "calories": 390,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "17:00-23:00"
+      ]
+    },
+    {
+      "id": "SN005",
+      "name": "アルフォート",
+      "name_en": "Alfort",
+      "category": "snacks",
+      "price": 198,
+      "calories": 315,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "14:00-17:00"
+      ]
+    },
+    {
+      "id": "SN006",
+      "name": "ハッピーターン",
+      "name_en": "Happy Turn",
+      "category": "snacks",
+      "price": 168,
+      "calories": 288,
+      "is_seasonal": false,
+      "shelf_life_hours": null,
+      "popular_times": [
+        "14:00-22:00"
       ]
     }
   ]

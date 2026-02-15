@@ -1,0 +1,162 @@
+identity:
+  name: "line_composer"
+  author: "yoichiojima"
+  label:
+    en_US: "LINE Message Composer"
+    ja_JP: "LINEメッセージ作成"
+description:
+  human:
+    en_US: "Generate ready-to-copy LINE messages for staff communication"
+    ja_JP: "スタッフ連絡用のLINEメッセージを生成"
+  llm: |
+    スタッフ連絡用のLINEメッセージを生成します。
+
+    ## メッセージタイプ
+    - shift_reminder: 明日のシフトリマインダー
+    - swap_request: シフト交代依頼の全体連絡
+    - emergency_coverage: 緊急欠員カバー募集
+    - schedule_update: 週間シフト公開通知
+    - meeting_notice: ミーティング通知
+
+    ## 使用例
+    - シフトリマインダー: message_type="shift_reminder", staff_name="田中太郎", date="2026-02-16", start_time="09:00", end_time="17:00"
+    - シフト交代依頼: message_type="swap_request", original_staff="山田美咲", date="2026-02-20", start_time="18:00", end_time="22:00", reason="バイト面接のため"
+    - 緊急カバー: message_type="emergency_coverage", start_time="17:00", end_time="22:00"
+    - 週間シフト公開: message_type="schedule_update"
+    - ミーティング: message_type="meeting_notice", date="2026-02-20", time="17:00", agenda="2月の売上報告と3月シフト調整"
+parameters:
+  - name: message_type
+    type: string
+    required: true
+    label:
+      en_US: Message Type
+      ja_JP: メッセージタイプ
+    human_description:
+      en_US: "Type of message to generate"
+      ja_JP: "生成するメッセージの種類"
+    llm_description: "メッセージの種類: shift_reminder, swap_request, emergency_coverage, schedule_update, meeting_notice"
+    form: llm
+  - name: staff_name
+    type: string
+    required: false
+    label:
+      en_US: Staff Name
+      ja_JP: スタッフ名
+    human_description:
+      en_US: "Staff name (for shift_reminder)"
+      ja_JP: "スタッフ名（shift_reminder用）"
+    llm_description: "対象スタッフの名前（shift_reminder の場合）"
+    form: llm
+  - name: original_staff
+    type: string
+    required: false
+    label:
+      en_US: Original Staff
+      ja_JP: 元のスタッフ
+    human_description:
+      en_US: "Original staff name (for swap_request)"
+      ja_JP: "元のスタッフ名（swap_request用）"
+    llm_description: "シフト交代を依頼するスタッフの名前（swap_request の場合）"
+    form: llm
+  - name: date
+    type: string
+    required: false
+    label:
+      en_US: Date
+      ja_JP: 日付
+    human_description:
+      en_US: "Date in YYYY-MM-DD format"
+      ja_JP: "日付（YYYY-MM-DD形式）"
+    llm_description: "対象日付（YYYY-MM-DD形式）。省略時は明日（emergency_coverageは今日）"
+    form: llm
+  - name: start_time
+    type: string
+    required: false
+    label:
+      en_US: Start Time
+      ja_JP: 開始時刻
+    human_description:
+      en_US: "Shift start time (HH:MM)"
+      ja_JP: "シフト開始時刻（HH:MM）"
+    llm_description: "シフト開始時刻（HH:MM形式）。省略時は 09:00"
+    form: llm
+  - name: end_time
+    type: string
+    required: false
+    label:
+      en_US: End Time
+      ja_JP: 終了時刻
+    human_description:
+      en_US: "Shift end time (HH:MM)"
+      ja_JP: "シフト終了時刻（HH:MM）"
+    llm_description: "シフト終了時刻（HH:MM形式）。省略時は 17:00"
+    form: llm
+  - name: reason
+    type: string
+    required: false
+    label:
+      en_US: Reason
+      ja_JP: 理由
+    human_description:
+      en_US: "Reason for swap request"
+      ja_JP: "交代理由"
+    llm_description: "シフト交代の理由（swap_request の場合）"
+    form: llm
+  - name: week_start
+    type: string
+    required: false
+    label:
+      en_US: Week Start
+      ja_JP: 週開始日
+    human_description:
+      en_US: "Week start date (for schedule_update)"
+      ja_JP: "週の開始日（schedule_update用）"
+    llm_description: "シフト公開週の開始日（YYYY-MM-DD形式）"
+    form: llm
+  - name: week_end
+    type: string
+    required: false
+    label:
+      en_US: Week End
+      ja_JP: 週終了日
+    human_description:
+      en_US: "Week end date (for schedule_update)"
+      ja_JP: "週の終了日（schedule_update用）"
+    llm_description: "シフト公開週の終了日（YYYY-MM-DD形式）"
+    form: llm
+  - name: deadline
+    type: string
+    required: false
+    label:
+      en_US: Deadline
+      ja_JP: 締切日
+    human_description:
+      en_US: "Deadline for schedule changes"
+      ja_JP: "シフト変更希望の締切日"
+    llm_description: "変更希望締切日（YYYY-MM-DD形式）"
+    form: llm
+  - name: time
+    type: string
+    required: false
+    label:
+      en_US: Time
+      ja_JP: 時刻
+    human_description:
+      en_US: "Meeting time (for meeting_notice)"
+      ja_JP: "ミーティング時刻（meeting_notice用）"
+    llm_description: "ミーティング時刻（HH:MM形式）"
+    form: llm
+  - name: agenda
+    type: string
+    required: false
+    label:
+      en_US: Agenda
+      ja_JP: 議題
+    human_description:
+      en_US: "Meeting agenda"
+      ja_JP: "ミーティング議題"
+    llm_description: "ミーティングの議題"
+    form: llm
+extra:
+  python:
+    source: tools/line_composer.py

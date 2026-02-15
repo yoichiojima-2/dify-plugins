@@ -79,11 +79,15 @@ workflow:
       enabled: false
     suggested_questions:
     - 今日のシフト、どうなってたっけ
+    - 来週のシフトを最適化して
+    - 今週のシフト表を作って
     - 今週の売上を分析して
+    - 売上ダッシュボードを作って
     - 今日の売上予測をして。発注の参考にしたい
+    - 見切り品ある？期限切れ間近の商品を教えて
+    - 山田さんがシフトに出られなくなった。交代依頼のLINEを作って
     - お客さんがpaypayが使えなくて困っている。。どうすれば？
     - ローソンの従業員数はどれくらいですか？
-    - ローソンはどんな取り組みをしていますか？
     suggested_questions_after_answer:
       enabled: true
     text_to_speech:
@@ -193,31 +197,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: tool
-        targetType: tool
-      id: 1770491410682-source-1770491505932-target
-      selected: false
-      source: '1770491410682'
-      sourceHandle: source
-      target: '1770491505932'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: tool
-        targetType: answer
-      id: 1770491505932-source-1770483783233-target
-      selected: false
-      source: '1770491505932'
-      sourceHandle: source
-      target: '1770483783233'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: question-classifier
         targetType: knowledge-retrieval
       id: 1770482384373-1770495037773-1770495067173-target
@@ -296,24 +275,12 @@ workflow:
     - data:
         isInLoop: false
         sourceType: llm
-        targetType: llm
-      id: 1770483731933-source-1770500533711-target
+        targetType: answer
+      id: 1770483731933-source-1770483783233-target
       selected: false
       source: '1770483731933'
       sourceHandle: source
-      target: '1770500533711'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: tool
-      id: 1770500533711-source-1770491410682-target
-      selected: false
-      source: '1770500533711'
-      sourceHandle: source
-      target: '1770491410682'
+      target: '1770483783233'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -431,7 +398,16 @@ workflow:
         agent_parameters:
           instruction:
             type: constant
-            value: あなたはシフト管理に長けたからあげクンです。shift-managerツールをうまく使って、シフト管理してください。必要な情報が揃ったら、早めに回答を返してください。
+            value: |
+              あなたはシフト管理に長けたからあげクンです。以下のツールを使ってシフト管理してください。
+
+              ## 使えるツール
+              - shift_manager: SQLでシフトの確認・作成・変更・削除
+              - shift_optimizer: 最適なシフト配置を提案（日付と天気を指定）
+              - shift_table_generator: HTMLシフト表を生成（weekly/daily/staff）
+              - line_composer: スタッフ連絡用LINEメッセージを生成
+
+              必要な情報が揃ったら、早めに回答を返してください。
           maximum_iterations:
             type: constant
             value: 20
@@ -482,6 +458,75 @@ workflow:
               tool_description: SQLでスタッフのシフトを管理
               tool_label: シフト管理
               tool_name: shift_manager
+              type: builtin
+            - enabled: true
+              extra:
+                description: スタッフの空き状況・スキル・予測需要に基づいて最適なシフトを提案
+              parameters:
+                date:
+                  auto: 1
+                  value: null
+                weather:
+                  auto: 1
+                  value: null
+                optimize_cost:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: スタッフの空き状況・スキル・予測需要に基づいて最適なシフトを提案
+              tool_label: シフト最適化
+              tool_name: shift_optimizer
+              type: builtin
+            - enabled: true
+              extra:
+                description: 見やすいHTMLシフト表を生成
+              parameters:
+                view_type:
+                  auto: 1
+                  value: null
+                start_date:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: 見やすいHTMLシフト表を生成
+              tool_label: シフト表生成
+              tool_name: shift_table_generator
+              type: builtin
+            - enabled: true
+              extra:
+                description: スタッフ連絡用のLINEメッセージを生成
+              parameters:
+                message_type:
+                  auto: 1
+                  value: null
+                staff_name:
+                  auto: 1
+                  value: null
+                original_staff:
+                  auto: 1
+                  value: null
+                date:
+                  auto: 1
+                  value: null
+                start_time:
+                  auto: 1
+                  value: null
+                end_time:
+                  auto: 1
+                  value: null
+                reason:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: スタッフ連絡用のLINEメッセージを生成
+              tool_label: LINEメッセージ作成
+              tool_name: line_composer
               type: builtin
         agent_strategy_label: FunctionCalling
         agent_strategy_name: function_calling
@@ -709,11 +754,11 @@ workflow:
     - data:
         classes:
         - id: '1'
-          name: シフトに関する質問
+          name: シフトに関する質問（確認、最適化、シフト表作成、LINE連絡）
         - id: '2'
           name: 売上予測に関する質問 (天気にも答えられる)
         - id: '1770483640333'
-          name: 売上分析
+          name: 売上分析（レポート、ダッシュボード、見切り品チェック含む）
         - id: '1770495037773'
           name: トラブル/クレーム対応に関する質問
         - id: '1770495376521'
@@ -971,7 +1016,7 @@ workflow:
         agent_parameters:
           instruction:
             type: constant
-            value: "# 売上分析アシスタント - からあげクン\n\nあなたは売上分析に長けたからあげクンです。ローソン店舗の売上データを分析し、店舗運営に役立つ洞察を提供してください。ユーザーへの追加の質問なしに、分析結果まで出してください。\n\
+            value: "# 売上分析アシスタント - からあげクン\n\nあなたは売上分析に長けたからあげクンです。ローソン店舗の売上データを分析し、店舗運営に役立つ洞察を提供してください。ユーザーへの追加の質問なしに、分析結果まで出してください。\n\n## 使えるツール\n- sales_analytics: SQLで売上データを分析\n- dashboard_generator: HTMLダッシュボードを生成（daily/weekly/comparison）\n- expiration_alert: 消費期限チェックと見切り品提案\n\
               \n## あなたの役割\n\n- **データアナリスト**: 売上データから傾向やパターンを発見する\n- **店舗アドバイザー**:\
               \ 分析結果を基に具体的な改善提案をする\n- **からあげクン推し**: からあげクンの売上は特に注目して分析する\n\n## 分析のポイント\n\
               \n1. **数字で語る**: 「売れている」ではなく「1日平均80個売れている」\n2. **比較する**: 天気別、時間帯別、曜日別で比較して違いを見つける\n\
@@ -1066,6 +1111,40 @@ workflow:
               tool_label: 売上分析
               tool_name: sales_analytics
               type: builtin
+            - enabled: true
+              extra:
+                description: Chart.jsを使ったHTMLダッシュボードを生成
+              parameters:
+                report_type:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: Chart.jsを使ったHTMLダッシュボードを生成
+              tool_label: ダッシュボード生成
+              tool_name: dashboard_generator
+              type: builtin
+            - enabled: true
+              extra:
+                description: 商品の消費期限を追跡し、見切り品を提案
+              parameters:
+                category:
+                  auto: 1
+                  value: null
+                urgency:
+                  auto: 1
+                  value: null
+                hours_threshold:
+                  auto: 1
+                  value: null
+              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+              settings: {}
+              tool_description: 商品の消費期限を追跡し、見切り品を提案
+              tool_label: 消費期限アラート
+              tool_name: expiration_alert
+              type: builtin
         agent_strategy_label: FunctionCalling
         agent_strategy_name: function_calling
         agent_strategy_provider_name: langgenius/agent/agent
@@ -1146,35 +1225,14 @@ workflow:
       type: custom
       width: 242
     - data:
-        answer: '🥚 考え中...
+        answer: '🐓 お答えします！
 
-          ```bash
-
-          {{#1770483653548.text#}}
-
-          ```
-
-
-          {{#1770483731933.text#}}
-
-
-          🐣 レポート作成中...
-
-          ```bash
-
-          {{#1770500533711.text#}}
-
-          ```
-
-
-          🐓 レポートが完成しました!
-
-          {{#1770491505932.text#}}'
+          {{#1770483731933.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
-      height: 190
+      height: 103
       id: '1770483783233'
       position:
         x: 2414
@@ -1182,390 +1240,6 @@ workflow:
       positionAbsolute:
         x: 2414
         y: 661
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: 分析結果をもとに、htmlでダッシュボードを作成する
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: 18a0052b-25bb-4c8c-aa4a-bcef9628a5b4
-          role: system
-          text: あなたはからあげクンです。エージェントの答えを思考プロセスをまとめて、一枚のモダンなデザインhtmlを出力してください。そのまま使いたいので、html以外の余分な文字は不要です。
-        - id: 1b91f2bf-7950-4143-88d7-eb1d694e5c69
-          role: user
-          text: 'summary: {{#1770483731933.text#}}
-
-            scratchpad: {{#1770483653548.text#}}'
-        selected: false
-        title: レポート作成
-        type: llm
-        vision:
-          enabled: false
-      height: 132
-      id: '1770500533711'
-      position:
-        x: 1388
-        y: 690
-      positionAbsolute:
-        x: 1388
-        y: 690
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: 生成したhtmlレポートをファイルとして保存
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: The content to save as a file. This can be plain text or base64
-              encoded binary data. Choose the appropriate format in the "format" parameter.
-            ja_JP: ファイルとして保存するコンテンツ。プレーンテキストまたは Base64 エンコードされたバイナリデータ。 "format" パラメータで適切な形式を選択する。
-            pt_BR: O conteúdo a ser salvo como arquivo. Pode ser texto simples ou
-              dados binários codificados em Base64. Escolha o formato apropriado no
-              parâmetro "format".
-            zh_Hans: 要保存为文件的内容。可以是纯文本或 Base64 编码的二进制数据。 在 "format" 参数中选择适当的格式。
-          label:
-            en_US: Content to save
-            ja_JP: Content to save
-            pt_BR: Content to save
-            zh_Hans: Content to save
-          llm_description: ''
-          max: null
-          min: null
-          name: content
-          options: []
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: output.txt
-          form: llm
-          human_description:
-            en_US: The name of the file to save the content as. This should include
-              the file extension (e.g., "output.txt").
-            ja_JP: 保存するファイル名。 ファイル拡張子を含める（例："output.txt"）。
-            pt_BR: O nome do arquivo para salvar o conteúdo. Deve incluir a extensão
-              do arquivo (por exemplo, "output.txt").
-            zh_Hans: 保存内容的文件名。 应包含文件扩展名（例如："output.txt"）。
-          label:
-            en_US: File name to save as
-            ja_JP: File name to save as
-            pt_BR: File name to save as
-            zh_Hans: File name to save as
-          llm_description: ''
-          max: null
-          min: null
-          name: filename
-          options: []
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: ''
-          form: llm
-          human_description:
-            en_US: The MIME type of the file. If not provided, it will be guessed
-              from the file name.
-            ja_JP: ファイルの MIME タイプ。提供されない場合、ファイル名から推測される。
-            pt_BR: O tipo MIME do arquivo. Se não fornecido, será adivinhado a partir
-              do nome do arquivo.
-            zh_Hans: 文件的 MIME 类型。如果未提供，将从文件名猜测。
-          label:
-            en_US: MIME type of the file
-            ja_JP: MIME type of the file
-            pt_BR: MIME type of the file
-            zh_Hans: MIME type of the file
-          llm_description: ''
-          max: null
-          min: null
-          name: mime_type
-          options: []
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: text
-          form: form
-          human_description:
-            en_US: The format of the content to save. Select "text" to save passed
-              string content as is, or "base64" to save passed content after decoding
-              it from base64.
-            ja_JP: コンテンツの形式。 渡された文字列コンテンツをそのまま保存する場合は "text" を選択し、 Base64 からデコードして保存する場合は
-              "base64" を選択する。
-            pt_BR: O formato do conteúdo a ser salvo. Selecione "text" para salvar
-              o conteúdo da string passada como está, ou "base64" para salvar o conteúdo
-              passado após decodificá-lo do Base64.
-            zh_Hans: 要保存的内容格式。 选择 "text" 按原样保存传递的字符串内容， 或选择 "base64" 在从 Base64 解码后保存传递的内容。
-          label:
-            en_US: Format of the content
-            ja_JP: Format of the content
-            pt_BR: Format of the content
-            zh_Hans: Format of the content
-          llm_description: ''
-          max: null
-          min: null
-          name: format
-          options:
-          - icon: ''
-            label:
-              en_US: text
-              ja_JP: text
-              pt_BR: text
-              zh_Hans: text
-            value: text
-          - icon: ''
-            label:
-              en_US: base64
-              ja_JP: base64
-              pt_BR: base64
-              zh_Hans: base64
-            value: base64
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: select
-        - auto_generate: null
-          default: ''
-          form: llm
-          human_description:
-            en_US: The encoding to use when saving the file. This parameter is only
-              used when the format is "text". Specify a valid Python encoding name
-              (e.g., "utf-8", "shift_jis", "euc-jp"). Default is empty, which means
-              "utf-8".
-            ja_JP: ファイルを保存する際に使用するエンコーディング。 このパラメータは、形式が "text" の場合にのみ使用される。 有効な Python
-              エンコーディング名を指定する（例："utf-8"、"shift_jis"、"euc-jp"）。 デフォルトは空で、"utf-8" を意味する。
-            pt_BR: A codificação a ser usada ao salvar o arquivo. Este parâmetro é
-              usado apenas quando o formato é "text". Especifique um nome de codificação
-              Python válido (por exemplo, "utf-8", "shift_jis", "euc-jp"). O padrão
-              é vazio, o que significa "utf-8".
-            zh_Hans: 保存文件时使用的编码。 此参数仅在格式为 "text" 时使用。 指定有效的 Python 编码名称（例如："utf-8"、"shift_jis"、"euc-jp"）。
-              默认值为空，表示 "utf-8"。
-          label:
-            en_US: Encoding
-            ja_JP: エンコーディング
-            pt_BR: Codificação
-            zh_Hans: 编码
-          llm_description: ''
-          max: null
-          min: null
-          name: encoding
-          options: []
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: string
-        params:
-          content: ''
-          encoding: ''
-          filename: ''
-          format: ''
-          mime_type: ''
-        plugin_id: kurokobo/file_tools
-        plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=ee7d6c28060a54d022218fdf905d7111d02c37749d033c631e13651d6a1539d2.svg
-        provider_id: kurokobo/file_tools/file_tools
-        provider_name: kurokobo/file_tools/file_tools
-        provider_type: builtin
-        selected: false
-        title: レポートを保存
-        tool_configurations:
-          format:
-            type: constant
-            value: text
-        tool_description: 入力テキストまたは Base64 エンコードされたバイナリデータを、指定されたファイル名と MIME タイプでファイルとして保存します。
-        tool_label: ファイルとして保存
-        tool_name: save_as_file
-        tool_node_version: '2'
-        tool_parameters:
-          content:
-            type: mixed
-            value: '{{#1770500533711.text#}}'
-          encoding:
-            type: mixed
-            value: ''
-          filename:
-            type: mixed
-            value: report.html
-          mime_type:
-            type: mixed
-            value: ''
-        type: tool
-      height: 132
-      id: '1770491410682'
-      position:
-        x: 1730
-        y: 690
-      positionAbsolute:
-        x: 1730
-        y: 690
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        desc: ''
-        is_team_authorization: true
-        paramSchemas:
-        - auto_generate: null
-          default: null
-          form: llm
-          human_description:
-            en_US: File object to get download url.
-            ja_JP: ダウンロード URL を取得するファイルオブジェクト。
-            pt_BR: Objeto de arquivo para obter URL de download.
-            zh_Hans: 要获取下载 URL 的文件对象。
-          label:
-            en_US: File
-            ja_JP: File
-            pt_BR: File
-            zh_Hans: File
-          llm_description: ''
-          max: null
-          min: null
-          name: file
-          options: []
-          placeholder: null
-          precision: null
-          required: true
-          scope: null
-          template: null
-          type: file
-        - auto_generate: null
-          default: ''
-          form: llm
-          human_description:
-            en_US: The text to use for the markdown link. Ignored if "format" is not
-              "markdown". Default is empty, which means the filename will be used
-              as the link text.
-            ja_JP: Markdown リンクに使用するテキスト。"format" が "markdown" でない場合は無視される。 デフォルトは空で、ファイル名がリンクテキストとして使用される。
-            pt_BR: O texto a ser usado para o link markdown. Ignorado se "format"
-              não for "markdown". O padrão é vazio, o que significa que o nome do
-              arquivo será usado como texto do link.
-            zh_Hans: 用于 Markdown 链接的文本。如果 "format" 不是 "markdown" 则忽略。 默认为空，这意味着文件名将用作链接文本。
-          label:
-            en_US: Link text for markdown link
-            ja_JP: Link text for markdown link
-            pt_BR: Link text for markdown link
-            zh_Hans: Link text for markdown link
-          llm_description: ''
-          max: null
-          min: null
-          name: link_text
-          options: []
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: string
-        - auto_generate: null
-          default: plain
-          form: form
-          human_description:
-            en_US: Format of the download url. "markdown" for markdown link, "plain"
-              for plain url. Default is "plain".
-            ja_JP: ダウンロード URL の形式。Markdown リンクの場合は "markdown"、プレーン URL の場合は "plain"。
-              デフォルトは "plain"。
-            pt_BR: Formato da URL de download. "markdown" para link markdown, "plain"
-              para URL simples. O padrão é "plain".
-            zh_Hans: 下载 URL 的格式。"markdown" 表示 Markdown 链接，"plain" 表示纯 URL。 默认为 "plain"。
-          label:
-            en_US: Format of the download url
-            ja_JP: Format of the download url
-            pt_BR: Format of the download url
-            zh_Hans: Format of the download url
-          llm_description: ''
-          max: null
-          min: null
-          name: format
-          options:
-          - icon: ''
-            label:
-              en_US: markdown
-              ja_JP: markdown
-              pt_BR: markdown
-              zh_Hans: markdown
-            value: markdown
-          - icon: ''
-            label:
-              en_US: plain
-              ja_JP: plain
-              pt_BR: plain
-              zh_Hans: plain
-            value: plain
-          placeholder: null
-          precision: null
-          required: false
-          scope: null
-          template: null
-          type: select
-        params:
-          file: ''
-          format: ''
-          link_text: ''
-        plugin_id: kurokobo/file_tools
-        plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
-        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=7034c5ee-4e7d-410d-9e13-46a17858fd12&filename=ee7d6c28060a54d022218fdf905d7111d02c37749d033c631e13651d6a1539d2.svg
-        provider_id: kurokobo/file_tools/file_tools
-        provider_name: kurokobo/file_tools/file_tools
-        provider_type: builtin
-        selected: false
-        title: レポートのダウンロードURLを取得
-        tool_configurations:
-          format:
-            type: constant
-            value: plain
-        tool_description: ファイルオブジェクトのダウンロード URL を取得し、オプションで Markdown リンクとして出力します。
-        tool_label: ダウンロード URL を取得
-        tool_name: get_download_url
-        tool_node_version: '2'
-        tool_parameters:
-          file:
-            type: variable
-            value:
-            - '1770491410682'
-            - files
-          link_text:
-            type: mixed
-            value: ''
-        type: tool
-      height: 88
-      id: '1770491505932'
-      position:
-        x: 2072
-        y: 712
-      positionAbsolute:
-        x: 2072
-        y: 712
       selected: false
       sourcePosition: right
       targetPosition: left

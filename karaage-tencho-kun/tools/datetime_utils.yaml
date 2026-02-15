@@ -1,0 +1,38 @@
+identity:
+  name: "datetime_utils"
+  author: "yoichiojima"
+  label:
+    en_US: "Datetime Utils"
+    ja_JP: "日時util関数"
+description:
+  human:
+    en_US: "Convert a date-time to Japan Standard Time (JST)"
+    ja_JP: "日時を日本標準時（JST）に変換します"
+  llm: "Convert an ISO-style datetime to Asia/Tokyo time. If datetime is omitted, return current time in JST based on source timezone."
+parameters:
+  - name: datetime
+    type: string
+    required: false
+    label:
+      en_US: DateTime
+      ja_JP: 日時
+    human_description:
+      en_US: "ISO datetime, e.g. 2026-02-15T12:00:00Z or 2026-02-15 12:00:00"
+      ja_JP: "ISO形式の日時。例: 2026-02-15T12:00:00Z または 2026-02-15 12:00:00"
+    llm_description: "Input datetime in ISO format. If no timezone in input, source_timezone is used."
+    form: llm
+  - name: source_timezone
+    type: string
+    required: false
+    default: "UTC"
+    label:
+      en_US: Source Timezone
+      ja_JP: 元タイムゾーン
+    human_description:
+      en_US: "IANA timezone name for naive input datetime, e.g. UTC, America/New_York"
+      ja_JP: "タイムゾーンなし入力日時に適用するIANAタイムゾーン名。例: UTC, America/New_York"
+    llm_description: "IANA timezone name used when input datetime has no offset; also used to generate current time when datetime is omitted."
+    form: llm
+extra:
+  python:
+    source: tools/datetime_utils.py

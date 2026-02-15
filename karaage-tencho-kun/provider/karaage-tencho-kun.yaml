@@ -57,6 +57,12 @@ tools:
   - tools/shift_manager.yaml
   - tools/demand_forecast.yaml
   - tools/sales_analytics.yaml
+  - tools/datetime_utils.yaml
+  - tools/line_composer.yaml
+  - tools/expiration_alert.yaml
+  - tools/shift_optimizer.yaml
+  - tools/dashboard_generator.yaml
+  - tools/shift_table_generator.yaml
 extra:
   python:
     source: provider/karaage-tencho-kun.py

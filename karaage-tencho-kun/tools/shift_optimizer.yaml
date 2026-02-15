@@ -1,0 +1,78 @@
+identity:
+  name: "shift_optimizer"
+  author: "yoichiojima"
+  label:
+    en_US: "Shift Optimizer"
+    ja_JP: "シフト最適化"
+description:
+  human:
+    en_US: "Auto-suggest optimal shift assignments based on staff availability, skills, and predicted demand"
+    ja_JP: "スタッフの空き状況・スキル・予測需要に基づいて最適なシフトを提案"
+  llm: |
+    指定日のシフトを自動最適化し、提案を生成します。
+
+    ## 考慮要素
+    - スタッフの出勤可能時間（availability）
+    - スキル（特にからあげスキル保持者をランチピークに配置）
+    - 天気による需要変動
+    - 週末/平日の違い
+    - 人件費の最適化
+
+    ## 時間帯別の基本必要人数
+    - 早朝(6-9時): 2人
+    - 午前(9-11時): 2人
+    - ランチピーク(11-14時): 3人
+    - 午後(14-17時): 2人
+    - 夕方ピーク(17-20時): 3人
+    - 夜間(20-23時): 2人
+    - 深夜(23時以降): 1人
+
+    ## 天気の影響
+    - sunny: 需要+10%
+    - cloudy: 変化なし
+    - rainy: 需要-15%（ホットスナック需要増）
+    - snowy: 需要-30%（ホットスナック需要大幅増）
+
+    ## 使用例
+    - 2/20のシフト最適化: date="2026-02-20"
+    - 雨の日: date="2026-02-20", weather="rainy"
+    - 人件費最適化OFF: date="2026-02-20", optimize_cost=false
+parameters:
+  - name: date
+    type: string
+    required: true
+    label:
+      en_US: Date
+      ja_JP: 日付
+    human_description:
+      en_US: "Target date (YYYY-MM-DD)"
+      ja_JP: "最適化対象の日付（YYYY-MM-DD形式）"
+    llm_description: "シフト最適化対象の日付（YYYY-MM-DD形式、例: 2026-02-20）"
+    form: llm
+  - name: weather
+    type: string
+    required: false
+    label:
+      en_US: Weather
+      ja_JP: 天気
+    human_description:
+      en_US: "Expected weather (sunny/cloudy/rainy/snowy)"
+      ja_JP: "予想天気（sunny/cloudy/rainy/snowy）"
+    llm_description: "予想天気: sunny, cloudy, rainy, snowy のいずれか。省略時は sunny"
+    form: llm
+    default: sunny
+  - name: optimize_cost
+    type: boolean
+    required: false
+    label:
+      en_US: Optimize Cost
+      ja_JP: 人件費最適化
+    human_description:
+      en_US: "Whether to optimize for labor cost"
+      ja_JP: "人件費を最適化するか"
+    llm_description: "人件費最適化を有効にするか（デフォルト: true）"
+    form: llm
+    default: true
+extra:
+  python:
+    source: tools/shift_optimizer.py

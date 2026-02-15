@@ -19,7 +19,7 @@ class TestShiftManager(unittest.TestCase):
         staff_count = conn.execute("SELECT COUNT(*) FROM staff").fetchone()[0]
         shift_count = conn.execute("SELECT COUNT(*) FROM shifts").fetchone()[0]
 
-        self.assertGreaterEqual(staff_count, 7)
+        self.assertGreaterEqual(staff_count, 12)
         self.assertGreaterEqual(shift_count, 90)
 
     def test_invoke_returns_error_when_sql_missing(self) -> None:
@@ -30,6 +30,7 @@ class TestShiftManager(unittest.TestCase):
 
         self.assertEqual(len(messages), 1)
         self.assertIn("error", messages[0])
+        self.assertIn("hint", messages[0])
 
     def test_invoke_runs_query_and_returns_rows(self) -> None:
         tool = object.__new__(sm.ShiftManagerTool)
@@ -38,7 +39,16 @@ class TestShiftManager(unittest.TestCase):
         messages = list(tool._invoke({"sql": "SELECT COUNT(*) AS c FROM staff"}))
 
         self.assertEqual(len(messages), 1)
-        self.assertEqual(messages[0][0]["c"], 7)
+        self.assertEqual(messages[0][0]["c"], 12)
+
+    def test_invoke_accepts_query_alias(self) -> None:
+        tool = object.__new__(sm.ShiftManagerTool)
+        tool.create_json_message = lambda body: body
+
+        messages = list(tool._invoke({"query": "SELECT COUNT(*) AS c FROM staff"}))
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0][0]["c"], 12)
 
     def test_invoke_returns_error_for_invalid_sql(self) -> None:
         tool = object.__new__(sm.ShiftManagerTool)

@@ -1,0 +1,310 @@
+{
+  "expiration_hours": {
+    "おにぎり": 8,
+    "サンドイッチ": 6,
+    "弁当": 12,
+    "パン": 24,
+    "デザート": 48,
+    "サラダ": 12,
+    "ホットスナック": 4
+  },
+  "markdown_rules": {
+    "high": {
+      "threshold_hours": 2,
+      "discount": 30,
+      "action": "見切り品として30%OFF推奨"
+    },
+    "medium": {
+      "threshold_hours": 4,
+      "discount": 20,
+      "action": "20%OFF検討"
+    },
+    "low": {
+      "threshold_hours": 8,
+      "discount": 0,
+      "action": "通常販売継続"
+    }
+  },
+  "sample_inventory": [
+    {
+      "item_id": "INV001",
+      "item_name": "ツナマヨおにぎり",
+      "category": "おにぎり",
+      "quantity": 5,
+      "stocked_hours_ago": 6,
+      "expires_in_hours": 1
+    },
+    {
+      "item_id": "INV002",
+      "item_name": "シャケおにぎり",
+      "category": "おにぎり",
+      "quantity": 3,
+      "stocked_hours_ago": 7,
+      "expires_in_hours": 1.5
+    },
+    {
+      "item_id": "INV003",
+      "item_name": "たまごサンド",
+      "category": "サンドイッチ",
+      "quantity": 4,
+      "stocked_hours_ago": 4.5,
+      "expires_in_hours": 1.5
+    },
+    {
+      "item_id": "INV004",
+      "item_name": "からあげクン",
+      "category": "ホットスナック",
+      "quantity": 8,
+      "stocked_hours_ago": 1,
+      "expires_in_hours": 3
+    },
+    {
+      "item_id": "INV005",
+      "item_name": "明太子おにぎり",
+      "category": "おにぎり",
+      "quantity": 6,
+      "stocked_hours_ago": 4,
+      "expires_in_hours": 3.5
+    },
+    {
+      "item_id": "INV006",
+      "item_name": "BLTサンド",
+      "category": "サンドイッチ",
+      "quantity": 2,
+      "stocked_hours_ago": 2,
+      "expires_in_hours": 4
+    },
+    {
+      "item_id": "INV007",
+      "item_name": "チキン南蛮弁当",
+      "category": "弁当",
+      "quantity": 3,
+      "stocked_hours_ago": 8,
+      "expires_in_hours": 4
+    },
+    {
+      "item_id": "INV008",
+      "item_name": "幕の内弁当",
+      "category": "弁当",
+      "quantity": 4,
+      "stocked_hours_ago": 4,
+      "expires_in_hours": 6
+    },
+    {
+      "item_id": "INV009",
+      "item_name": "梅干しおにぎり",
+      "category": "おにぎり",
+      "quantity": 10,
+      "stocked_hours_ago": 2,
+      "expires_in_hours": 6
+    },
+    {
+      "item_id": "INV010",
+      "item_name": "ハムサンド",
+      "category": "サンドイッチ",
+      "quantity": 5,
+      "stocked_hours_ago": 1,
+      "expires_in_hours": 5
+    },
+    {
+      "item_id": "INV011",
+      "item_name": "サラダチキン",
+      "category": "サラダ",
+      "quantity": 7,
+      "stocked_hours_ago": 4,
+      "expires_in_hours": 8
+    },
+    {
+      "item_id": "INV012",
+      "item_name": "クリームパン",
+      "category": "パン",
+      "quantity": 8,
+      "stocked_hours_ago": 6,
+      "expires_in_hours": 18
+    },
+    {
+      "item_id": "INV013",
+      "item_name": "メロンパン",
+      "category": "パン",
+      "quantity": 6,
+      "stocked_hours_ago": 4,
+      "expires_in_hours": 20
+    },
+    {
+      "item_id": "INV014",
+      "item_name": "プリン",
+      "category": "デザート",
+      "quantity": 12,
+      "stocked_hours_ago": 12,
+      "expires_in_hours": 36
+    },
+    {
+      "item_id": "INV015",
+      "item_name": "シュークリーム",
+      "category": "デザート",
+      "quantity": 10,
+      "stocked_hours_ago": 6,
+      "expires_in_hours": 42
+    },
+    {
+      "item_id": "INV016",
+      "item_name": "唐揚げ弁当",
+      "category": "弁当",
+      "quantity": 5,
+      "stocked_hours_ago": 2,
+      "expires_in_hours": 10
+    },
+    {
+      "item_id": "INV017",
+      "item_name": "和風ツナサラダ",
+      "category": "サラダ",
+      "quantity": 4,
+      "stocked_hours_ago": 3,
+      "expires_in_hours": 9
+    },
+    {
+      "item_id": "INV018",
+      "item_name": "昆布おにぎり",
+      "category": "おにぎり",
+      "quantity": 4,
+      "stocked_hours_ago": 5,
+      "expires_in_hours": 2.5
+    },
+    {
+      "item_id": "INV019",
+      "item_name": "悪魔のおにぎり",
+      "category": "おにぎり",
+      "quantity": 3,
+      "stocked_hours_ago": 3,
+      "expires_in_hours": 5
+    },
+    {
+      "item_id": "INV020",
+      "item_name": "Lチキ レギュラー",
+      "category": "ホットスナック",
+      "quantity": 6,
+      "stocked_hours_ago": 2.5,
+      "expires_in_hours": 1.5
+    },
+    {
+      "item_id": "INV021",
+      "item_name": "肉まん",
+      "category": "ホットスナック",
+      "quantity": 5,
+      "stocked_hours_ago": 3,
+      "expires_in_hours": 1
+    },
+    {
+      "item_id": "INV022",
+      "item_name": "ピザまん",
+      "category": "ホットスナック",
+      "quantity": 4,
+      "stocked_hours_ago": 2,
+      "expires_in_hours": 2
+    },
+    {
+      "item_id": "INV023",
+      "item_name": "ミックスサンド",
+      "category": "サンドイッチ",
+      "quantity": 3,
+      "stocked_hours_ago": 3.5,
+      "expires_in_hours": 2.5
+    },
+    {
+      "item_id": "INV024",
+      "item_name": "のり弁当",
+      "category": "弁当",
+      "quantity": 6,
+      "stocked_hours_ago": 6,
+      "expires_in_hours": 6
+    },
+    {
+      "item_id": "INV025",
+      "item_name": "ハンバーグ弁当",
+      "category": "弁当",
+      "quantity": 2,
+      "stocked_hours_ago": 9,
+      "expires_in_hours": 3
+    },
+    {
+      "item_id": "INV026",
+      "item_name": "コブサラダ",
+      "category": "サラダ",
+      "quantity": 5,
+      "stocked_hours_ago": 2,
+      "expires_in_hours": 10
+    },
+    {
+      "item_id": "INV027",
+      "item_name": "塩バターパン",
+      "category": "パン",
+      "quantity": 10,
+      "stocked_hours_ago": 8,
+      "expires_in_hours": 16
+    },
+    {
+      "item_id": "INV028",
+      "item_name": "チョココロネ",
+      "category": "パン",
+      "quantity": 5,
+      "stocked_hours_ago": 20,
+      "expires_in_hours": 4
+    },
+    {
+      "item_id": "INV029",
+      "item_name": "バスチー",
+      "category": "デザート",
+      "quantity": 8,
+      "stocked_hours_ago": 24,
+      "expires_in_hours": 24
+    },
+    {
+      "item_id": "INV030",
+      "item_name": "どらもっち",
+      "category": "デザート",
+      "quantity": 6,
+      "stocked_hours_ago": 18,
+      "expires_in_hours": 30
+    },
+    {
+      "item_id": "INV031",
+      "item_name": "からあげクン レッド",
+      "category": "ホットスナック",
+      "quantity": 4,
+      "stocked_hours_ago": 0.5,
+      "expires_in_hours": 3.5
+    },
+    {
+      "item_id": "INV032",
+      "item_name": "げんこつメンチ",
+      "category": "ホットスナック",
+      "quantity": 3,
+      "stocked_hours_ago": 2,
+      "expires_in_hours": 2
+    },
+    {
+      "item_id": "INV033",
+      "item_name": "焼き鯖おにぎり",
+      "category": "おにぎり",
+      "quantity": 2,
+      "stocked_hours_ago": 6.5,
+      "expires_in_hours": 1.5
+    },
+    {
+      "item_id": "INV034",
+      "item_name": "カルボナーラパスタ",
+      "category": "弁当",
+      "quantity": 3,
+      "stocked_hours_ago": 5,
+      "expires_in_hours": 7
+    },
+    {
+      "item_id": "INV035",
+      "item_name": "プレミアムロールケーキ",
+      "category": "デザート",
+      "quantity": 7,
+      "stocked_hours_ago": 10,
+      "expires_in_hours": 38
+    }
+  ]
+}
