@@ -86,13 +86,20 @@ cd .. && make build
 - `MMDD` = month and day as single number (Feb 15 = 215, not 0215)
 - `N` = division number (increment for multiple releases on same day)
 
-**When releasing:**
-1. Update version in `manifest.yaml` (both `version:` and `meta.version:` fields)
-2. Create a GitHub release with `gh release create vYYYY.M.D`
-3. The CI workflow will automatically:
-   - Build the `.difypkg` package
-   - Update `examples/agent.yml` with the new version and package checksum
-   - Upload the package to the release
+**Release steps:**
+
+1. **Bump version in `manifest.yaml`** (both `version:` and `meta.version:` fields)
+2. **Commit and push**
+3. **Create release:** `gh release create vYYYY.MMDD.N --title "vYYYY.MMDD.N" --notes "Release vYYYY.MMDD.N"`
+
+The CI workflow (`.github/workflows/build.yml`) will automatically:
+- Build the `.difypkg` package
+- Update `examples/agent.yml`:
+  - App name version (`name: 開発中_からあげ店長クン_vX.X.X`)
+  - Plugin reference (`plugin_unique_identifier: ...`) with version and checksum
+  - App version at end of file
+- Commit the agent.yml changes
+- Upload the package to the release
 
 ## Constraints
 
