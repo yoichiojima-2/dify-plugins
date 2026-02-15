@@ -13,8 +13,9 @@ jobs:
 
       - name: Install Dify CLI
         run: |
-          brew tap langgenius/dify
-          brew install dify
+          sudo wget -q https://github.com/langgenius/dify-plugin-daemon/releases/latest/download/dify-plugin-linux-amd64 \
+            -O /usr/local/bin/dify
+          sudo chmod +x /usr/local/bin/dify
 
       - name: Build package
         run: make build
