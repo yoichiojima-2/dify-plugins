@@ -3,7 +3,7 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: agent-chat
-  name: 開発中_からあげ店長クン_v2026.2.15
+  name: 開発中_からあげ店長クン_v2026.215.1
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -14,7 +14,7 @@ dependencies:
 - current_identifier: null
   type: package
   value:
-    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15@83857bafafee3b8f6fe0bc2061b28a92ff23593a628c199d77a6ac0da3010c69
+    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.215.1@aaf77cfc973b5c62557b0c768acb78988825f35ed30adb4eac03a3f443de2d62
     version: null
 kind: app
 model_config:
@@ -718,4 +718,4 @@ model_config:
     language: ''
     voice: ''
   user_input_form: []
-version: 2026.2.15
+version: 2026.215.1
