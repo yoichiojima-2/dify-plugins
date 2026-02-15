@@ -14,7 +14,7 @@ dependencies:
 - current_identifier: null
   type: package
   value:
-    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15@a539dcf36f5f1ea8c5035c86a26e8e26e91aa16cd1d719a6df5173c8e030af5c
+    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15@83857bafafee3b8f6fe0bc2061b28a92ff23593a628c199d77a6ac0da3010c69
     version: null
 kind: app
 model_config:
