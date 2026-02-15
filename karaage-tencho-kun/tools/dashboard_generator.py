@@ -90,7 +90,7 @@ class DashboardGeneratorTool(Tool):
         transactions = today_data[2] or 0
         yesterday_sales = yesterday_data[0] or 0
         yesterday_items = yesterday_data[1] or 0
-        avg_transaction = total_sales // transactions if transactions > 0 else 0
+        avg_transaction = round(total_sales / transactions) if transactions > 0 else 0
 
         # 変化率計算
         sales_change = self._calc_change(total_sales, yesterday_sales)
@@ -189,7 +189,7 @@ class DashboardGeneratorTool(Tool):
         total_items = week_totals[1] or 0
         transactions = week_totals[2] or 0
         prev_sales = prev_week[0] or 0
-        daily_avg = total_sales // 7 if total_sales > 0 else 0
+        daily_avg = round(total_sales / 7) if total_sales > 0 else 0
 
         sales_change = self._calc_change(total_sales, prev_sales)
 
@@ -323,7 +323,7 @@ class DashboardGeneratorTool(Tool):
                 "last_week_total": last_total,
                 "change_amount": change_amount,
                 "change_pct": sales_change,
-                "daily_avg_diff": change_amount // 7 if change_amount else 0,
+                "daily_avg_diff": round(change_amount / 7) if change_amount else 0,
             },
             "dow_comparison": dow_comparison,
             "category_comparison": category_comparison,

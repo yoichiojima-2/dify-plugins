@@ -19,7 +19,7 @@ MIME_TYPES = {
 class FileWriterTool(Tool):
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
         content = tool_parameters.get("content", "").strip()
-        filename = tool_parameters.get("filename", "output.html").strip()
+        filename = tool_parameters.get("filename", "output").strip()
         file_type = tool_parameters.get("file_type", "html").strip().lower()
 
         if not content:

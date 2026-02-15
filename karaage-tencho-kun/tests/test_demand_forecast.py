@@ -72,7 +72,7 @@ class TestDemandForecast(unittest.TestCase):
         mock_load_model.return_value = model_data
 
         tool = object.__new__(df.DemandForecastTool)
-        rows = tool._predict(
+        rows, warning = tool._predict(
             weather="storm",  # unknown weather should fallback to cloudy
             temperature=30,
             humidity=60,
@@ -86,12 +86,13 @@ class TestDemandForecast(unittest.TestCase):
         self.assertEqual(rows[0]["predicted_demand"], 86)
         self.assertEqual(rows[0]["change_percent"], 115.0)
         self.assertEqual(rows[1]["item"], "item_b")
+        self.assertIn("storm", warning)
 
     @patch("tools.demand_forecast.datetime", _FakeDateTime)
     def test_invoke_defaults_invalid_numeric_inputs(self) -> None:
         tool = object.__new__(df.DemandForecastTool)
         tool.create_json_message = lambda body: body
-        tool._predict = MagicMock(return_value=[{"item": "x", "predicted_demand": 10}])
+        tool._predict = MagicMock(return_value=([{"item": "x", "predicted_demand": 10}], None))
 
         messages = list(tool._invoke({"weather": "rainy", "temperature": "bad", "humidity": None}))
 

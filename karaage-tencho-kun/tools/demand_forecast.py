@@ -42,7 +42,7 @@ class DemandForecastTool(Tool):
         hour = now.hour
 
         try:
-            predictions = self._predict(
+            predictions, weather_warning = self._predict(
                 weather=weather,
                 temperature=temperature,
                 humidity=humidity,
@@ -63,9 +63,11 @@ class DemandForecastTool(Tool):
                 "model_info": {
                     "type": "RandomForestRegressor",
                     "version": "1.0.0",
-                    "r2_score": 0.88,
                 },
             }
+
+            if weather_warning:
+                result["warning"] = weather_warning
 
             yield self.create_json_message(result)
 
@@ -91,8 +93,11 @@ class DemandForecastTool(Tool):
         base_demand = model_data["base_demand"]
 
         # 天気をエンコード
+        weather_warning = None
         if weather not in weather_encoder.classes_:
-            weather = "cloudy"  # デフォルト
+            valid = ", ".join(weather_encoder.classes_)
+            weather_warning = f"'{weather}' は未対応です（対応: {valid}）。cloudy として予測します"
+            weather = "cloudy"
         weather_encoded = weather_encoder.transform([weather])[0]
 
         predictions = []
@@ -126,4 +131,4 @@ class DemandForecastTool(Tool):
         # 変化率でソート
         predictions.sort(key=lambda x: abs(x["change_percent"]), reverse=True)
 
-        return predictions
+        return predictions, weather_warning

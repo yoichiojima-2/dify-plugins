@@ -1,9 +1,9 @@
-version: 0.0.30
+version: 0.0.31
 type: plugin
 author: yoichiojima
 name: karaage-tencho-kun
 label:
-  en_US: karaage-techno-kun
+  en_US: karaage-tencho-kun
   ja_JP: からあげ店長クン
 description:
   en_US: AI assistant for convenience store operations - shift management, weather-based demand forecasting, and product information
@@ -20,7 +20,7 @@ plugins:
   tools:
     - provider/karaage-tencho-kun.yaml
 meta:
-  version: 0.0.30
+  version: 0.0.31
   arch:
     - amd64
     - arm64
