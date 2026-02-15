@@ -42,3 +42,7 @@ class FileWriterTool(Tool):
                 "filename": filename,
             },
         )
+        # Also return text so agent can reference the file
+        yield self.create_text_message(
+            f"ファイル「{filename}」を作成しました。上のファイルアイコンからダウンロードできます。"
+        )

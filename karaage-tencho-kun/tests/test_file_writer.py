@@ -17,12 +17,20 @@ class BlobMessage:
         self.meta = meta
 
 
+class TextMessage:
+    """Mock text message for testing"""
+
+    def __init__(self, text: str):
+        self.text = text
+
+
 class TestFileWriter(unittest.TestCase):
     def _make_tool(self):
         """テスト用のツールインスタンスを作成"""
         tool = object.__new__(fw.FileWriterTool)
         tool.create_json_message = lambda body: body
         tool.create_blob_message = lambda blob, meta: BlobMessage(blob, meta)
+        tool.create_text_message = lambda text: TextMessage(text)
         return tool
 
     def test_returns_error_when_content_is_empty(self) -> None:
@@ -36,9 +44,9 @@ class TestFileWriter(unittest.TestCase):
         tool = self._make_tool()
         messages = list(tool._invoke({"content": "<html></html>"}))
 
-        self.assertEqual(len(messages), 1)
-        result = messages[0]
-        self.assertIsInstance(result, BlobMessage)
+        self.assertEqual(len(messages), 2)  # blob + text
+        self.assertIsInstance(messages[0], BlobMessage)
+        self.assertIsInstance(messages[1], TextMessage)
 
     def test_default_file_type_is_html(self) -> None:
         tool = self._make_tool()
