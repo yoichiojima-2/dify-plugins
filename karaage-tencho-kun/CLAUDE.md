@@ -93,8 +93,8 @@ The CI workflow (`.github/workflows/build.yml`) will automatically:
 - Build the `.difypkg` package
 - Update `examples/chatflow.yml`:
   - App name version (`name: 開発中_からあげ店長クン_vX.X.X`)
-  - Plugin reference (`plugin_unique_identifier: ...`) with version and checksum
-  - App version at end of file
+  - Plugin reference (`plugin_unique_identifier: ...`) in dependencies with version and checksum
+  - App version field
 - Commit the chatflow.yml changes
 - Upload the package to the release
 

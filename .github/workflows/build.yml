@@ -46,10 +46,10 @@ jobs:
           # Update app name version
           sed -i "s/name: 開発中_からあげ店長クン_v[0-9.-]*/name: 開発中_からあげ店長クン_v${VERSION}/" "$CHATFLOW_YML"
 
-          # Update plugin_unique_identifier
-          sed -i "s|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:[^@]*@[a-f0-9]*|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:${VERSION}@${CHECKSUM}|" "$CHATFLOW_YML"
+          # Update plugin_unique_identifier in dependencies
+          sed -i "s|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:[^@]*@[a-f0-9a-z]*|plugin_unique_identifier: yoichiojima/karaage-tencho-kun:${VERSION}@${CHECKSUM}|" "$CHATFLOW_YML"
 
-          # Update app version at end of file
+          # Update app version
           sed -i "s/^version: [0-9.-]*$/version: ${VERSION}/" "$CHATFLOW_YML"
 
       - name: Commit version updates
