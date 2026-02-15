@@ -19,7 +19,7 @@ dependencies:
     repo: yoichiojima-2/dify-plugins
     version: v2026.2.15-7
 kind: app
-version: 2026.2.15-7
+version: 0.1.0
 workflow:
   conversation_variables: []
   environment_variables: []
