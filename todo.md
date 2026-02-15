@@ -1,0 +1,2 @@
+- this still does not give us a preview url
+- add planner, with coversation history
