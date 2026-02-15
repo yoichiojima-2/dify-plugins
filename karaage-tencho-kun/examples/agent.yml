@@ -188,6 +188,19 @@ model_config:
         file_type: html
         filename: output
       type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Get File URL
+      tool_name: get_file_url
+      tool_parameters:
+        file: null
+        format: markdown
+        link_text: null
+      type: builtin
   annotation_reply:
     enabled: false
   chat_prompt_config:
@@ -560,9 +573,9 @@ model_config:
     ### 📁 ファイル出力
 
 
-    #### file_writer（ファイル出力）
+    #### file_writer（ファイル作成）
 
-    コンテンツをダウンロード可能なファイルとして出力します。
+    コンテンツをファイルとして作成します。ファイルオブジェクトを返します。
 
 
     **パラメータ:**
@@ -572,6 +585,20 @@ model_config:
     - filename: 出力ファイル名（拡張子は自動付与）
 
     - file_type: html / json / csv / txt / md
+
+
+    #### get_file_url（ダウンロードURL取得）
+
+    file_writerが返したファイルオブジェクトから、クリック可能なダウンロードURLを取得します。
+
+
+    **パラメータ:**
+
+    - file: file_writerが返したファイルオブジェクト（必須）
+
+    - format: markdown（デフォルト）またはplain
+
+    - link_text: リンクテキスト（省略時はファイル名）
 
 
     ---
@@ -587,11 +614,11 @@ model_config:
 
     - 「天気を見てシフトを最適化して」→ hourly_weather → shift_optimizer
 
-    - 「売上分析してダッシュボードを作って」→ sales_analytics → dashboard_generator → file_writer
+    - 「売上分析してダッシュボードを作って」→ sales_analytics → dashboard_generator → file_writer → get_file_url
 
     - 「シフトを確認して変更のLINEを作って」→ shift_manager → line_composer
 
-    - 「来週のシフト表をHTMLで作って」→ shift_table_generator → HTMLを生成 → file_writer
+    - 「来週のシフト表をHTMLで作って」→ shift_table_generator → HTMLを生成 → file_writer → get_file_url
 
 
     ---
@@ -604,12 +631,12 @@ model_config:
 
     2. 取得したデータをもとに、見やすいHTMLを生成
 
-    3. file_writerでHTMLファイルとして出力
+    3. file_writerでHTMLファイルとして出力（ファイルオブジェクトが返される）
 
-    4. **重要**: file_writerが返すファイルパスをマークダウンリンク形式で表示すること
-    - パスが `/files/tools/xxx.html` の場合、`[📄 ファイル名](/files/tools/xxx.html)` と表示
-    - 絶対にパスをそのまま平文で表示しない
-    - 例: [📊 売上ダッシュボード](/files/tools/abc123.html)
+    4. **重要**: file_writerの出力を get_file_url に渡してダウンロードURLを取得
+    - file_writer → get_file_url の順で2つのツールを連続して使用
+    - get_file_urlがマークダウン形式のクリック可能なリンクを返す
+    - 例: [📄 dashboard.html](https://...)
 
 
     ---
