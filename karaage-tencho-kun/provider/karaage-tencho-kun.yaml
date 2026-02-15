@@ -10,7 +10,7 @@ identity:
   icon: "icon.webp"
 
 credentials_for_provider:
-  - name: endpoint_base_url
+  endpoint_base_url:
     type: text-input
     required: false
     label:
