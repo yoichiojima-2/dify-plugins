@@ -81,9 +81,17 @@ cd .. && make build
 
 ## Versioning
 
-When making changes to the plugin, bump the version in `manifest.yaml`:
-- Update both `version:` (line 1) and `meta.version:` fields
-- Use semver: `0.0.X` for patches, `0.X.0` for features, `X.0.0` for breaking changes
+**Format:** Date-based versioning `YYYY.M.D.N` (e.g., `2026.2.15.1`)
+- `YYYY.M.D` = date without leading zeros
+- `.N` = division number for multiple releases on the same day
+
+**When releasing:**
+1. Update version in `manifest.yaml` (both `version:` and `meta.version:` fields)
+2. Create a GitHub release with `gh release create vYYYY.M.D`
+3. The CI workflow will automatically:
+   - Build the `.difypkg` package
+   - Update `examples/agent.yml` with the new version and package checksum
+   - Upload the package to the release
 
 ## Constraints
 
