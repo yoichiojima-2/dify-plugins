@@ -12,10 +12,12 @@ dependencies:
     marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
     version: null
 - current_identifier: null
-  type: package
+  type: github
   value:
-    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15-7@840381a552c6bb5695c61ac6c27e983431091618c584c55c108acf9849123a0a
-    version: null
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15-7@840381a552c6bb5695c61ac6c27e983431091618c584c55c108acf9849123a0a
+    package: karaage-tencho-kun.difypkg
+    repo: yoichiojima-2/dify-plugins
+    version: v2026.2.15-7
 kind: app
 version: 2026.2.15-7
 workflow:
