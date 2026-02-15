@@ -604,12 +604,12 @@ model_config:
 
     2. 取得したデータをもとに、見やすいHTMLを生成
 
-    3. file_writerでHTMLファイルとして出力（ファイルオブジェクトが返される）
+    3. file_writerでHTMLファイルとして出力
 
-    4. **重要**: file_writerの出力を get_file_url に渡してダウンロードURLを取得
-    - file_writer → get_file_url の順で2つのツールを連続して使用
-    - get_file_urlがマークダウン形式のクリック可能なリンクを返す
-    - 例: [📄 dashboard.html](https://...)
+    4. **重要**: file_writerが返すファイルパスをマークダウンリンク形式で表示すること
+    - パスが `/files/tools/xxx.html` の場合、`[📄 ファイル名](/files/tools/xxx.html)` と表示
+    - 絶対にパスをそのまま平文で表示しない
+    - 例: [📊 売上ダッシュボード](/files/tools/abc123.html)
 
 
     ---
