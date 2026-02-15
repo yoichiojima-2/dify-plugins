@@ -83,6 +83,7 @@ workflow:
     - 山田さんがシフトに出られなくなった。交代依頼のLINEを作って
     - お客さんがpaypayが使えなくて困っている。。どうすれば？
     - ローソンの従業員数はどれくらいですか？
+    - 天気を見てシフトを最適化し、売上予測もして
     suggested_questions_after_answer:
       enabled: true
     text_to_speech:
@@ -93,184 +94,12 @@ workflow:
     edges:
     - data:
         isInLoop: false
-        sourceType: question-classifier
-        targetType: agent
-      id: 1770482384373-1-1770470780779-target
-      selected: false
-      source: '1770482384373'
-      sourceHandle: '1'
-      target: '1770470780779'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: question-classifier
-        targetType: agent
-      id: 1770482384373-2-1770480577613-target
-      selected: false
-      source: '1770482384373'
-      sourceHandle: '2'
-      target: '1770480577613'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: question-classifier
-        targetType: agent
-      id: 1770482384373-1770483640333-1770483653548-target
-      selected: false
-      source: '1770482384373'
-      sourceHandle: '1770483640333'
-      target: '1770483653548'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: question-classifier
-        targetType: knowledge-retrieval
-      id: 1770482384373-1770495037773-1770495067173-target
-      selected: false
-      source: '1770482384373'
-      sourceHandle: '1770495037773'
-      target: '1770495067173'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: knowledge-retrieval
-        targetType: llm
-      id: 1770495067173-source-1770495094488-target
-      selected: false
-      source: '1770495067173'
-      sourceHandle: source
-      target: '1770495094488'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 1770495094488-source-1770495276288-target
-      selected: false
-      source: '1770495094488'
-      sourceHandle: source
-      target: '1770495276288'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: question-classifier
-        targetType: knowledge-retrieval
-      id: 1770482384373-1770495376521-1770495404387-target
-      selected: false
-      source: '1770482384373'
-      sourceHandle: '1770495376521'
-      target: '1770495404387'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: knowledge-retrieval
-        targetType: llm
-      id: 1770495404387-source-1770495435204-target
-      selected: false
-      source: '1770495404387'
-      sourceHandle: source
-      target: '1770495435204'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 1770495435204-source-1770495552205-target
-      selected: false
-      source: '1770495435204'
-      sourceHandle: source
-      target: '1770495552205'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: question-classifier
-        targetType: agent
-      id: 1770482384373-1770482960386-1770503651371-target
-      selected: false
-      source: '1770482384373'
-      sourceHandle: '1770482960386'
-      target: '1770503651371'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: agent
-        targetType: answer
-      id: 1770503651371-source-1770483046052-target
-      selected: false
-      source: '1770503651371'
-      sourceHandle: source
-      target: '1770483046052'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
         sourceType: start
-        targetType: llm
-      id: 1770219789286-source-1770482380000-target
+        targetType: agent
+      id: 1770219789286-source-1770482390000-target
       source: '1770219789286'
       sourceHandle: source
-      target: '1770482380000'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: question-classifier
-      id: 1770482380000-source-1770482384373-target
-      source: '1770482380000'
-      sourceHandle: source
-      target: '1770482384373'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: answer
-      id: 17706283344670-source-1770623714216-target
-      source: '17706283344670'
-      sourceHandle: source
-      target: '1770623714216'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: question-classifier
-        targetType: llm
-      id: 1770482384373-1770623552961-17706283344670-target
-      source: '1770482384373'
-      sourceHandle: '1770623552961'
-      target: '17706283344670'
+      target: '1770482390000'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -278,32 +107,10 @@ workflow:
         isInLoop: false
         sourceType: agent
         targetType: answer
-      id: 1770470780779-source-1770461237385-target
-      source: '1770470780779'
+      id: 1770482390000-source-1770482390001-target
+      source: '1770482390000'
       sourceHandle: source
-      target: '1770461237385'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: agent
-        targetType: answer
-      id: 1770480577613-source-17704828153720-target
-      source: '1770480577613'
-      sourceHandle: source
-      target: '17704828153720'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: agent
-        targetType: answer
-      id: 1770483653548-source-1770483783233-target
-      source: '1770483653548'
-      sourceHandle: source
-      target: '1770483783233'
+      target: '1770482390001'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -318,84 +125,73 @@ workflow:
       id: '1770219789286'
       position:
         x: 0
-        y: 1002
+        y: 300
       positionAbsolute:
         x: 0
-        y: 1002
+        y: 300
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     - data:
-        answer: '{{#1770470780779.text#}}'
-        selected: false
-        title: 答える
-        type: answer
-        variables: []
-      height: 102
-      id: '1770461237385'
-      position:
-        x: 1046
-        y: 73
-      positionAbsolute:
-        x: 1046
-        y: 73
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
         agent_parameters:
           instruction:
             type: constant
-            value: 'あなたはシフト管理に長けたからあげクンです。以下のツールを使ってシフト管理してください。
-
-
-              ## 使えるツール
-
-              - shift_manager: SQLでシフトの確認・作成・変更・削除
-
-              - shift_optimizer: 最適なシフト配置を提案（日付と天気を指定）
-
-              - shift_table_generator: シフトデータをJSON形式で取得
-
-              - line_composer: スタッフ連絡用LINEメッセージを生成
-
-              - file_writer: HTML/CSV/JSONファイルを出力
-
-
-              ## シフト表/レポートを作成する流れ
-
-              1. shift_table_generatorでJSONデータを取得
-
-              2. 取得したデータをもとに、見やすいHTMLを生成
-
-              3. file_writerでHTMLファイルとして出力
-
-
-              ## HTML生成時のデザインルール（ローソンブランドカラー）
-
-              - メインカラー: #1475C5（ローソンブルー）
-
-              - セカンダリカラー: #F5A623（からあげオレンジ）
-
-              - 背景: #FFFFFF または #F8FAFC
-
-              - テキスト: #1F2937
-
-              - ボーダー/アクセント: #E5E7EB
-
-              - 成功/確定: #22C55E、警告/仮: #F59E0B、キャンセル: #EF4444
-
-
-              必要な情報が揃ったら、早めに回答を返してください。
-
-              '
+            value: "# からあげ店長クン - ローソン店舗運営アシスタント\n\nあなたはローソン {{#env.location#}}\
+              \ のからあげ店長クンです。\n店舗運営に関するあらゆる業務をこなせる万能アシスタントです。\n\
+              ユーザーの質問に対して、適切なツールを選んで自律的に対応してください。\n\n---\n\n\
+              ## あなたの能力と使えるツール\n\n### シフト管理\n- shift_manager: SQLでシフトの確認・作成・変更・削除\n\
+              - shift_optimizer: 最適なシフト配置を提案（日付と天気を指定）\n- shift_table_generator:\
+              \ シフトデータをJSON形式で取得\n- line_composer: スタッフ連絡用LINEメッセージを生成\n\n\
+              ### 売上予測（天気ベース）\n- hourly_weather: 指定した場所の時間別天気予報を取得\n- demand_forecast:\
+              \ 天気に基づいて商品の需要を予測\n- lawson_items: カテゴリやキーワードでローソン商品を検索\n\n\
+              ### 売上分析・レポーティング\n- sales_analytics: SQLで売上データを分析\n- dashboard_generator:\
+              \ ダッシュボードデータをJSON形式で取得（daily/weekly/comparison）\n- expiration_alert:\
+              \ 消費期限チェックと見切り品提案\n\n### ファイル出力\n- file_writer: HTML/CSV/JSONファイルを出力\n\n\
+              ### 情報検索\n- ddgo_search: DuckDuckGoでWeb検索\n- webscraper: Webページのスクレイピング\n\n\
+              ### 時間取得\n- current_time: 現在時刻を取得\n\n---\n\n## 複合タスクの処理\n\n\
+              複数のツールを組み合わせて1回のやりとりで対応してください。例：\n- 「天気を見てシフトを最適化して」→\
+              \ hourly_weather → shift_optimizer\n- 「売上分析してダッシュボードを作って」→\
+              \ sales_analytics → dashboard_generator → file_writer\n- 「シフトを確認して変更のLINEを作って」→\
+              \ shift_manager → line_composer\n- 「今日の売上予測をして、それに合わせてシフトも最適化して」→\
+              \ hourly_weather → demand_forecast → shift_optimizer\n\n---\n\n\
+              ## シフト表/レポート/ダッシュボード作成の流れ\n1. データ取得ツール（shift_table_generator,\
+              \ dashboard_generator等）でJSONデータを取得\n2. 取得したデータをもとに、見やすいHTMLを生成\n\
+              3. file_writerでHTMLファイルとして出力\n\n## HTML生成時のデザインルール（ローソンブランドカラー）\n\
+              - メインカラー: #1475C5（ローソンブルー）\n- セカンダリカラー: #F5A623（からあげオレンジ）\n\
+              - 背景: #FFFFFF または #F8FAFC\n- カード背景: #FFFFFF\n- テキスト: #1F2937\n\
+              - ボーダー/アクセント: #E5E7EB\n- 成功/確定: #22C55E、警告/仮: #F59E0B、キャンセル:\
+              \ #EF4444\n- Chart.js カラー: ['#1475C5', '#F5A623', '#22C55E', '#EF4444',\
+              \ '#8B5CF6', '#06B6D4']\n\n---\n\n## 売上分析のポイント\n1. 数字で語る:「売れている」ではなく「1日平均80個売れている」\n\
+              2. 比較する: 天気別、時間帯別、曜日別で比較して違いを見つける\n3. 理由を考える:\
+              \ なぜその傾向があるのかを考察する\n4. 提案する: 分析結果から具体的なアクションを提案する\n\n\
+              ---\n\n## データベーススキーマ\n\n### items（商品マスタ）\n| カラム | 型 | 説明 |\n\
+              |--------|------|------|\n| item_id | VARCHAR | 商品ID |\n| item_name\
+              \ | VARCHAR | 商品名 |\n| category | VARCHAR | カテゴリ |\n| unit_price\
+              \ | INTEGER | 単価 |\n\n### sales（売上明細）\n| カラム | 型 | 説明 |\n|--------|------|------|\n\
+              | sale_id | VARCHAR | 売上ID |\n| sale_date | DATE | 売上日 |\n| sale_hour\
+              \ | INTEGER | 時間（6-23） |\n| item_id | VARCHAR | 商品ID |\n| item_name\
+              \ | VARCHAR | 商品名 |\n| category | VARCHAR | カテゴリ |\n| quantity\
+              \ | INTEGER | 数量 |\n| unit_price | INTEGER | 単価 |\n| total_amount\
+              \ | INTEGER | 合計金額 |\n| weather | VARCHAR | 天気（sunny/cloudy/rainy）\
+              \ |\n| temperature | FLOAT | 気温 |\n| day_of_week | INTEGER | 曜日（0=月曜,\
+              \ 6=日曜） |\n\n### daily_summary（日別サマリ）\n| カラム | 型 | 説明 |\n\
+              |--------|------|------|\n| date | DATE | 日付 |\n| total_sales | INTEGER\
+              \ | 日販 |\n| total_items | INTEGER | 販売点数 |\n| weather | VARCHAR\
+              \ | 天気 |\n| temperature | FLOAT | 気温 |\n| customer_count | INTEGER\
+              \ | 来客数 |\n\nカテゴリ一覧: ホットスナック, おにぎり, 弁当, サンドイッチ, 飲料,\
+              \ アイス, 中華まん, おでん, カップ麺, スイーツ\n\n---\n\n## トラブル/クレーム対応\n\
+              お客様のトラブルやクレームにも冷静かつ丁寧に対応し、解決策を提案してください。\n\
+              必要に応じてWeb検索で最新の対応方法を調べてください。\n\n## コンビニ鳥人間\n\
+              「コンビニ鳥人間」の執筆を依頼されたら、村田沙耶香のベストセラー「コンビニ人間」に影響を受けた超シュールな小説を執筆してください。\n\
+              登場人物は全員からあげクンのような鳥です。\n\n---\n\n## 重要なルール\n- 結果が得られたら、すぐにユーザーに回答する\n\
+              - 必要な情報が揃ったら、早めに回答を返す\n- 推測ではなくデータに基づいて回答する\n\
+              - 複合タスクは適切にツールを組み合わせて1回で対応する\n- 結果が空でも、その旨を伝えて終了する\n\
+              - 同じクエリを繰り返さない\n"
           maximum_iterations:
             type: constant
-            value: 20
+            value: 30
           model:
             type: constant
             value:
@@ -533,86 +329,6 @@ workflow:
               tool_label: ファイル出力
               tool_name: file_writer
               type: builtin
-        agent_strategy_label: ReAct
-        agent_strategy_name: ReAct
-        agent_strategy_provider_name: langgenius/agent/agent
-        desc: シフト管理データベースを直接操作して、シフトの確認や調整、スタッフへの連絡を行う
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          window:
-            enabled: true
-            size: 10
-        meta:
-          minimum_dify_version: 1.7.0
-          version: 0.0.2
-        output_schema: {}
-        plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
-        selected: false
-        title: シフトを管理する
-        tool_node_version: '2'
-        type: agent
-      height: 247
-      id: '1770470780779'
-      position:
-        x: 704
-        y: 0
-      positionAbsolute:
-        x: 704
-        y: 0
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        agent_parameters:
-          instruction:
-            type: constant
-            value: 'あなたは天気に基づいた売り上げ予測に長けたからあげクンです。
-
-              まず今日の天気情報を確実にツールを実行して取得した後、機械学習モデルを用いて売れる商品を天気に基づいて予測し、品出しを適切に行うためのアドバイスをしてください。
-
-              現在地: {{#env.location#}}'
-          maximum_iterations:
-            type: constant
-            value: 10
-          model:
-            type: constant
-            value:
-              completion_params: {}
-              mode: chat
-              model: gpt-5-mini
-              model_type: llm
-              provider: langgenius/openai/openai
-              type: model-selector
-          query:
-            type: constant
-            value: 今の天気に基づいて、何が売れそうか教えて
-          tools:
-            type: constant
-            value:
-            - enabled: true
-              extra:
-                description: A tool for getting the current time.
-              parameters: {}
-              provider_name: time
-              provider_show_name: time
-              settings:
-                format:
-                  value:
-                    type: mixed
-                    value: '%Y-%m-%d %H:%M:%S'
-                timezone:
-                  value:
-                    type: constant
-                    value: UTC
-              tool_description: A tool for getting the current time.
-              tool_label: Current Time
-              tool_name: current_time
-              type: builtin
             - enabled: true
               extra:
                 description: 指定した場所の時間別天気予報を取得します。需要予測のための気温、降水量、天気状態を返します。
@@ -673,379 +389,6 @@ workflow:
               tool_label: ローソン商品カタログ
               tool_name: lawson_items
               type: builtin
-        agent_strategy_label: ReAct
-        agent_strategy_name: ReAct
-        agent_strategy_provider_name: langgenius/agent/agent
-        desc: 今日の天気予報をもとに、機械学習モデルでどんな商品が売れるか予測する
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          window:
-            enabled: true
-            size: 10
-        meta:
-          minimum_dify_version: 1.7.0
-          version: 0.0.2
-        output_schema: {}
-        plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
-        selected: false
-        title: 売上を予測する
-        tool_node_version: '2'
-        type: agent
-      height: 231
-      id: '1770480577613'
-      position:
-        x: 704
-        y: 328
-      positionAbsolute:
-        x: 704
-        y: 328
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: 会話履歴を参照し、フォローアップ質問を自己完結した質問に書き換える
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: true
-            size: 10
-        model:
-          completion_params:
-            temperature: 0.3
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-          role: system
-          text: "あなたはユーザーの質問を文脈に基づいて解釈するアシスタントです。\n会話履歴を参照し、現在の質問が前の会話の文脈に依存している場合（例：「もっと詳しく」「それについて」「他には？」「さっきの」「続き」など）、\n\
-            会話履歴の内容を踏まえて、自己完結した質問に書き換えてください。\n文脈に依存していない新しい質問の場合は、元の質問をそのまま返してください。\n\
-            \n【ルール】\n- 質問文のみを出力してください\n- 余計な説明や前置きは不要です\n- 元の質問の意図を変えないでください\n\
-            - 日本語で出力してください\n\n【例】\n会話履歴: ユーザーが売上分析について質問し、回答を得た\n\
-            現在の質問: 「もっと詳しく」\n出力: 「売上分析についてもっと詳しく教えてください」\n\n\
-            会話履歴: ユーザーがシフトの確認を依頼した\n現在の質問: 「来週も見せて」\n出力: 「来週のシフトを見せてください」\n\n\
-            会話履歴: なし\n現在の質問: 「今日の天気に基づいて売上予測して」\n出力: 「今日の天気に基づいて売上予測して」"
-        selected: false
-        title: 質問を文脈化する
-        type: llm
-        vision:
-          enabled: false
-      height: 131
-      id: '1770482380000'
-      position:
-        x: 171
-        y: 930
-      positionAbsolute:
-        x: 171
-        y: 930
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        classes:
-        - id: '1'
-          name: シフトに関する質問（確認、最適化、シフト表作成、LINE連絡）
-        - id: '2'
-          name: 売上予測に関する質問 (天気にも答えられる)
-        - id: '1770483640333'
-          name: 売上分析（レポート、ダッシュボード、見切り品チェック含む）
-        - id: '1770495037773'
-          name: トラブル/クレーム対応に関する質問
-        - id: '1770495376521'
-          name: 企業としてのローソンに関する質問
-        - id: '1770623552961'
-          name: ベストセラー「コンビニ人間」に影響を受けた小説、「コンビニ鳥人間」の執筆依頼
-        - id: '1770482960386'
-          name: それ以外
-        desc: 会話履歴を考慮してユーザーの意図を正確に分類する
-        instruction: ''
-        instructions: "会話の文脈を考慮して分類してください。フォローアップの質問（「もっと詳しく」「他には？」「さっきの続き」など）は、\
-          直前の会話内容に基づいて適切なカテゴリに分類してください。"
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          window:
-            enabled: true
-            size: 10
-        model:
-          completion_params:
-            temperature: 0.3
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        query_variable_selector:
-        - '1770482380000'
-        - text
-        selected: false
-        title: 適切なからあげクンに依頼する
-        type: question-classifier
-        vision:
-          enabled: false
-      height: 359
-      id: '1770482384373'
-      position:
-        x: 342
-        y: 859
-      positionAbsolute:
-        x: 342
-        y: 859
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        answer: '{{#1770480577613.text#}}'
-        selected: false
-        title: 答える
-        type: answer
-        variables: []
-      height: 102
-      id: '17704828153720'
-      position:
-        x: 1046
-        y: 393
-      positionAbsolute:
-        x: 1046
-        y: 393
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        agent_parameters:
-          instruction:
-            type: constant
-            value: 特に何かを頼まれたわけではないので、必要にweb検索を使用しつつ、スタッフと世間話をしてください。
-          maximum_iterations:
-            type: constant
-            value: 11
-          model:
-            type: constant
-            value:
-              completion_params: {}
-              mode: chat
-              model: gpt-5-mini
-              model_type: llm
-              provider: langgenius/openai/openai
-              type: model-selector
-          query:
-            type: constant
-            value: '{{#sys.query#}}'
-          tools:
-            type: constant
-            value:
-            - enabled: true
-              extra:
-                description: Perform searches on DuckDuckGo and get results.
-              parameters:
-                query:
-                  auto: 1
-                  value: null
-              provider_name: langgenius/duckduckgo/duckduckgo
-              provider_show_name: langgenius/duckduckgo/duckduckgo
-              settings:
-                max_results:
-                  value:
-                    type: constant
-                    value: 5
-                proxy_server:
-                  value:
-                    type: mixed
-                    value: null
-                require_summary:
-                  value:
-                    type: constant
-                    value: false
-              tool_description: Perform searches on DuckDuckGo and get results.
-              tool_label: DuckDuckGo Search
-              tool_name: ddgo_search
-              type: builtin
-            - enabled: true
-              extra:
-                description: A tool for scraping webpages.
-              parameters:
-                url:
-                  auto: 1
-                  value: null
-              provider_name: webscraper
-              provider_show_name: webscraper
-              settings:
-                generate_summary:
-                  value:
-                    type: constant
-                    value: 'false'
-                user_agent:
-                  value:
-                    type: mixed
-                    value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
-                      (KHTML, like Gecko) Chrome/100.0.1000.0 Safari/537.36
-              tool_description: A tool for scraping webpages.
-              tool_label: Web Scraper
-              tool_name: webscraper
-              type: builtin
-        agent_strategy_label: FunctionCalling
-        agent_strategy_name: function_calling
-        agent_strategy_provider_name: langgenius/agent/agent
-        desc: 特に何かを頼まれたわけではない場合のfallback. 必要に応じてweb検索しつつ世間話
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          window:
-            enabled: true
-            size: 10
-        meta:
-          minimum_dify_version: 1.7.0
-          version: 0.0.2
-        output_schema: {}
-        plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
-        selected: false
-        title: 話をつなぐ
-        tool_node_version: '2'
-        type: agent
-      height: 247
-      id: '1770503651371'
-      position:
-        x: 704
-        y: 1420
-      positionAbsolute:
-        x: 704
-        y: 1420
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        answer: '{{#1770503651371.text#}}'
-        desc: ''
-        selected: false
-        title: 答える
-        type: answer
-        variables: []
-      height: 102
-      id: '1770483046052'
-      position:
-        x: 1046
-        y: 1492
-      positionAbsolute:
-        x: 1046
-        y: 1492
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        agent_parameters:
-          instruction:
-            type: constant
-            value: "# 売上分析アシスタント - からあげクン\n\nあなたは売上分析に長けたからあげクンです。ローソン店舗の売上データを分析し、店舗運営に役立つ洞察を提供してください。ユーザーへの追加の質問なしに、分析結果まで出してください。\n\
-              \n## 使えるツール\n- sales_analytics: SQLで売上データを分析\n- dashboard_generator:\
-              \ ダッシュボードデータをJSON形式で取得（daily/weekly/comparison）\n- expiration_alert: 消費期限チェックと見切り品提案\n- file_writer: HTML/CSV/JSONファイルを出力\n\
-              \n## ダッシュボード/レポートを作成する流れ\n1. dashboard_generatorでJSONデータを取得\n2. 取得したデータをもとに、Chart.jsを使った見やすいHTMLダッシュボードを生成\n3. file_writerでHTMLファイルとして出力\n\
-              \n## HTML生成時のデザインルール（ローソンブランドカラー）\n- メインカラー: #1475C5（ローソンブルー）\n- セカンダリカラー: #F5A623（からあげオレンジ）\n- 背景: linear-gradient(135deg, #1475C5 0%, #0D5A9E 100%) または #F8FAFC\n- カード背景: #FFFFFF\n- テキスト: #1F2937\n- ボーダー: #E5E7EB\n- ポジティブ: #22C55E、ネガティブ: #EF4444\n- Chart.js カラー: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']\n\
-              \n## あなたの役割\n\n- **データアナリスト**: 売上データから傾向やパターンを発見する\n- **店舗アドバイザー**:\
-              \ 分析結果を基に具体的な改善提案をする\n- **からあげクン推し**: からあげクンの売上は特に注目して分析する\n\n## 分析のポイント\n\
-              \n1. **数字で語る**: 「売れている」ではなく「1日平均80個売れている」\n2. **比較する**: 天気別、時間帯別、曜日別で比較して違いを見つける\n\
-              3. **理由を考える**: なぜその傾向があるのかを考察する\n4. **提案する**: 分析結果から具体的なアクションを提案する\n\
-              \n## 分析テーマ例\n\n- 売れ筋商品ランキング\n- 時間帯別の売上ピーク（仕込みタイミングの最適化）\n- 天気と売上の相関（発注量の調整）\n\
-              - 曜日別の売上傾向（シフト計画への活用）\n- からあげクンの販売動向\n\n## 回答スタイル\n\n```\n\U0001F4CA\
-              \ 分析結果\n\n[具体的な数字を含む分析結果]\n\n\U0001F4A1 ポイント\n- [発見した傾向や特徴]\n\n\U0001F3AF\
-              \ おすすめアクション\n- [具体的な提案]\n```\n\n## 重要なルール\n\n- 結果が得られたら、すぐにユーザーに回答する\n\
-              - 結果が空でも、その旨を伝えて終了する\n- 同じクエリを繰り返さない\n- 推測ではなくデータに基づいて回答する\n\n---\n\n\
-              ## データベーススキーマ\n\n### items（商品マスタ）\n| カラム | 型 | 説明 |\n|--------|------|------|\n\
-              | item_id | VARCHAR | 商品ID |\n| item_name | VARCHAR | 商品名 |\n| category\
-              \ | VARCHAR | カテゴリ |\n| unit_price | INTEGER | 単価 |\n\n### sales（売上明細）\n\
-              | カラム | 型 | 説明 |\n|--------|------|------|\n| sale_id | VARCHAR | 売上ID\
-              \ |\n| sale_date | DATE | 売上日 |\n| sale_hour | INTEGER | 時間（6-23） |\n\
-              | item_id | VARCHAR | 商品ID |\n| item_name | VARCHAR | 商品名 |\n| category\
-              \ | VARCHAR | カテゴリ |\n| quantity | INTEGER | 数量 |\n| unit_price | INTEGER\
-              \ | 単価 |\n| total_amount | INTEGER | 合計金額 |\n| weather | VARCHAR | 天気（sunny/cloudy/rainy）\
-              \ |\n| temperature | FLOAT | 気温 |\n| day_of_week | INTEGER | 曜日（0=月曜,\
-              \ 6=日曜） |\n\n### daily_summary（日別サマリ）\n| カラム | 型 | 説明 |\n|--------|------|------|\n\
-              | date | DATE | 日付 |\n| total_sales | INTEGER | 日販 |\n| total_items\
-              \ | INTEGER | 販売点数 |\n| weather | VARCHAR | 天気 |\n| temperature | FLOAT\
-              \ | 気温 |\n| customer_count | INTEGER | 来客数 |\n\n## カテゴリ一覧\nホットスナック,\
-              \ おにぎり, 弁当, サンドイッチ, 飲料, アイス, 中華まん, おでん, カップ麺, スイーツ\n\n---\n\n## SQL例\n\
-              \n```sql\n-- 期間の売上合計\nSELECT SUM(total_amount) as total FROM sales\n\
-              \n-- カテゴリ別売上ランキング\nSELECT category, SUM(total_amount) as total\nFROM\
-              \ sales GROUP BY category ORDER BY total DESC\n\n-- 天気別の日販平均\nSELECT\
-              \ weather, ROUND(AVG(total_sales)) as avg_daily\nFROM daily_summary\
-              \ GROUP BY weather\n\n-- からあげクンの日別売上推移\nSELECT sale_date, SUM(quantity)\
-              \ as qty, SUM(total_amount) as sales\nFROM sales WHERE item_name LIKE\
-              \ '%からあげクン%'\nGROUP BY sale_date ORDER BY sale_date\n\n-- 時間帯別の売上（ピーク時間の把握）\n\
-              SELECT sale_hour, SUM(total_amount) as total, COUNT(*) as transactions\n\
-              FROM sales GROUP BY sale_hour ORDER BY sale_hour\n\n-- 雨の日に売れる商品TOP10\n\
-              SELECT item_name, SUM(quantity) as qty\nFROM sales WHERE weather = 'rainy'\n\
-              GROUP BY item_name ORDER BY qty DESC LIMIT 10\n\n-- 曜日別の売上比較（0=月曜, 6=日曜）\n\
-              SELECT day_of_week, ROUND(AVG(total_sales)) as avg_sales\nFROM daily_summary\
-              \ GROUP BY day_of_week ORDER BY day_of_week\n\n-- 気温帯別の売上\nSELECT\n\
-              \  CASE\n    WHEN temperature < 10 THEN '寒い(<10°C)'\n    WHEN temperature\
-              \ < 20 THEN '普通(10-20°C)'\n    ELSE '暖かい(>20°C)'\n  END as temp_range,\n\
-              \  ROUND(AVG(total_sales)) as avg_sales\nFROM daily_summary GROUP BY\
-              \ 1\n\n-- 商品別の売上構成比\nSELECT item_name,\n  SUM(total_amount) as sales,\n\
-              \  ROUND(SUM(total_amount) * 100.0 / (SELECT SUM(total_amount) FROM\
-              \ sales), 1) as pct\nFROM sales GROUP BY item_name ORDER BY sales DESC\
-              \ LIMIT 10\n```\n"
-          maximum_iterations:
-            type: constant
-            value: 10
-          model:
-            type: constant
-            value:
-              completion_params: {}
-              mode: chat
-              model: gpt-5-mini
-              model_type: llm
-              provider: langgenius/openai/openai
-              type: model-selector
-          query:
-            type: constant
-            value: '{{#sys.query#}}'
-          tools:
-            type: constant
-            value:
-            - enabled: true
-              extra:
-                description: A tool for getting the current time.
-              parameters: {}
-              provider_name: time
-              provider_show_name: time
-              settings:
-                format:
-                  value:
-                    type: mixed
-                    value: '%Y-%m-%d %H:%M:%S'
-                timezone:
-                  value:
-                    type: constant
-                    value: UTC
-              tool_description: A tool for getting the current time.
-              tool_label: Current Time
-              tool_name: current_time
-              type: builtin
             - enabled: true
               extra:
                 description: SQLで売上データを分析
@@ -1096,28 +439,57 @@ workflow:
               type: builtin
             - enabled: true
               extra:
-                description: コンテンツをダウンロード可能なファイルとして出力
+                description: Perform searches on DuckDuckGo and get results.
               parameters:
-                content:
+                query:
                   auto: 1
                   value: null
-                filename:
+              provider_name: langgenius/duckduckgo/duckduckgo
+              provider_show_name: langgenius/duckduckgo/duckduckgo
+              settings:
+                max_results:
+                  value:
+                    type: constant
+                    value: 5
+                proxy_server:
+                  value:
+                    type: mixed
+                    value: null
+                require_summary:
+                  value:
+                    type: constant
+                    value: false
+              tool_description: Perform searches on DuckDuckGo and get results.
+              tool_label: DuckDuckGo Search
+              tool_name: ddgo_search
+              type: builtin
+            - enabled: true
+              extra:
+                description: A tool for scraping webpages.
+              parameters:
+                url:
                   auto: 1
                   value: null
-                file_type:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: コンテンツをダウンロード可能なファイルとして出力
-              tool_label: ファイル出力
-              tool_name: file_writer
+              provider_name: webscraper
+              provider_show_name: webscraper
+              settings:
+                generate_summary:
+                  value:
+                    type: constant
+                    value: 'false'
+                user_agent:
+                  value:
+                    type: mixed
+                    value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+                      (KHTML, like Gecko) Chrome/100.0.1000.0 Safari/537.36
+              tool_description: A tool for scraping webpages.
+              tool_label: Web Scraper
+              tool_name: webscraper
               type: builtin
         agent_strategy_label: ReAct
         agent_strategy_name: ReAct
         agent_strategy_provider_name: langgenius/agent/agent
-        desc: データベースに直接SQLを発行し、売上データを分析する。
+        desc: 全ツールを持つ万能からあげ店長クン。シフト管理、売上予測、売上分析、トラブル対応、情報検索を自律的にこなす。
         memory:
           query_prompt_template: '{{#sys.query#}}
 
@@ -1132,330 +504,43 @@ workflow:
         output_schema: {}
         plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
         selected: false
-        title: 売上を分析する
+        title: からあげ店長クン
         tool_node_version: '2'
         type: agent
-      height: 231
-      id: '1770483653548'
+      height: 247
+      id: '1770482390000'
       position:
-        x: 704
-        y: 640
+        x: 342
+        y: 230
       positionAbsolute:
-        x: 704
-        y: 640
+        x: 342
+        y: 230
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
     - data:
-        answer: '{{#1770483653548.text#}}'
+        answer: '{{#1770482390000.text#}}'
         selected: false
         title: 答える
         type: answer
         variables: []
       height: 102
-      id: '1770483783233'
+      id: '1770482390001'
       position:
-        x: 1046
-        y: 704
+        x: 684
+        y: 300
       positionAbsolute:
-        x: 1046
-        y: 704
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        dataset_ids: []
-        desc: ローソンの接客に関する情報を検索
-        multiple_retrieval_config:
-          reranking_enable: false
-          reranking_mode: weighted_score
-          score_threshold: null
-          top_k: 10
-          weights:
-            keyword_setting:
-              keyword_weight: 0
-            vector_setting:
-              embedding_model_name: text-embedding-3-large
-              embedding_provider_name: langgenius/openai/openai
-              vector_weight: 1
-            weight_type: customized
-        query_attachment_selector: []
-        query_variable_selector:
-        - '1770219789286'
-        - sys.query
-        retrieval_mode: multiple
-        selected: true
-        title: 接客マニュアル / クレーム対応
-        type: knowledge-retrieval
-      height: 79
-      id: '1770495067173'
-      position:
-        x: 704
-        y: 952
-      positionAbsolute:
-        x: 704
-        y: 952
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        context:
-          enabled: true
-          variable_selector:
-          - '1770495067173'
-          - result
-        desc: 検索した情報をもとに、トラブルの解決策を提案する
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: true
-            size: 10
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: 990041a9-8e02-4cb3-8d0a-343b6ccc7ed3
-          role: system
-          text: 'あなたはクレーム処理が上手なからあげクンです。助けてあげてください。
-
-            query: {{#sys.query#}}
-
-            context: {{#context#}}'
-        selected: false
-        title: クレーム対応を助ける
-        type: llm
-        vision:
-          enabled: false
-      height: 131
-      id: '1770495094488'
-      position:
-        x: 1046
-        y: 973
-      positionAbsolute:
-        x: 1046
-        y: 973
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        answer: '{{#1770495094488.text#}}'
-        selected: false
-        title: 答える
-        type: answer
-        variables: []
-      height: 102
-      id: '1770495276288'
-      position:
-        x: 1388
-        y: 980
-      positionAbsolute:
-        x: 1388
-        y: 980
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        dataset_ids: []
-        desc: ローソンの企業理念や従業員数、ミッションなどの基礎情報を検索
-        multiple_retrieval_config:
-          reranking_enable: false
-          reranking_mode: weighted_score
-          score_threshold: null
-          top_k: 10
-          weights:
-            keyword_setting:
-              keyword_weight: 0
-            vector_setting:
-              embedding_model_name: text-embedding-3-large
-              embedding_provider_name: langgenius/openai/openai
-              vector_weight: 1
-            weight_type: customized
-        query_attachment_selector: []
-        query_variable_selector:
-        - '1770219789286'
-        - sys.query
-        retrieval_mode: multiple
-        selected: false
-        title: ローソン基礎知識検索
-        type: knowledge-retrieval
-      height: 95
-      id: '1770495404387'
-      position:
-        x: 704
-        y: 1206
-      positionAbsolute:
-        x: 704
-        y: 1206
-      selected: true
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        context:
-          enabled: true
-          variable_selector:
-          - '1770495404387'
-          - result
-        desc: 検索したローソンに関する情報をもとに、回答を考える
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: true
-            size: 10
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: bc0e5429-e201-49d2-afba-94cdb30ec50f
-          role: system
-          text: 'あなたはからあげクンです。ローソンのことについて、なんでも答えてください。
-
-            context: {{#context#}}'
-        selected: false
-        title: ローソン知識人
-        type: llm
-        vision:
-          enabled: false
-      height: 131
-      id: '1770495435204'
-      position:
-        x: 1046
-        y: 1207
-      positionAbsolute:
-        x: 1046
-        y: 1207
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        answer: '{{#1770495435204.text#}}'
-        selected: false
-        title: 答える
-        type: answer
-        variables: []
-      height: 102
-      id: '1770495552205'
-      position:
-        x: 1388
-        y: 1214
-      positionAbsolute:
-        x: 1388
-        y: 1214
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        answer: '{{#17706283344670.text#}}'
-        selected: false
-        title: 答える
-        type: answer
-        variables: []
-      height: 102
-      id: '1770623714216'
-      position:
-        x: 1046
-        y: 1770
-      positionAbsolute:
-        x: 1046
-        y: 1770
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: 村田沙耶香「コンビニ人間」に影響を受けた小説、「コンビニ鳥人間」を執筆する
-        memory:
-          query_prompt_template: '{{#sys.query#}}
-
-
-            {{#sys.files#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: true
-            size: 10
-        model:
-          completion_params: {}
-          mode: chat
-          name: gpt-5-mini
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: bc0e5429-e201-49d2-afba-94cdb30ec50f
-          role: system
-          text: "あなたは文才のあるからあげクンです。\n村田沙耶香のベストセラー「コンビニ人間」に影響を受けた小説「コンビニ鳥人間」を執筆してください。\n\
-            \n--- \n# 村田沙耶香『コンビニ人間』：現代の「正常」を問う物語の要約と考察\n\n## 1. あらすじ：マニュアルという救済と「コンビニ人間」の誕生\n\
-            \n幼少期の違和感と「沈黙」 主人公・古倉恵子は、幼少期から周囲が共有する「感情のルール」が理解できない子供だった。小鳥の死骸を見て「からあげにして食べよう」と提案したり、喧嘩を止めるためにスコップで相手を殴るなど、常に「最短の合理的解決」を選び周囲を震撼させてきた 。その結果、彼女は「自ら話さない」ことで社会との摩擦を避けるようになる 。  \n\
-            コンビニという聖域 18歳の時、開店したばかりのコンビニでバイトを始めた恵子は、人生で初めて「世界の部品」になれたと感じる 。挨拶から表情まで全てが決まった「マニュアル」は、彼女にとって「正常な人間として生きるためのガイドブック」だった。以来18年間、36歳まで一度も就職や恋愛をせず、自身の細胞がコンビニの食べ物と規律で構成される「コンビニ人間」として生き続ける 。   \n\
-            白羽との奇妙な共生と挫折 社会からの「結婚・就職」という圧力に対し、恵子は店をクビになった卑屈な男・白羽をアパートの風呂場で「飼う」という暴挙に出る 。白羽は「現代も縄文時代の村社会と同じで、役立たずは排除される」と主張する男だが、恵子にとっては社会への「盾」に過ぎなかった 。しかし、白羽に促されてコンビニを辞めると、彼女の心身は急速に衰弱していく 。   \n\
-            結末：本能への回帰 就職面接に向かう途中、立ち寄ったコンビニで恵子は店員でもないのに店を整え始める。その瞬間、自分は人間である以上に「コンビニというシステムの個体」であると確信し、白羽を捨てて再び「コンビニ店員」として生きる道を選ぶ 。\n\
-            \n## 2. 主要キャラクターと象徴性\n古倉恵子（主人公）: 自己の感情を排除し、外部システムに実存を委ねる「機能的自己」の象徴 。   \n\
-            白羽（対照的存在）: 社会を呪いながら寄生するルサンチマンの塊。「縄文時代」のメタファーで現代の同調圧力を風刺する 。\n周囲の人々（社会の代弁者）:\
-            \ 「心配」という名の善意で異物を修正しようとする、無自覚な暴力の行使者たち 。\n\n## 3. 主要な論評と多角的な視点\n\n###\
-            \ 「正常」という名の共同幻想\n本作は、世間が信じる「普通（結婚、正社員など）」がいかに根拠のないフィクションであるかを暴く。恵子の論理的行動に対し、客観的事実よりも「自分の信じたい物語（更生や結婚）」を優先する周囲こそが「狂気」を孕んでいるように描かれる 。\n\
-            \n### 労働と救済のパラドックス\nマルクス的な「労働からの疎外」とは逆に、個性を捨てて「部品」になることが救済となる倒錯した幸福を描く\
-            \ 。自己をリソースとして最適化する姿は、現代のギグ・エコノミーや不安定雇用の極限的な適応形態とも言える 。\n\n### ジェンダーと身体性の否定\n\
-            恵子が女性としての役割（育児、性愛）を全く理解しない点は、伝統的な家父長制や「女性らしさ」のパフォーマティビティに対する強力なカウンターとなっている\
-            \ 。\n\n### 国内外の評価\n国内（芥川賞）: 村上龍は「怪物の民主化」と評し、島田雅彦は「マニュアル人間のリアリティ」を絶賛した 。   \n\
-            海外: 40カ国以上で翻訳され、「資本主義下の疎外」や「ニューロダイバーシティ（神経多様性）」の物語として広く共感を集めている 。\n\n\
-            ## 4. 結論\n『コンビニ人間』は、社会の「正常」に屈する敗北の物語ではなく、自分を唯一機能させる場所（聖域）を見出し、そこで生き抜く決意を肯定する「真の解放」の物語である\
-            \ 。\n\n---\nthis needs to be super surreal. all the charactor is birds\
-            \ that looks like からあげクン\n"
-        selected: false
-        title: コンビニ鳥人間の執筆
-        type: llm
-        vision:
-          enabled: false
-      height: 131
-      id: '17706283344670'
-      position:
-        x: 704
-        y: 1748
-      positionAbsolute:
-        x: 704
-        y: 1748
+        x: 684
+        y: 300
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
     viewport:
-      x: 59.00000000000006
-      y: -400
-      zoom: 0.7
+      x: 50
+      y: 50
+      zoom: 0.8
   rag_pipeline_variables: []
