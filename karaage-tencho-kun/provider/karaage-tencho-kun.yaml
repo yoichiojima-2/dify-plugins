@@ -9,20 +9,6 @@ identity:
     ja_JP: "コンビニ店舗運営AIアシスタント - シフト管理、天気に基づく需要予測、商品情報"
   icon: "icon.webp"
 
-credentials_for_provider:
-  endpoint_base_url:
-    type: text-input
-    required: false
-    label:
-      en_US: Endpoint Base URL
-      ja_JP: エンドポイントベースURL
-    placeholder:
-      en_US: "https://your-dify-instance/e/..."
-      ja_JP: "https://your-dify-instance/e/..."
-    help:
-      en_US: "Copy the endpoint URL from Dify admin panel → Endpoints. Required for HTML file preview links."
-      ja_JP: "Dify管理画面 → エンドポイントからURLをコピーしてください。HTMLファイルプレビューリンクに必要です。"
-
 tools:
   - tools/hourly_weather.yaml
   - tools/lawson_items.yaml
