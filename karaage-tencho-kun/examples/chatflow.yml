@@ -14,7 +14,7 @@ dependencies:
 - current_identifier: null
   type: package
   value:
-    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15-6@placeholder
+    plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15-6@babb0c81823111a8ff23967ff5565fcb80e16461f3ca6e040e6989bfc71e5b61
     version: null
 kind: app
 version: 2026.2.15-6
