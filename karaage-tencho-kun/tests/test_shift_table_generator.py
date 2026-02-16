@@ -225,6 +225,142 @@ class TestShiftTableGenerator(unittest.TestCase):
 
         self.assertEqual(after, before - 1, "UPDATE 後の confirmed 数が1件減っていない")
 
+    def test_overrides_cancelled_excludes_staff_from_weekly(self) -> None:
+        """overrides.cancelled で指定したスタッフ×日付がweekly表から除外される。"""
+        from datetime import datetime
+        from tools.datetime_utils import JST
+
+        now = datetime.now(JST)
+        today_str = now.strftime("%Y-%m-%d")
+
+        tool = self._make_tool()
+
+        # まず overrides なしで取得 → tanaka は含まれる
+        messages_before = list(tool._invoke({"view_type": "weekly"}))
+        result_before = messages_before[0]
+
+        # tanaka の今日のシフトを見つける
+        tanaka_shifts_before = None
+        for entry in result_before["schedule"]:
+            if entry["staff"]["id"] == "tanaka":
+                tanaka_shifts_before = entry["shifts_by_date"].get(today_str, [])
+                break
+
+        if not tanaka_shifts_before:
+            self.skipTest("tanaka の今日のシフトがないためスキップ")
+
+        # overrides で tanaka の今日のシフトを cancelled にする
+        import json
+        overrides_str = json.dumps({
+            "cancelled": [{"staff_id": "tanaka", "date": today_str}]
+        })
+        messages_after = list(tool._invoke({
+            "view_type": "weekly",
+            "overrides": overrides_str,
+        }))
+        result_after = messages_after[0]
+
+        # tanaka の今日のシフトが空になっていることを確認
+        for entry in result_after["schedule"]:
+            if entry["staff"]["id"] == "tanaka":
+                tanaka_shifts_after = entry["shifts_by_date"].get(today_str, [])
+                self.assertEqual(len(tanaka_shifts_after), 0,
+                                 "overrides.cancelled で tanaka の今日のシフトが除外されていない")
+                break
+
+    def test_overrides_added_includes_new_shift_in_daily(self) -> None:
+        """overrides.added で追加したシフトがdaily表に含まれる。"""
+        from datetime import datetime
+        from tools.datetime_utils import JST
+
+        now = datetime.now(JST)
+        today_str = now.strftime("%Y-%m-%d")
+
+        tool = self._make_tool()
+        import json
+        overrides_str = json.dumps({
+            "added": [{
+                "staff_id": "test_new_staff",
+                "name": "テスト太郎",
+                "date": today_str,
+                "start": "09:00",
+                "end": "17:00",
+            }]
+        })
+        messages = list(tool._invoke({
+            "view_type": "daily",
+            "start_date": today_str,
+            "overrides": overrides_str,
+        }))
+        result = messages[0]
+
+        # 追加したスタッフが shifts に含まれることを確認
+        added_ids = [s["staff_id"] for s in result["shifts"]]
+        self.assertIn("test_new_staff", added_ids)
+
+    def test_overrides_cancelled_and_added_together(self) -> None:
+        """cancelled と added を同時に指定した場合、両方が反映される。"""
+        from datetime import datetime
+        from tools.datetime_utils import JST
+
+        now = datetime.now(JST)
+        today_str = now.strftime("%Y-%m-%d")
+
+        tool = self._make_tool()
+
+        # tanaka の今日のシフトがあるか確認
+        messages_check = list(tool._invoke({
+            "view_type": "daily",
+            "start_date": today_str,
+        }))
+        tanaka_exists = any(
+            s["staff_id"] == "tanaka" for s in messages_check[0]["shifts"]
+        )
+        if not tanaka_exists:
+            self.skipTest("tanaka の今日のシフトがないためスキップ")
+
+        import json
+        overrides_str = json.dumps({
+            "cancelled": [{"staff_id": "tanaka", "date": today_str}],
+            "added": [{
+                "staff_id": "kobayashi",
+                "name": "小林花子",
+                "date": today_str,
+                "start": "06:00",
+                "end": "15:00",
+            }],
+        })
+        messages = list(tool._invoke({
+            "view_type": "daily",
+            "start_date": today_str,
+            "overrides": overrides_str,
+        }))
+        result = messages[0]
+
+        staff_ids = [s["staff_id"] for s in result["shifts"]]
+        self.assertNotIn("tanaka", staff_ids, "tanaka が除外されていない")
+        self.assertIn("kobayashi", staff_ids, "kobayashi が追加されていない")
+
+    def test_overrides_empty_string_is_ignored(self) -> None:
+        """overrides が空文字列の場合はエラーにならない。"""
+        tool = self._make_tool()
+        messages = list(tool._invoke({
+            "view_type": "weekly",
+            "overrides": "",
+        }))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0]["view_type"], "weekly")
+
+    def test_overrides_invalid_json_is_ignored(self) -> None:
+        """overrides が不正なJSONの場合はエラーにならない（無視される）。"""
+        tool = self._make_tool()
+        messages = list(tool._invoke({
+            "view_type": "weekly",
+            "overrides": "not-json",
+        }))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0]["view_type"], "weekly")
+
 
 if __name__ == "__main__":
     unittest.main()

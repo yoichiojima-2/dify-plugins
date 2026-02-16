@@ -51,11 +51,14 @@ description:
 
     **シフト交代・休み対応:**
     1. まず shift_manager で該当シフトをUPDATE（status='cancelled'）
-    2. 次に shift_table_generator でその日のシフトを再取得（更新後データが反映される）
+    2. 次に shift_table_generator を呼ぶ。**必ず overrides パラメータ**で変更内容を渡す
+       例: overrides='{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}]}'
+       交代者がいる場合は added も追加:
+       overrides='{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}], "added": [{"staff_id": "kobayashi", "name": "小林花子", "date": "2026-02-17", "start": "06:00", "end": "15:00"}]}'
     3. 必要に応じて line_composer で交代依頼メッセージを作成
     4. dashboard_template で更新後のシフト表を描画
 
-    UPDATEせずにLINEだけ作ると、シフト表が古いままになるので必ずUPDATEを先に行うこと。
+    **重要**: shift_table_generator に overrides を渡さないとシフト表に変更が反映されない。
 parameters:
   - name: sql
     type: string

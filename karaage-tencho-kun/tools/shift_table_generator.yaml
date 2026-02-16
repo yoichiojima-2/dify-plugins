@@ -26,11 +26,25 @@ description:
       - 2週間分のシフト
       - 合計時間と推定給与
 
+    ## overrides（シフト変更の反映）
+    会話中にshift_managerでシフトを変更した場合、その変更情報をoverridesパラメータに渡してください。
+    DB更新はプロセス間で共有されないため、overridesで変更を伝える必要があります。
+
+    **フォーマット（JSON文字列）:**
+    {"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}], "added": [{"staff_id": "kobayashi", "name": "小林花子", "date": "2026-02-17", "start": "06:00", "end": "15:00"}]}
+
+    - cancelled: キャンセルしたシフト（staff_id + date で指定）
+    - added: 追加したシフト（staff_id + name + date + start + end で指定）
+
+    **重要:** shift_managerでUPDATE/INSERTした後にこのツールを呼ぶ場合は、必ずoverridesを指定すること。
+    overridesを省略するとシフト表にDB変更が反映されない。
+
     ## 使用例
     - 今週のシフト: view_type="weekly"
     - 特定週: view_type="weekly", start_date="2026-02-16"
     - 特定日: view_type="daily", start_date="2026-02-20"
     - スタッフ別: view_type="staff"
+    - 変更反映: view_type="daily", start_date="2026-02-17", overrides='{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}]}'
 
     ## 出力
     JSON形式のデータを返します。
@@ -59,6 +73,17 @@ parameters:
       en_US: "Start date (YYYY-MM-DD)"
       ja_JP: "開始日（YYYY-MM-DD形式）"
     llm_description: "開始日（YYYY-MM-DD形式）。省略時は今週の月曜日"
+    form: llm
+  - name: overrides
+    type: string
+    required: false
+    label:
+      en_US: Overrides
+      ja_JP: シフト変更オーバーライド
+    human_description:
+      en_US: "JSON string with shift changes to apply (cancelled/added)"
+      ja_JP: "シフト変更情報（JSON文字列）。cancelled と added を指定"
+    llm_description: "会話中にshift_managerでシフト変更した場合、その変更をJSON文字列で渡す。例: {\"cancelled\": [{\"staff_id\": \"tanaka\", \"date\": \"2026-02-17\"}], \"added\": [{\"staff_id\": \"kobayashi\", \"name\": \"小林花子\", \"date\": \"2026-02-17\", \"start\": \"06:00\", \"end\": \"15:00\"}]}。shift_manager実行後は必ず指定すること。"
     form: llm
 extra:
   python:

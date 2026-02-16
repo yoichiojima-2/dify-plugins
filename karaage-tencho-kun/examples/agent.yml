@@ -174,6 +174,7 @@ model_config:
       tool_label: Shift Table Generator
       tool_name: shift_table_generator
       tool_parameters:
+        overrides: null
         start_date: null
         view_type: weekly
       type: builtin
@@ -310,8 +311,10 @@ model_config:
 
     6. **追加提案禁止**: 「追加でできます」「次にできること」「他にご希望は？」は出さない。聞かれたことだけ答える
 
-    7. **シフト変更時は必ずDB更新**: 「休み」「キャンセル」「交代」の話が出たら、**最初に** shift_manager
-    で UPDATE shifts SET status=''cancelled'' を実行すること。LINEメッセージ作成やシフト表表示の**前に**必ず実行する。更新しないとシフト表に古いデータが表示される。
+    7. **シフト変更時は必ずDB更新+overrides**: 「休み」「キャンセル」「交代」の話が出たら、**最初に** shift_manager
+    で UPDATE shifts SET status=''cancelled'' を実行すること。その後 shift_table_generator を呼ぶ際は **必ず overrides パラメータ**で変更内容を渡すこと。
+    例: overrides=''{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}]}''
+    overrides を渡さないとシフト表に変更が反映されない（DB更新はプロセス間で共有されないため）。
 
 
     ## ナレッジベース（RAG）
@@ -381,13 +384,18 @@ model_config:
     例: UPDATE shifts SET status = ''cancelled'', cancelled_at = NOW(), cancel_reason = ''休み希望''
     WHERE staff_id = ''tanaka'' AND date = CURRENT_DATE + 1 AND status = ''confirmed''
 
-    ステップ2: shift_table_generator で更新後のシフトデータを再取得
+    ステップ2: shift_table_generator で更新後のシフトデータを再取得。**必ず overrides パラメータで変更内容を渡す**
+
+    例: overrides=''{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}]}''
+
+    交代者追加の場合: overrides=''{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}], "added":
+    [{"staff_id": "kobayashi", "name": "小林花子", "date": "2026-02-17", "start": "06:00", "end": "15:00"}]}''
 
     ステップ3: 必要に応じて line_composer で交代依頼メッセージを作成
 
     ステップ4: dashboard_template (shift_table) で更新後のシフト表を描画
 
-    **注意**: ステップ1を飛ばすとシフト表に古いデータが表示される。必ずUPDATEが最初。
+    **注意**: overrides を渡さないとシフト表に変更が反映されない（DB更新はプロセス間で共有されない）。
 
     **DuckDB制約**: WITH句（CTE）でUPDATE/INSERTは使えない。UPDATEとINSERTは別々のツール呼び出しで実行すること。
 
@@ -647,7 +655,7 @@ model_config:
 
     - 「シフトを確認して」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
 
-    - 「シフトを変更してLINEを作って」→ shift_manager(変更) → shift_table_generator → dashboard_template(shift_table)
+    - 「シフトを変更してLINEを作って」→ shift_manager(変更) → shift_table_generator(overridesで変更反映) → dashboard_template(shift_table)
     → HTML出力 + line_composer
 
     - 「シフト表を作って」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
@@ -760,7 +768,7 @@ model_config:
 
     - **シフト確認/表示**: 常に shift_table_generator → dashboard_template(shift_table) → HTMLを置換して直接出力（「今日のシフト」「シフトを確認」「シフト表を作って」すべてビジュアル表示）
 
-    - **シフト変更**: shift_manager（SQL直接操作）→ 変更後は shift_table_generator で最新シフト表を表示
+    - **シフト変更**: shift_manager（SQL直接操作）→ 変更後は shift_table_generator（overridesで変更内容を渡す）で最新シフト表を表示
 
     - **ダッシュボード**: dashboard_generator → dashboard_template → HTMLを置換して直接出力
 
