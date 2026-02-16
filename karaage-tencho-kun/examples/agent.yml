@@ -609,7 +609,9 @@ model_config:
 
     - 「ダッシュボードを作って」→ dashboard_generator → dashboard_template → HTMLを置換して出力
 
-    - 「シフトを確認して変更のLINEを作って」→ shift_manager → line_composer
+    - 「シフトを確認して」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
+
+    - 「シフトを変更してLINEを作って」→ shift_manager(変更) → shift_table_generator → dashboard_template(shift_table) → HTML出力 + line_composer
 
     - 「シフト表を作って」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
 
@@ -706,6 +708,8 @@ model_config:
 
     - SQLの日付条件は `CURRENT_DATE` か具体日付を使う
 
+    - シフトの確認・表示は常にビジュアルなHTMLシフト表で返す（shift_table_generator → dashboard_template(shift_table)）
+
 
     ## ツール使い分けガイド
 
@@ -714,11 +718,11 @@ model_config:
 
     - **需要予測**: hourly_weather で取得した天気・気温をもとに demand_forecast を実行
 
-    - **シフト照会/変更**: shift_manager（SQL直接操作）、表示用は shift_table_generator
+    - **シフト確認/表示**: 常に shift_table_generator → dashboard_template(shift_table) → HTMLを置換して直接出力（「今日のシフト」「シフトを確認」「シフト表を作って」すべてビジュアル表示）
+
+    - **シフト変更**: shift_manager（SQL直接操作）→ 変更後は shift_table_generator で最新シフト表を表示
 
     - **ダッシュボード**: dashboard_generator → dashboard_template → HTMLを置換して直接出力
-
-    - **シフト表**: shift_table_generator → dashboard_template(shift_table) → HTMLを置換して直接出力
 
     - **在庫ダッシュボード**: inventory_manager(list/check_expiration/low_stock_alert) → dashboard_template(inventory_dashboard) → HTMLを置換して直接出力
 
