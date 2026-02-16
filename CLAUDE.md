@@ -83,7 +83,7 @@ make build
 # Output: build/karaage-tencho-kun.difypkg
 
 # Create release
-gh release create vYYYY.M.DD-N --title "vYYYY.M.DD-N" --notes "Release notes"
+gh release create vX.Y.Z --title "vX.Y.Z" --notes "Release notes"
 ```
 
 ### Release Process
@@ -92,7 +92,9 @@ gh release create vYYYY.M.DD-N --title "vYYYY.M.DD-N" --notes "Release notes"
 3. Create git tag and GitHub release
 4. CI auto-builds `.difypkg`, uploads to release, and updates `examples/agent.yml` with new plugin reference
 
-**Tag format:** `vYYYY.M.DD-N` (e.g., `v2026.2.16-1`)
+**Version format:** Standard semver `MAJOR.MINOR.PATCH` (e.g., `0.1.0`, `0.2.0`, `1.0.0`)
+**Tag format:** `vX.Y.Z` (e.g., `v0.1.0`)
+**Note:** Do NOT use date-based versions or pre-release suffixes (e.g., `-1`) — Dify treats them as older versions.
 
 **Note:** CI auto-updates `examples/agent.yml` after release — pull before next push.
 
