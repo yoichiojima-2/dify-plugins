@@ -547,20 +547,20 @@ workflow:
               ---
 
 
-              ## HTML生成時のデザインルール（ダークテーマ・ローソンブランドカラー）
+              ## ダッシュボード生成時のルール
 
+              ダッシュボードを頼まれたら、できるだけ多くのデータを集める:
+              - dashboard_generator（weekly推奨）でKPI・日別・カテゴリ・天気別データ取得
+              - sales_analytics で商品別TOP5、時間帯別売上、客数データも追加取得
+              - すべてのデータをまとめて回答に含める（後段のLLMがHTMLに変換する）
 
-              - ページ背景: #0F172A（ダークネイビー）
+              ## インタラクティブ照会の回答形式
 
-              - カード背景: #1E293B、ボーダー: #334155
-
-              - メインカラー: #1475C5（ローソンブルー）
-
-              - セカンダリカラー: #F5A623（からあげオレンジ）
-
-              - テキスト: #F1F5F9（メイン）、#94A3B8（サブ）
-
-              - 成功/確定: #22C55E、警告/仮: #F59E0B、キャンセル: #EF4444
+              売上照会・シフト確認など表形式が適切なデータは、マークダウンテーブルで回答する:
+              | 日付 | 売上 | 点数 | 天気 |
+              |------|------|------|------|
+              | 2/10 | ¥72,516 | 357 | 晴れ |
+              テーブル形式により、チャット画面内でそのまま読める。
 
 
               ---
@@ -618,7 +618,11 @@ workflow:
 
               - **シフト照会/変更**: shift_manager（SQL直接操作）、表示用は shift_table_generator
 
-              - **ダッシュボード**: dashboard_generator でJSON取得 → そのまま回答（HTMLはchatflowの後段で自動生成される）
+              - **ダッシュボード**: dashboard_generator でJSON取得 → さらに sales_analytics で商品別TOP5や時間帯別も追加取得 → すべてのデータをまとめて回答。回答の最後に必ず「[DASHBOARD_DATA]」マーカーを付ける（HTMLはchatflowの後段で自動生成される）
+
+              ## 重要: ダッシュボード生成時のマーカー
+              HTMLダッシュボード生成が必要な回答（dashboard_generatorを使った場合）は、回答の最末尾に「[DASHBOARD_DATA]」と記載すること。
+              このマーカーがない回答はテキストのみとして処理される。
 
               '
           maximum_iterations:
@@ -918,9 +922,9 @@ workflow:
     - data:
         classes:
         - id: '1'
-          name: テキストのみの回答（質問応答、アドバイス、テキスト情報）
+          name: テキスト回答（シフト一覧、在庫情報、LINE文、アドバイス、質問応答など通常の回答）
         - id: '2'
-          name: データ可視化が必要（数値分析結果、テーブルデータ、チャート用データを含む）
+          name: HTMLダッシュボード生成（回答末尾に[DASHBOARD_DATA]マーカーが含まれている場合のみ）
         desc: ''
         instruction: ''
         instructions: ''
@@ -999,40 +1003,49 @@ workflow:
         prompt_template:
         - id: reportllm-prompt-1
           role: system
-          text: "あなたはデータサイエンティストのからあげクンです。以下の分析結果をもとに、プロフェッショナルなダークテーマの1枚のHTMLダッシュボードを出力してください。\n\n\
+          text: "あなたはデータアナリストです。以下の分析データをもとに、1枚の完結したHTMLダッシュボードを出力してください。\n\n\
             ## 出力ルール（厳守）\n\
-            - <!DOCTYPE html>から</html>までのHTMLのみを出力\n\
-            - html以外の余分な文字、```html```マークダウン装飾は一切不要\n\
-            - ネクストアクションの提案は不要\n\
-            - 必ずChart.js 4のCDNを読み込むこと\n\n\
-            ## ダークテーマ カラーパレット（ローソンブランド）\n\
-            - ページ背景: #0F172A（ダークネイビー）\n\
-            - カード背景: #1E293B、ボーダー: #334155\n\
-            - ヘッダー: linear-gradient(135deg, #1475C5, #0EA5E9)（ローソンブルーグラデーション）\n\
-            - アクセント: #F5A623（からあげオレンジ）\n\
-            - テキスト（メイン）: #F1F5F9\n\
-            - テキスト（サブ）: #94A3B8\n\
-            - ポジティブ値: #22C55E、ネガティブ値: #EF4444\n\
-            - チャート色: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']\n\n\
-            ## 必須ライブラリ\n\
-            - <script src=\"https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js\"></script>\n\
-            - <link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap\" rel=\"stylesheet\">\n\n\
-            ## Chart.jsグローバル設定\n\
-            - Chart.defaults.color = '#94A3B8'\n\
-            - グリッド線: rgba(51, 65, 85, 0.5)\n\
-            - ツールチップ: 背景 #1E293B、ボーダー #334155\n\n\
-            ## レイアウト構成（この順番で配置）\n\
-            1. ヘッダー: ブルーグラデーション帯、タイトル白文字、期間表示、先週比バッジ\n\
-            2. KPIカード行: CSS grid (auto-fit, minmax(200px, 1fr))、各カードにアイコン・数値・前日比\n\
-            3. チャートエリア: 2カラムgrid、左に日別売上棒グラフ+折線、右にドーナツまたは横棒\n\
-            4. データテーブル: ダーク行（奇数 #1E293B、偶数 #0F172A）\n\
-            5. フッター: 小さくグレーテキスト\n\n\
-            ## CSS要件\n\
-            - font-family: 'Noto Sans JP', sans-serif\n\
-            - max-width: 1200px、margin: 0 auto\n\
-            - border-radius: 12px〜16px\n\
-            - box-shadow: 0 4px 20px rgba(0,0,0,0.3)\n\
-            - レスポンシブ対応: @media (max-width: 768px) で1カラム化\n"
+            - <!DOCTYPE html>から</html>までのHTMLのみ出力。余分なテキスト・マークダウン装飾は一切不要\n\
+            - 提案・ネクストアクション・解説文は不要。データ可視化のみに集中\n\
+            - 必ずChart.js 4 CDNを読み込む\n\
+            - 入力データに含まれる数値はすべてダッシュボードに反映する。データを省略しない\n\n\
+            ## デザイン方針（Stripe Dashboard / Linear風の成熟したBI）\n\
+            美的原則: 抑制・余白・タイポグラフィ重視。装飾は最小限。影は極薄。角丸は控えめ（6px〜8px）。\n\
+            アニメーションやホバーエフェクトは不要。静的で印刷にも耐えるレイアウト。\n\n\
+            ## カラーシステム\n\
+            - 背景: #0B0F1A\n\
+            - サーフェス: #141925\n\
+            - ボーダー: #1E2533（1px solid、薄く）\n\
+            - テキスト primary: #E2E8F0\n\
+            - テキスト secondary: #64748B\n\
+            - テキスト muted: #475569\n\
+            - アクセント: #3B82F6（ブルー、控えめに使用）\n\
+            - 上昇: #10B981、下降: #EF4444（テキスト色のみ、背景色は使わない）\n\
+            - チャートパレット: ['#3B82F6','#F59E0B','#10B981','#EF4444','#8B5CF6','#06B6D4']\n\n\
+            ## タイポグラフィ\n\
+            - font-family: 'Inter', 'Noto Sans JP', -apple-system, sans-serif\n\
+            - Google Fonts: Inter:wght@400;500;600 と Noto+Sans+JP:wght@400;500;600\n\
+            - KPI数値: font-size 28px, font-weight 600, letter-spacing -0.02em\n\
+            - 見出し: font-size 13px, font-weight 500, text-transform uppercase, letter-spacing 0.05em, color #64748B\n\
+            - 本文: font-size 14px, line-height 1.5\n\n\
+            ## レイアウト\n\
+            max-width: 1120px。padding: 32px 24px。\n\
+            1. ヘッダー行: 左にタイトル（20px semibold）+ 期間テキスト（muted）、右に生成日時\n\
+            2. KPIグリッド: 4列（gap 1px、背景ボーダー色でセパレーター表現）。各KPIは縦にラベル→数値→変化率テキスト。罫線で区切る（カード影は不要）\n\
+            3. チャート行: 2カラム（7:5比率）。左にbar+lineの複合チャート、右にhorizontal barまたはdoughnut。各チャート上部にセクションラベル\n\
+            4. テーブル: full-width、ヘッダー行は uppercase muted text、ボーダーbottomのみ、hover無し。数値は右寄せ、text-tabular-nums\n\
+            5. フッター: 1行、muted text、font-size 11px\n\n\
+            ## Chart.js設定\n\
+            Chart.defaults.color='#64748B'; Chart.defaults.font.family=\"'Inter','Noto Sans JP',sans-serif\"; Chart.defaults.font.size=11;\n\
+            グリッド: color '#1E2533', drawBorder false。ツールチップ: backgroundColor '#141925', borderColor '#1E2533', borderWidth 1, titleFont.weight 500\n\
+            棒グラフ: borderRadius 3, barPercentage 0.6。折線: borderWidth 2, pointRadius 0, tension 0.3\n\n\
+            ## CSS注意点\n\
+            - box-shadow は使わない（フラットデザイン）\n\
+            - border は 1px solid #1E2533 のみ\n\
+            - border-radius: 6px（最大8px）\n\
+            - 余白を十分にとる（セクション間 32px、要素間 16px）\n\
+            - レスポンシブ: @media(max-width:768px) で1カラム化\n\
+            - font-feature-settings: 'tnum' で数値を等幅にする\n"
         - id: reportllm-prompt-2
           role: user
           text: '{{#agent.text#}}'
@@ -1288,7 +1301,7 @@ workflow:
         answer: '{{#agent.text#}}
 
 
-          🐓 ダッシュボードを作成しました！以下のリンクからダウンロードできます：
+          📊 ダッシュボードを生成しています。完了次第、下記リンクよりダウンロード可能です。
 
           {{#geturl.text#}}'
         selected: false
