@@ -9,6 +9,33 @@ identity:
     ja_JP: "コンビニ店舗運営AIアシスタント - シフト管理、天気に基づく需要予測、商品情報"
   icon: "icon.webp"
 
+credentials_for_provider:
+  dify_base_url:
+    type: text-input
+    required: false
+    default: "http://localhost"
+    label:
+      en_US: "Dify Base URL"
+      ja_JP: "Dify ベースURL"
+    placeholder:
+      en_US: "http://localhost"
+      ja_JP: "http://localhost"
+    help:
+      en_US: "Base URL of your Dify instance (e.g., http://localhost). Required for file download links."
+      ja_JP: "DifyインスタンスのベースURL（例: http://localhost）。ファイルダウンロードリンクに必要です。"
+  endpoint_hook_id:
+    type: text-input
+    required: false
+    label:
+      en_US: "File Download Endpoint Hook ID"
+      ja_JP: "ファイルダウンロード エンドポイント Hook ID"
+    placeholder:
+      en_US: "Enter the hook ID from the endpoint setup"
+      ja_JP: "エンドポイント設定のHook IDを入力"
+    help:
+      en_US: "The hook ID assigned to the file download endpoint. Find it in Dify > Plugins > Endpoints. Required for file download links."
+      ja_JP: "ファイルダウンロードエンドポイントに割り当てられたHook ID。Dify > プラグイン > エンドポイントで確認できます。ファイルダウンロードリンクに必要です。"
+
 tools:
   - tools/hourly_weather.yaml
   - tools/lawson_items.yaml

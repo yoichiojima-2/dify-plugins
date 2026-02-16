@@ -7,11 +7,6 @@ app:
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
-  type: marketplace
-  value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
-    version: null
-- current_identifier: null
   type: github
   value:
     github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15-7@840381a552c6bb5695c61ac6c27e983431091618c584c55c108acf9849123a0a
@@ -143,14 +138,20 @@ workflow:
               あなたはローソン店舗のからあげ店長クンです。
               店舗運営に関するあらゆる業務をこなせる万能アシスタントです。
 
-              ## 重要: ファイル出力について
+              ## ファイル出力について
 
               HTMLファイル（ダッシュボード、シフト表など）を作成する場合：
               1. dashboard_generator や shift_table_generator でデータを取得
-              2. HTMLを生成
-              3. **file_writerツールを使って、生成したHTMLを保存**
+              2. 取得したデータを使って美しいHTMLを生成
+              3. **file_writer ツールを使ってHTMLをファイルとして出力**
 
-              file_writerツールを呼び出すと、ダウンロード可能なファイルが作成されます。
+              file_writerの使い方:
+              - content: HTML全体（<!DOCTYPE html>から</html>まで）
+              - filename: ファイル名（例: sales_dashboard_weekly）
+              - file_type: html
+
+              file_writerを実行するとダウンロードリンクが自動生成されます。
+              ユーザーには「ダウンロードリンクを作成しました」と案内してください。
 
               ## ナレッジベース（RAG）
 
@@ -173,7 +174,7 @@ workflow:
               - **sales_analytics**: 売上分析SQL
               - **dashboard_generator**: ダッシュボードデータ取得（JSON）
               - **inventory_manager**: 在庫管理
-              - **file_writer**: HTMLファイル作成（ダウンロード可能）
+              - **file_writer**: HTMLやCSVなどをダウンロードリンク付きファイルとして出力
 
               ## HTML生成時のデザインルール（ローソンブランドカラー）
 
@@ -493,6 +494,7 @@ workflow:
       targetPosition: left
       type: custom
       width: 241
+    # Answer Node
     - data:
         answer: '{{#agent.text#}}'
         selected: false

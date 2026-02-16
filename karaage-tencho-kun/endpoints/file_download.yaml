@@ -1,0 +1,5 @@
+path: "/download/<file_id>"
+method: "GET"
+extra:
+  python:
+    source: "endpoints/file_download.py"
