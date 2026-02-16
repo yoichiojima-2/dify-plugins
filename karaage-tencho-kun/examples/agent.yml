@@ -737,8 +737,12 @@ model_config:
   suggested_questions:
   - 今週の売上ダッシュボードを作って
   - 今日のシフトを確認して
+  - 在庫ダッシュボードを作って
+  - 今日の天気で需要予測して
+  - シフト表を作って
   - 消費期限が近い商品ある？
   - 田中さんが明日休みになった。交代依頼のLINEを作って
+  - 今週と先週の売上を比較して
   suggested_questions_after_answer:
     enabled: true
   text_to_speech:
