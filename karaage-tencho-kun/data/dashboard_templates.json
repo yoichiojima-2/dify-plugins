@@ -111,6 +111,46 @@
         "shift_cells_exemplar": "<td style=\"padding:6px;text-align:center;font-size:11px;background:{{CELL_BG}};\">{{SHIFT_TEXT}}</td>",
         "shift_cells_note": "各日のシフトセルを生成。シフトありの場合は時間(例:9-17)を表示しCELL_BGを#1a2744に。休みの場合は「-」でCELL_BGは透明。cancelledは取消線。todayの列はCELL_BGを少し明るく(#1e3353)。"
       }
+    },
+    "inventory_dashboard": {
+      "html_template": "<div style=\"background:#1a1a2e;border-radius:12px;padding:20px;font-family:system-ui,sans-serif;color:#e2e8f0;max-width:640px;\">\n<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;\">\n<div style=\"font-size:18px;font-weight:700;\">📦 在庫ダッシュボード</div>\n<div style=\"font-size:13px;color:#94a3b8;\">{{DATETIME}}</div>\n</div>\n<div style=\"display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;\">\n<div style=\"flex:1;min-width:100px;background:#16213e;border-radius:8px;padding:12px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;\">総商品数</div>\n<div style=\"font-size:20px;font-weight:700;color:#3b82f6;\">{{TOTAL_ITEMS}}</div>\n</div>\n<div style=\"flex:1;min-width:100px;background:#16213e;border-radius:8px;padding:12px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;\">期限切れ注意</div>\n<div style=\"font-size:20px;font-weight:700;color:#ef4444;\">{{EXPIRING_COUNT}}</div>\n</div>\n<div style=\"flex:1;min-width:100px;background:#16213e;border-radius:8px;padding:12px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;\">在庫不足</div>\n<div style=\"font-size:20px;font-weight:700;color:#f59e0b;\">{{LOW_STOCK_COUNT}}</div>\n</div>\n<div style=\"flex:1;min-width:100px;background:#16213e;border-radius:8px;padding:12px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;\">発注推奨</div>\n<div style=\"font-size:20px;font-weight:700;color:#e2e8f0;\">{{ORDER_COUNT}}</div>\n</div>\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;margin-bottom:12px;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">⚠️ 消費期限アラート</div>\n{{EXPIRATION_ROWS}}\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;margin-bottom:12px;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">📉 在庫不足アラート</div>\n{{LOW_STOCK_ROWS}}\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">🏷️ カテゴリ別在庫数</div>\n{{CATEGORY_ROWS}}\n</div>\n</div>",
+      "placeholders": {
+        "{{DATETIME}}": "現在の日時（例: 2026年2月16日 14:30）",
+        "{{TOTAL_ITEMS}}": "総商品数",
+        "{{EXPIRING_COUNT}}": "消費期限が近い商品数",
+        "{{LOW_STOCK_COUNT}}": "在庫不足の商品数",
+        "{{ORDER_COUNT}}": "発注が必要な商品数",
+        "{{EXPIRATION_ROWS}}": "消費期限アラート行（下記exemplar参照）",
+        "{{LOW_STOCK_ROWS}}": "在庫不足アラート行（下記exemplar参照）",
+        "{{CATEGORY_ROWS}}": "カテゴリ別在庫の横棒グラフ（下記exemplar参照）"
+      },
+      "instructions": {
+        "expiration_rows_exemplar": "<div style=\"display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px;margin-bottom:6px;background:{{ROW_BG}};\">\n<div style=\"width:8px;height:8px;border-radius:50%;background:{{URGENCY_COLOR}};flex-shrink:0;\"></div>\n<div style=\"flex:1;font-size:12px;\">{{ITEM_NAME}}<span style=\"color:#94a3b8;margin-left:6px;\">{{CATEGORY}}</span></div>\n<div style=\"font-size:11px;color:{{URGENCY_COLOR}};font-weight:600;white-space:nowrap;\">残り{{REMAINING_HOURS}}h</div>\n<div style=\"font-size:10px;color:#94a3b8;white-space:nowrap;\">{{QUANTITY}}個 / {{ACTION}}</div>\n</div>",
+        "expiration_rows_note": "期限が近い商品ごとに生成。URGENCY_COLORはhigh:#ef4444、medium:#f59e0b、low:#10b981。ROW_BGはhigh:#2d1b1b、medium:#2d2a1b、low:transparent。ACTIONは「30%OFF推奨」「20%OFF検討」「通常販売」など。期限が近い順にソート。アラートがない場合は「現在アラートはありません ✅」と表示。",
+        "low_stock_rows_exemplar": "<div style=\"margin-bottom:8px;\">\n<div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;\">\n<span>{{ITEM_NAME}}<span style=\"color:#94a3b8;margin-left:6px;\">{{CATEGORY}}</span></span>\n<span style=\"color:{{ALERT_COLOR}};font-weight:600;\">{{CURRENT_QTY}}/{{REORDER_POINT}}</span>\n</div>\n<div style=\"background:#0f3460;border-radius:4px;height:8px;\">\n<div style=\"background:{{ALERT_COLOR}};border-radius:4px;height:8px;width:{{STOCK_PERCENT}}%;\"></div>\n</div>\n</div>",
+        "low_stock_rows_note": "在庫不足商品ごとに生成。STOCK_PERCENTはcurrent_quantity/reorder_point*100（100%上限）。ALERT_COLORはcritical(min以下):#ef4444、warning(reorder以下):#f59e0b。アラートがない場合は「在庫は十分です ✅」と表示。",
+        "category_rows_exemplar": "<div style=\"margin-bottom:8px;\"><div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;\"><span>{{CATEGORY}}</span><span style=\"color:#94a3b8;\">{{QUANTITY}}個</span></div><div style=\"background:#0f3460;border-radius:4px;height:8px;\"><div style=\"background:#3b82f6;border-radius:4px;height:8px;width:{{PERCENT}}%;\"></div></div></div>",
+        "category_rows_note": "各カテゴリの在庫数。widthはそのカテゴリ在庫数/最大カテゴリ在庫数*100%。"
+      }
+    },
+    "demand_forecast": {
+      "html_template": "<div style=\"background:#1a1a2e;border-radius:12px;padding:20px;font-family:system-ui,sans-serif;color:#e2e8f0;max-width:640px;\">\n<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;\">\n<div style=\"font-size:18px;font-weight:700;\">🌤️ 需要予測ダッシュボード</div>\n<div style=\"font-size:13px;color:#94a3b8;\">{{DATETIME}}</div>\n</div>\n<div style=\"display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;\">\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">天気</div>\n<div style=\"font-size:28px;\">{{WEATHER_EMOJI}}</div>\n<div style=\"font-size:13px;font-weight:600;\">{{WEATHER_TEXT}}</div>\n</div>\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">気温</div>\n<div style=\"font-size:22px;font-weight:700;color:#3b82f6;\">{{TEMPERATURE}}°C</div>\n<div style=\"font-size:11px;color:#94a3b8;\">湿度 {{HUMIDITY}}%</div>\n</div>\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">予測商品数</div>\n<div style=\"font-size:22px;font-weight:700;color:#e2e8f0;\">{{ITEM_COUNT}}品目</div>\n</div>\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;margin-bottom:12px;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">📈 需要増加予測</div>\n{{INCREASE_ROWS}}\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">📉 需要減少予測</div>\n{{DECREASE_ROWS}}\n</div>\n</div>",
+      "placeholders": {
+        "{{DATETIME}}": "予測日時（例: 2026年2月16日 14:00）",
+        "{{WEATHER_EMOJI}}": "天気の絵文字（☀️/⛅/🌧️）",
+        "{{WEATHER_TEXT}}": "天気テキスト（晴れ/曇り/雨）",
+        "{{TEMPERATURE}}": "気温（数値）",
+        "{{HUMIDITY}}": "湿度（数値）",
+        "{{ITEM_COUNT}}": "予測対象商品数",
+        "{{INCREASE_ROWS}}": "需要増加商品行（下記exemplar参照）",
+        "{{DECREASE_ROWS}}": "需要減少商品行（下記exemplar参照）"
+      },
+      "instructions": {
+        "increase_rows_exemplar": "<div style=\"margin-bottom:8px;\">\n<div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;\">\n<span>{{ITEM_NAME}}</span>\n<div style=\"display:flex;align-items:center;gap:6px;\">\n<span style=\"color:#10b981;font-weight:600;\">▲ {{CHANGE_PCT}}%</span>\n<span style=\"color:#94a3b8;\">{{PREDICTED_DEMAND}}個</span>\n</div>\n</div>\n<div style=\"background:#0f3460;border-radius:4px;height:8px;\">\n<div style=\"background:#10b981;border-radius:4px;height:8px;width:{{BAR_PERCENT}}%;\"></div>\n</div>\n</div>",
+        "increase_rows_note": "change_percentが正の商品を変化率の大きい順に表示。BAR_PERCENTはchange_percent/最大change_percent*100%。増加が0件の場合は「需要増加の商品はありません」と表示。",
+        "decrease_rows_exemplar": "<div style=\"margin-bottom:8px;\">\n<div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;\">\n<span>{{ITEM_NAME}}</span>\n<div style=\"display:flex;align-items:center;gap:6px;\">\n<span style=\"color:#ef4444;font-weight:600;\">▼ {{CHANGE_PCT}}%</span>\n<span style=\"color:#94a3b8;\">{{PREDICTED_DEMAND}}個</span>\n</div>\n</div>\n<div style=\"background:#0f3460;border-radius:4px;height:8px;\">\n<div style=\"background:#ef4444;border-radius:4px;height:8px;width:{{BAR_PERCENT}}%;\"></div>\n</div>\n</div>",
+        "decrease_rows_note": "change_percentが負の商品を変化率の大きい順に表示（絶対値で）。BAR_PERCENTは|change_percent|/最大|change_percent|*100%。減少が0件の場合は「需要減少の商品はありません」と表示。色は赤(#ef4444)。"
+      }
     }
   }
 }

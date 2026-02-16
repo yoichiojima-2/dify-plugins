@@ -10,6 +10,9 @@ description:
     ja_JP: "天気に基づいて商品の需要を予測"
   llm: |
     天気と気温に基づいて、コンビニ商品の需要を予測するMLモデルです。
+    ビジュアルな需要予測ダッシュボードを作成する場合は、このツールでデータ取得後、
+    dashboard_template(template_type="demand_forecast")でテンプレートを取得し、
+    プレースホルダーを置換してHTMLをそのまま出力してください。
 
     使い方：
     - weather: 天気（sunny, cloudy, rainy）

@@ -569,7 +569,7 @@ model_config:
 
     **使い方（3ステップ）:**
 
-    1. dashboard_generator / shift_table_generator でデータ取得
+    1. データ取得ツールでデータ取得（dashboard_generator / shift_table_generator / inventory_manager / demand_forecast）
 
     2. dashboard_template でテンプレートを取得
 
@@ -585,6 +585,10 @@ model_config:
     - comparison_dashboard: 今週 vs 先週 比較
 
     - shift_table: シフト表
+
+    - inventory_dashboard: 在庫ダッシュボード（期限アラート、在庫不足、カテゴリ別在庫）
+
+    - demand_forecast: 需要予測ダッシュボード（天気に基づく需要増減予測）
 
 
     **重要:** file_writerは使わない。置換済みHTMLをそのままテキストとして出力する。
@@ -611,6 +615,10 @@ model_config:
 
     - 「今週と先週を比較して」→ dashboard_generator(comparison) → dashboard_template(comparison_dashboard) → HTMLを置換して出力
 
+    - 「在庫ダッシュボードを作って」→ inventory_manager(list) + inventory_manager(check_expiration) + inventory_manager(low_stock_alert) → dashboard_template(inventory_dashboard) → HTMLを置換して出力
+
+    - 「天気から需要予測して」→ hourly_weather → demand_forecast → dashboard_template(demand_forecast) → HTMLを置換して出力
+
 
     ---
 
@@ -618,7 +626,7 @@ model_config:
     ## ダッシュボード・シフト表の作成フロー
 
 
-    1. データ取得（dashboard_generator, shift_table_generator, sales_analytics）
+    1. データ取得（dashboard_generator, shift_table_generator, inventory_manager, demand_forecast, sales_analytics）
 
     2. dashboard_template でインラインHTMLテンプレートを取得
 
@@ -711,6 +719,10 @@ model_config:
     - **ダッシュボード**: dashboard_generator → dashboard_template → HTMLを置換して直接出力
 
     - **シフト表**: shift_table_generator → dashboard_template(shift_table) → HTMLを置換して直接出力
+
+    - **在庫ダッシュボード**: inventory_manager(list/check_expiration/low_stock_alert) → dashboard_template(inventory_dashboard) → HTMLを置換して直接出力
+
+    - **需要予測ダッシュボード**: hourly_weather → demand_forecast → dashboard_template(demand_forecast) → HTMLを置換して直接出力
 
     '
   prompt_type: simple

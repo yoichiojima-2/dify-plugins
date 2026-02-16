@@ -13,7 +13,7 @@ description:
     データ取得ツールの後にこのツールを呼び、テンプレートのプレースホルダーをデータで置換して出力してください。
 
     ## 使い方（3ステップ）
-    1. dashboard_generator / shift_table_generator / sales_analytics でデータ取得
+    1. データ取得ツールでデータ取得（dashboard_generator / shift_table_generator / inventory_manager / demand_forecast / sales_analytics）
     2. このツールでテンプレートを取得
     3. テンプレートの {{PLACEHOLDER}} をデータで置換し、そのままチャットメッセージとして出力
 
@@ -22,6 +22,8 @@ description:
     - daily_dashboard: 日次売上ダッシュボード（KPI、時間別バーチャート、カテゴリ別）
     - comparison_dashboard: 今週vs先週 比較ダッシュボード
     - shift_table: シフト表
+    - inventory_dashboard: 在庫ダッシュボード（期限アラート、在庫不足、カテゴリ別在庫）
+    - demand_forecast: 需要予測ダッシュボード（天気に基づく需要増減予測）
 
     ## 重要
     - file_writerは使わない。置換済みHTMLをそのままテキストとして出力する
@@ -36,9 +38,9 @@ parameters:
       en_US: Template Type
       ja_JP: テンプレートタイプ
     human_description:
-      en_US: "Type of dashboard template: weekly_dashboard, daily_dashboard, comparison_dashboard, shift_table"
+      en_US: "Type of dashboard template: weekly_dashboard, daily_dashboard, comparison_dashboard, shift_table, inventory_dashboard, demand_forecast"
       ja_JP: "ダッシュボードテンプレートの種類"
-    llm_description: "テンプレートの種類を指定: weekly_dashboard, daily_dashboard, comparison_dashboard, shift_table"
+    llm_description: "テンプレートの種類を指定: weekly_dashboard, daily_dashboard, comparison_dashboard, shift_table, inventory_dashboard, demand_forecast"
     form: llm
 extra:
   python:
