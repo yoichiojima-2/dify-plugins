@@ -1,8 +1,9 @@
 # ファイル出力ツール
 # Uploads files to Dify's built-in storage via session.file.upload()
-# Returns blob message for file download + text confirmation
+# Returns download link extracted from preview_url + blob message as fallback
 
 from collections.abc import Generator
+from urllib.parse import urlparse
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
@@ -38,17 +39,24 @@ class FileWriterTool(Tool):
 
         content_bytes = content.encode("utf-8")
 
-        # Upload file to Dify's built-in storage (works on any Dify instance, no config needed)
+        # Upload file to Dify's built-in storage and get signed download URL
+        download_url = None
         try:
-            self.session.file.upload(
+            upload_response = self.session.file.upload(
                 filename=filename,
                 content=content_bytes,
                 mimetype=mime_type,
             )
+            # preview_url contains a signed URL for downloading the file
+            # It may use an internal Docker hostname (e.g., http://api:5001/files/tools/...)
+            # Extract the path+query so the link works relative to the user's Dify domain
+            if upload_response and upload_response.preview_url:
+                parsed = urlparse(upload_response.preview_url)
+                download_url = f"{parsed.path}?{parsed.query}" if parsed.query else parsed.path
         except Exception:
             pass  # Upload failure is non-fatal; blob message still provides the file
 
-        # Return blob message for file download
+        # Return blob message for file download (works in non-agent contexts)
         yield self.create_blob_message(
             blob=content_bytes,
             meta={
@@ -56,6 +64,14 @@ class FileWriterTool(Tool):
                 "filename": filename,
             },
         )
-        yield self.create_text_message(
-            f"ファイル「{filename}」を作成しました。上のファイルアイコンからダウンロードできます。"
-        )
+
+        # Return text message with download link if available
+        if download_url:
+            yield self.create_text_message(
+                f"📥 ファイル「{filename}」を作成しました。\n\n"
+                f"[📎 {filename} をダウンロード]({download_url})"
+            )
+        else:
+            yield self.create_text_message(
+                f"ファイル「{filename}」を作成しました。上のファイルアイコンからダウンロードできます。"
+            )

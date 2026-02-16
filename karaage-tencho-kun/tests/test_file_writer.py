@@ -26,7 +26,7 @@ class TextMessage:
 
 
 class TestFileWriter(unittest.TestCase):
-    def _make_tool(self):
+    def _make_tool(self, preview_url=None):
         """テスト用のツールインスタンスを作成"""
         tool = object.__new__(fw.FileWriterTool)
         tool.create_json_message = lambda body: body
@@ -38,7 +38,7 @@ class TestFileWriter(unittest.TestCase):
         tool.session.file.upload.return_value = MagicMock(
             id="fake-file-id",
             name="output.html",
-            preview_url=None,
+            preview_url=preview_url,
         )
 
         return tool
@@ -162,7 +162,7 @@ class TestFileWriter(unittest.TestCase):
 
         messages = list(tool._invoke({"content": "<html></html>"}))
 
-        # Should still return blob + text
+        # Should still return blob + text (fallback message without download link)
         self.assertEqual(len(messages), 2)
         self.assertIsInstance(messages[0], BlobMessage)
         self.assertIsInstance(messages[1], TextMessage)
@@ -174,6 +174,39 @@ class TestFileWriter(unittest.TestCase):
         )
 
         self.assertIn("report.csv", messages[1].text)
+
+    def test_text_message_contains_download_link_when_preview_url_available(self) -> None:
+        """When upload returns preview_url, text message should contain a markdown download link."""
+        preview_url = "http://api:5001/files/tools/abc123.html?timestamp=123&nonce=xyz&sign=sig"
+        tool = self._make_tool(preview_url=preview_url)
+        messages = list(tool._invoke({"content": "<html></html>"}))
+
+        text_msg = messages[1]
+        # Should contain relative path (not internal Docker hostname)
+        self.assertIn("/files/tools/abc123.html?timestamp=123&nonce=xyz&sign=sig", text_msg.text)
+        # Should contain markdown link
+        self.assertIn("[📎", text_msg.text)
+        # Should NOT contain internal Docker hostname
+        self.assertNotIn("api:5001", text_msg.text)
+
+    def test_fallback_text_when_no_preview_url(self) -> None:
+        """When preview_url is None, text message should show fallback message."""
+        tool = self._make_tool(preview_url=None)
+        messages = list(tool._invoke({"content": "<html></html>"}))
+
+        text_msg = messages[1]
+        self.assertIn("ファイルアイコン", text_msg.text)
+        self.assertNotIn("[📎", text_msg.text)
+
+    def test_preview_url_with_no_query_string(self) -> None:
+        """preview_url without query string should still work."""
+        preview_url = "http://api:5001/files/tools/abc123.html"
+        tool = self._make_tool(preview_url=preview_url)
+        messages = list(tool._invoke({"content": "<html></html>"}))
+
+        text_msg = messages[1]
+        self.assertIn("/files/tools/abc123.html", text_msg.text)
+        self.assertNotIn("api:5001", text_msg.text)
 
 
 if __name__ == "__main__":

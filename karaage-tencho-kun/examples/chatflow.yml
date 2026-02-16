@@ -3,7 +3,7 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 開発中_からあげ店長クン_v2026.2.16-2
+  name: 開発中_からあげ店長クン_v2026.2.16-3
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -150,8 +150,9 @@ workflow:
               - filename: ファイル名（例: sales_dashboard_weekly）
               - file_type: html
 
-              file_writerを実行するとファイルが自動生成されます。
+              file_writerを実行するとファイルが自動生成され、ダウンロードリンクが返されます。
               ユーザーには「ファイルを作成しました」と案内してください。
+              ダウンロードリンクはfile_writerが自動で生成するので、あなたがリンクを作る必要はありません。
 
               ## ナレッジベース（RAG）
 
