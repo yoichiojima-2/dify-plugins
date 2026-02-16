@@ -1,10 +1,10 @@
 app:
-  description: ''
-  icon: 🐓
-  icon_background: '#FFEAD5'
+  description: ローソン店舗の売上・シフト・在庫・需要予測をまとめて管理するAIアシスタント
+  icon: 🤖
+  icon_background: '#D1E9FF'
   mode: agent-chat
   name: 開発中_からあげ店長クン_v2026.2.17
-  use_icon_as_answer_icon: false
+  use_icon_as_answer_icon: true
 dependencies:
 - current_identifier: null
   type: marketplace
