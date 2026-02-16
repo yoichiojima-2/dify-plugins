@@ -3,21 +3,34 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 開発中_からあげ店長クン_v2026.2.16-7
+  name: からあげ店長クン
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-7@3f64f5e5c6b2ce302fb992a7eb0c086209478fa5b6163176c7cf07c560f5a442
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-8@17c401ceca0cb47eb71e9d47a23459937b3b4471687d401c07ba3550ac1bce97
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
-    version: v2026.2.16-7
+    version: v2026.2.16-8
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
+    version: null
 kind: app
 version: 0.1.0
 workflow:
   conversation_variables: []
-  environment_variables: []
+  environment_variables:
+  - description: 店舗の場所
+    id: 407b0e0b-3415-420e-8026-8ef2b135ffe6
+    name: location
+    selector:
+    - env
+    - location
+    value: 高輪ゲートウェイ店
+    value_type: string
   features:
     file_upload:
       allowed_file_extensions:
@@ -56,7 +69,7 @@ workflow:
 
       ローソン店舗運営のお手伝いをします。こんなことができます：
 
-      📊 **売上分析** — 売上レポートやグラフ付きダッシュボードを作成
+      📊 **売上分析・レポート** — 売上レポートやグラフ付きダッシュボードを作成
       👥 **シフト管理** — シフトの作成・変更・最適化、シフト表の作成、LINE連絡文の作成
       🌤️ **需要予測** — 天気予報をもとに、商品ごとの売れ行きを予測
       📦 **在庫管理** — 在庫確認、消費期限アラート、発注推奨
@@ -76,7 +89,7 @@ workflow:
       - 消費期限が近い商品ある？
       - 田中さんが明日休みになった。交代依頼のLINEを作って
       - お客様からお釣りが足りないと言われた。どう対応すればいい？
-      - Loppiの使い方を聞かれたんだけど、どう案内すればいい？
+      - ローソンはどんな取り組みをしていますか？
     suggested_questions_after_answer:
       enabled: true
     text_to_speech:
@@ -85,49 +98,114 @@ workflow:
       voice: ''
   graph:
     edges:
+    # Start → Agent
     - data:
-        isInIteration: false
         isInLoop: false
         sourceType: start
         targetType: agent
-      id: start-agent
+      id: start-source-agent-target
       source: start
       sourceHandle: source
       target: agent
       targetHandle: target
       type: custom
       zIndex: 0
+    # Agent → Question Classifier (classify agent output)
     - data:
         isInLoop: false
         sourceType: agent
-        targetType: answer
-      id: agent-answer
+        targetType: question-classifier
+      id: agent-source-classifier-target
       source: agent
       sourceHandle: source
-      target: answer
+      target: classifier
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    # Classifier → Answer (text only, no file needed)
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: answer
+      id: classifier-1-text-answer-target
+      source: classifier
+      sourceHandle: '1'
+      target: text-answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    # Classifier → Report LLM (file output needed)
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: classifier-2-report-llm-target
+      source: classifier
+      sourceHandle: '2'
+      target: report-llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    # Report LLM → Save File Tool
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: report-llm-source-save-file-target
+      source: report-llm
+      sourceHandle: source
+      target: save-file
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    # Save File → Get Download URL
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: save-file-source-get-url-target
+      source: save-file
+      sourceHandle: source
+      target: get-url
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    # Get Download URL → File Answer
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: get-url-source-file-answer-target
+      source: get-url
+      sourceHandle: source
+      target: file-answer
       targetHandle: target
       type: custom
       zIndex: 0
     nodes:
+    ##########################################################################
     # Start Node
+    ##########################################################################
     - data:
         selected: false
-        title: User Input
+        title: 質問を受け取る
         type: start
         variables: []
-      height: 72
+      height: 73
       id: start
       position:
-        x: 80
+        x: 0
         y: 282
       positionAbsolute:
-        x: 80
+        x: 0
         y: 282
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    # Agent Node
+    ##########################################################################
+    # Agent Node (all tools, no file_writer)
+    ##########################################################################
     - data:
         agent_parameters:
           instruction:
@@ -137,21 +215,6 @@ workflow:
 
               あなたはローソン店舗のからあげ店長クンです。
               店舗運営に関するあらゆる業務をこなせる万能アシスタントです。
-
-              ## ファイル出力について
-
-              HTMLファイル（ダッシュボード、シフト表など）を作成する場合：
-              1. dashboard_generator や shift_table_generator でデータを取得
-              2. 取得したデータを使って美しいHTMLを生成
-              3. **file_writer ツールを使ってHTMLをファイルとして出力**
-
-              file_writerの使い方:
-              - content: HTML全体（<!DOCTYPE html>から</html>まで）
-              - filename: ファイル名（例: sales_dashboard_weekly）
-              - file_type: html
-
-              file_writerを呼び出すとファイルが自動的にダウンロード可能になります。
-              ファイル作成後は、ファイルが完成したことをユーザーに伝えてください。
 
               ## ナレッジベース（RAG）
 
@@ -174,7 +237,12 @@ workflow:
               - **sales_analytics**: 売上分析SQL
               - **dashboard_generator**: ダッシュボードデータ取得（JSON）
               - **inventory_manager**: 在庫管理
-              - **file_writer**: HTMLやCSVなどをダウンロード可能なファイルとして出力
+
+              ## ファイル出力について
+
+              ダッシュボードやシフト表、レポートなど**HTMLファイルの作成を依頼された場合**：
+              1. まず必要なデータをツールで取得・分析してください
+              2. 分析結果をそのまま返してください（HTMLの生成は後続ノードが行います）
 
               ## HTML生成時のデザインルール（ローソンブランドカラー）
 
@@ -183,6 +251,8 @@ workflow:
               - 背景: #FFFFFF または #F8FAFC
               - テキスト: #1F2937
               - Chart.js カラー: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']
+
+              現在地: {{#env.location#}}
           maximum_iterations:
             type: constant
             value: 10
@@ -445,26 +515,6 @@ workflow:
               tool_label: Shift Table Generator
               tool_name: shift_table_generator
               type: builtin
-            - enabled: true
-              extra:
-                description: Write content to a downloadable file
-              parameters:
-                content:
-                  auto: 1
-                  value: null
-                file_type:
-                  auto: 1
-                  value: null
-                filename:
-                  auto: 1
-                  value: null
-              provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              provider_show_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
-              settings: {}
-              tool_description: Write content to a downloadable file
-              tool_label: File Writer
-              tool_name: file_writer
-              type: builtin
         agent_strategy_label: FunctionCalling
         agent_strategy_name: function_calling
         agent_strategy_provider_name: langgenius/agent/agent
@@ -485,36 +535,387 @@ workflow:
       height: 209
       id: agent
       position:
-        x: 382
+        x: 342
         y: 282
       positionAbsolute:
-        x: 382
+        x: 342
         y: 282
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 241
-    # Answer Node
+      width: 242
+    ##########################################################################
+    # Question Classifier - classify based on agent output
+    # Uses the original user query to determine if file output is needed
+    ##########################################################################
     - data:
-        answer: '{{#agent.text#}}{{#agent.download_link#}}'
+        classes:
+        - id: '1'
+          name: テキストのみの回答（ファイル出力不要）
+        - id: '2'
+          name: ダッシュボード・レポート・シフト表などのHTMLファイル作成が必要
+        desc: ''
+        instruction: ''
+        instructions: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params:
+            temperature: 0.3
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        query_variable_selector:
+        - sys
+        - query
         selected: false
-        title: Answer
+        title: ファイル出力が必要か判定
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 170
+      id: classifier
+      position:
+        x: 684
+        y: 282
+      positionAbsolute:
+        x: 684
+        y: 282
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    ##########################################################################
+    # Text-only Answer (no file output)
+    ##########################################################################
+    - data:
+        answer: '{{#agent.text#}}'
+        selected: false
+        title: 答える（テキスト）
         type: answer
         variables: []
-      height: 102
-      id: answer
+      height: 103
+      id: text-answer
       position:
-        x: 680
-        y: 282
+        x: 1026
+        y: 200
       positionAbsolute:
-        x: 680
-        y: 282
+        x: 1026
+        y: 200
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 241
+      width: 242
+    ##########################################################################
+    # File output chain: LLM → save_file → get_download_url → Answer
+    ##########################################################################
+    # Report LLM - creates HTML from agent analysis
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: エージェントの分析結果をもとに、htmlでレポートを作成する
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-5-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: report-llm-prompt-1
+          role: system
+          text: |
+            あなたはからあげクンです。以下の分析結果をもとに、モダンなデザインの1枚のHTMLファイルを出力してください。
+            そのまま使いたいので、html以外の余分な文字は不要です。```html```のようなマークダウンの装飾も不要です。
+            <!DOCTYPE html>から</html>までのHTMLのみを出力してください。
+
+            ## HTMLデザインルール（ローソンブランドカラー）
+
+            - メインカラー: #1475C5（ローソンブルー）
+            - セカンダリカラー: #F5A623（からあげオレンジ）
+            - 背景: #FFFFFF または #F8FAFC
+            - テキスト: #1F2937
+            - Chart.js CDN を使ってグラフを表示: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']
+            - レスポンシブデザイン
+            - 日本語フォント: 'Noto Sans JP', sans-serif
+        - id: report-llm-prompt-2
+          role: user
+          text: '{{#agent.text#}}'
+        selected: false
+        title: レポート作成
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: report-llm
+      position:
+        x: 1026
+        y: 400
+      positionAbsolute:
+        x: 1026
+        y: 400
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    # Save File Tool (standalone - kurokobo/file_tools)
+    - data:
+        desc: 生成したHTMLレポートをファイルとして保存
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The content to save as a file.
+            ja_JP: ファイルとして保存するコンテンツ。
+          label:
+            en_US: Content to save
+            ja_JP: Content to save
+          llm_description: ''
+          name: content
+          options: []
+          required: true
+          type: string
+        - auto_generate: null
+          default: output.txt
+          form: llm
+          human_description:
+            en_US: The name of the file to save the content as.
+            ja_JP: 保存するファイル名。
+          label:
+            en_US: File name to save as
+            ja_JP: File name to save as
+          llm_description: ''
+          name: filename
+          options: []
+          required: true
+          type: string
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The MIME type of the file.
+            ja_JP: ファイルの MIME タイプ。
+          label:
+            en_US: MIME type of the file
+            ja_JP: MIME type of the file
+          llm_description: ''
+          name: mime_type
+          options: []
+          required: false
+          type: string
+        - auto_generate: null
+          default: text
+          form: form
+          human_description:
+            en_US: The format of the content to save.
+            ja_JP: コンテンツの形式。
+          label:
+            en_US: Format of the content
+            ja_JP: Format of the content
+          llm_description: ''
+          name: format
+          options:
+          - icon: ''
+            label:
+              en_US: text
+              ja_JP: text
+            value: text
+          - icon: ''
+            label:
+              en_US: base64
+              ja_JP: base64
+            value: base64
+          required: false
+          type: select
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The encoding to use when saving the file.
+            ja_JP: ファイルを保存する際に使用するエンコーディング。
+          label:
+            en_US: Encoding
+            ja_JP: エンコーディング
+          llm_description: ''
+          name: encoding
+          options: []
+          required: false
+          type: string
+        params:
+          content: ''
+          encoding: ''
+          filename: ''
+          format: ''
+          mime_type: ''
+        plugin_id: kurokobo/file_tools
+        plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
+        provider_id: kurokobo/file_tools/file_tools
+        provider_name: kurokobo/file_tools/file_tools
+        provider_type: builtin
+        selected: false
+        title: レポートを保存
+        tool_configurations:
+          format:
+            type: constant
+            value: text
+        tool_description: ファイルとして保存します。
+        tool_label: ファイルとして保存
+        tool_name: save_as_file
+        tool_node_version: '2'
+        tool_parameters:
+          content:
+            type: mixed
+            value: '{{#report-llm.text#}}'
+          encoding:
+            type: mixed
+            value: ''
+          filename:
+            type: mixed
+            value: report.html
+          mime_type:
+            type: mixed
+            value: ''
+        type: tool
+      height: 132
+      id: save-file
+      position:
+        x: 1368
+        y: 400
+      positionAbsolute:
+        x: 1368
+        y: 400
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    # Get Download URL Tool (standalone - kurokobo/file_tools)
+    - data:
+        desc: ''
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: File object to get download url.
+            ja_JP: ダウンロード URL を取得するファイルオブジェクト。
+          label:
+            en_US: File
+            ja_JP: File
+          llm_description: ''
+          name: file
+          options: []
+          required: true
+          type: file
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The text to use for the markdown link.
+            ja_JP: Markdown リンクに使用するテキスト。
+          label:
+            en_US: Link text for markdown link
+            ja_JP: Link text for markdown link
+          llm_description: ''
+          name: link_text
+          options: []
+          required: false
+          type: string
+        - auto_generate: null
+          default: plain
+          form: form
+          human_description:
+            en_US: Format of the download url.
+            ja_JP: ダウンロード URL の形式。
+          label:
+            en_US: Format of the download url
+            ja_JP: Format of the download url
+          llm_description: ''
+          name: format
+          options:
+          - icon: ''
+            label:
+              en_US: markdown
+              ja_JP: markdown
+            value: markdown
+          - icon: ''
+            label:
+              en_US: plain
+              ja_JP: plain
+            value: plain
+          required: false
+          type: select
+        params:
+          file: ''
+          format: ''
+          link_text: ''
+        plugin_id: kurokobo/file_tools
+        plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
+        provider_id: kurokobo/file_tools/file_tools
+        provider_name: kurokobo/file_tools/file_tools
+        provider_type: builtin
+        selected: false
+        title: ダウンロードURLを取得
+        tool_configurations:
+          format:
+            type: constant
+            value: plain
+        tool_description: ファイルオブジェクトのダウンロード URL を取得します。
+        tool_label: ダウンロード URL を取得
+        tool_name: get_download_url
+        tool_node_version: '2'
+        tool_parameters:
+          file:
+            type: variable
+            value:
+            - save-file
+            - files
+          link_text:
+            type: mixed
+            value: ''
+        type: tool
+      height: 88
+      id: get-url
+      position:
+        x: 1710
+        y: 422
+      positionAbsolute:
+        x: 1710
+        y: 422
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    # File Answer (with download link)
+    - data:
+        answer: '{{#agent.text#}}
+
+
+          🐓 レポートが完成しました!
+
+          {{#get-url.text#}}'
+        selected: false
+        title: 答える（ファイル付き）
+        type: answer
+        variables: []
+      height: 137
+      id: file-answer
+      position:
+        x: 2052
+        y: 400
+      positionAbsolute:
+        x: 2052
+        y: 400
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
       x: 0
       y: 0
-      zoom: 1
+      zoom: 0.7
   rag_pipeline_variables: []

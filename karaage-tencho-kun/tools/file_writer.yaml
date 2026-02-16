@@ -9,7 +9,7 @@ description:
     en_US: "Write content to a downloadable file"
     ja_JP: "コンテンツをダウンロード可能なファイルとして出力"
   llm: |
-    コンテンツ（HTML、JSON、CSVなど）をダウンロード可能なファイルとして出力します。
+    コンテンツ（HTML、JSON、CSVなど）をファイルとして出力します。
 
     ## 使用例
     - HTMLシフト表を生成した後、ファイルとして出力
@@ -20,14 +20,6 @@ description:
     - content: ファイルに書き込む内容（必須）
     - filename: 出力ファイル名（拡張子は自動付与）
     - file_type: html / json / csv / txt / md
-
-    ## 出力
-    ダウンロード可能なファイルを生成し、マークダウン形式のダウンロードリンクを返します。
-
-    ## 重要: ユーザーへの案内方法
-    このツールの返すテキストにダウンロードリンク（[📎 ... をダウンロード](/files/tools/...)）が含まれます。
-    **このリンクをそのまま（URLを変えずに）あなたの返答に含めてください。**
-    ユーザーがリンクをクリックしてファイルをダウンロードできるようにするためです。
 parameters:
   - name: content
     type: string
