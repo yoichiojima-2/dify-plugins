@@ -100,12 +100,12 @@ class ShiftTableGeneratorTool(Tool):
             for row in staff_rows
         ]
 
-        # シフトデータを取得
+        # シフトデータを取得（キャンセル済みは除外）
         shifts = conn.execute(
             """
             SELECT staff_id, date, start_time, end_time, status
             FROM shifts
-            WHERE date >= ? AND date <= ?
+            WHERE date >= ? AND date <= ? AND status != 'cancelled'
             ORDER BY date, start_time
             """,
             [date_strs[0], date_strs[-1]],
@@ -152,16 +152,15 @@ class ShiftTableGeneratorTool(Tool):
                 staff_schedule["shifts_by_date"][date_str] = shift_list
 
                 for s in shift_list:
-                    if s["status"] != "cancelled":
-                        total_shifts += 1
-                        try:
-                            start_h = int(s["start"].split(":")[0])
-                            end_h = int(s["end"].split(":")[0])
-                            if end_h < start_h:
-                                end_h += 24
-                            total_hours += end_h - start_h
-                        except Exception:
-                            pass
+                    total_shifts += 1
+                    try:
+                        start_h = int(s["start"].split(":")[0])
+                        end_h = int(s["end"].split(":")[0])
+                        if end_h < start_h:
+                            end_h += 24
+                        total_hours += end_h - start_h
+                    except Exception:
+                        pass
 
             schedule.append(staff_schedule)
 
@@ -281,12 +280,12 @@ class ShiftTableGeneratorTool(Tool):
             for row in staff_rows
         ]
 
-        # シフトデータを取得
+        # シフトデータを取得（キャンセル済みは除外）
         shifts = conn.execute(
             """
             SELECT staff_id, date, start_time, end_time, status
             FROM shifts
-            WHERE date >= ? AND date <= ?
+            WHERE date >= ? AND date <= ? AND status != 'cancelled'
             ORDER BY date, start_time
             """,
             [date_strs[0], date_strs[-1]],
@@ -326,15 +325,14 @@ class ShiftTableGeneratorTool(Tool):
                 shifts_by_date[date_str] = shift_list
 
                 for s in shift_list:
-                    if s["status"] != "cancelled":
-                        try:
-                            start_h = int(s["start"].split(":")[0])
-                            end_h = int(s["end"].split(":")[0])
-                            if end_h < start_h:
-                                end_h += 24
-                            total_hours += end_h - start_h
-                        except Exception:
-                            pass
+                    try:
+                        start_h = int(s["start"].split(":")[0])
+                        end_h = int(s["end"].split(":")[0])
+                        if end_h < start_h:
+                            end_h += 24
+                        total_hours += end_h - start_h
+                    except Exception:
+                        pass
 
             staff_summary.append({
                 "staff": staff,

@@ -11,7 +11,7 @@ if str(PLUGIN_ROOT) not in sys.path:
 from tools import dashboard_template as dt
 
 FORBIDDEN_TAGS = ["<style", "<script", "<html", "<body", "<head", "<meta", "<link", "<iframe"]
-EXPECTED_TEMPLATE_TYPES = ["daily_dashboard", "weekly_dashboard", "comparison_dashboard", "shift_table", "inventory_dashboard", "demand_forecast"]
+EXPECTED_TEMPLATE_TYPES = ["daily_dashboard", "weekly_dashboard", "comparison_dashboard", "shift_table", "daily_shift_timetable", "inventory_dashboard", "demand_forecast"]
 
 
 class TestDashboardTemplate(unittest.TestCase):

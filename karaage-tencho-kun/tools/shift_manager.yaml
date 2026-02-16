@@ -22,7 +22,7 @@ description:
     ## スキーマ
 
     staff (id, name, name_reading, role_ja, skills[], availability JSON, phone, line_id, notes)
-    shifts (shift_id, staff_id, staff_name, date, start_time, end_time, status, created_at, cancelled_at, cancel_reason)
+    shifts (shift_id, staff_id, staff_name, date, start_time, end_time, status, created_at, cancelled_at, cancel_reason, swapped_from, swapped_at)
     swap_requests (swap_id, shift_id, original_staff_id, original_staff_name, date, start_time, end_time, reason, status, approved_staff_id, approved_staff_name, approved_at)
 
     ## SQL例
@@ -34,13 +34,26 @@ description:
     SELECT name, role_ja, phone FROM staff
 
     -- シフト作成
-    INSERT INTO shifts VALUES ('SH001', 'tanaka', '田中太郎', '2026-02-10', '09:00', '17:00', 'confirmed', NOW(), NULL, NULL)
+    INSERT INTO shifts VALUES ('SH001', 'tanaka', '田中太郎', '2026-02-10', '09:00', '17:00', 'confirmed', NOW(), NULL, NULL, NULL, NULL)
 
-    -- キャンセル
-    UPDATE shifts SET status = 'cancelled', cancel_reason = '体調不良' WHERE shift_id = 'SH001'
+    -- キャンセル（休みになった場合は必ずUPDATE実行）
+    UPDATE shifts SET status = 'cancelled', cancelled_at = NOW(), cancel_reason = '体調不良' WHERE staff_id = 'tanaka' AND date = CURRENT_DATE + 1
 
     -- 月曜出勤可能なスタッフ
     SELECT name, phone FROM staff WHERE availability LIKE '%mon%'
+
+    -- 交代リクエスト登録
+    INSERT INTO swap_requests VALUES ('SW_new', 'SH068', 'yamada', '山田美咲', CURRENT_DATE + 1, '18:00', '22:00', '予定が入った', 'pending', NOW(), NULL, NULL, NULL)
+
+    ## 重要なワークフロー
+
+    **シフト交代・休み対応:**
+    1. まず shift_manager で該当シフトをUPDATE（status='cancelled'）
+    2. 次に shift_table_generator でその日のシフトを再取得（更新後データが反映される）
+    3. 必要に応じて line_composer で交代依頼メッセージを作成
+    4. dashboard_template で更新後のシフト表を描画
+
+    UPDATEせずにLINEだけ作ると、シフト表が古いままになるので必ずUPDATEを先に行うこと。
 parameters:
   - name: sql
     type: string

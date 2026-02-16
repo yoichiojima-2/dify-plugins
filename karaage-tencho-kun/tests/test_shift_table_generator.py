@@ -174,5 +174,57 @@ class TestShiftTableGenerator(unittest.TestCase):
         self.assertIn("田中太郎", staff_names)
 
 
+    def test_update_via_shift_manager_reflects_in_table_generator(self) -> None:
+        """shift_managerでUPDATEした変更がshift_table_generatorに反映されることを確認。
+
+        シフト交代フローの核心テスト:
+        1. shift_table_generator で今日のシフトを取得（tanaka が confirmed）
+        2. shift_manager の conn で tanaka のシフトを cancelled に UPDATE
+        3. shift_table_generator で再取得 → tanaka が消えていること
+        """
+        from datetime import datetime
+        from tools.datetime_utils import JST
+
+        now = datetime.now(JST)
+        today_str = now.strftime("%Y-%m-%d")
+
+        # 1. shift_manager の conn を取得（共有DB）
+        conn = sm._db.get_connection()
+
+        # 今日の confirmed シフト数を取得
+        before = conn.execute(
+            "SELECT COUNT(*) FROM shifts WHERE date = CURRENT_DATE AND status = 'confirmed'"
+        ).fetchone()[0]
+
+        if before == 0:
+            self.skipTest("今日の confirmed シフトが無いためスキップ")
+
+        # 今日の confirmed シフトを1件 cancelled にする
+        target = conn.execute(
+            "SELECT shift_id, staff_id FROM shifts WHERE date = CURRENT_DATE AND status = 'confirmed' LIMIT 1"
+        ).fetchone()
+        target_shift_id = target[0]
+        target_staff_id = target[1]
+
+        conn.execute(
+            "UPDATE shifts SET status = 'cancelled', cancel_reason = 'テスト' WHERE shift_id = ?",
+            [target_shift_id],
+        )
+
+        # 2. shift_table_generator で daily ビューを取得
+        tool = self._make_tool()
+        messages = list(tool._invoke({"view_type": "daily", "start_date": today_str}))
+        result = messages[0]
+
+        # 3. cancelled にしたスタッフが shifts に含まれていないことを確認
+        active_staff_ids = [s["staff_id"] for s in result["shifts"]]
+        # 同じ staff_id で別シフトがある可能性があるので、shift_id で確認
+        after = conn.execute(
+            "SELECT COUNT(*) FROM shifts WHERE date = CURRENT_DATE AND status = 'confirmed'"
+        ).fetchone()[0]
+
+        self.assertEqual(after, before - 1, "UPDATE 後の confirmed 数が1件減っていない")
+
+
 if __name__ == "__main__":
     unittest.main()

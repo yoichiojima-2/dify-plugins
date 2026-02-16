@@ -1,9 +1,9 @@
 app:
   description: ローソン店舗の売上・シフト・在庫・需要予測をまとめて管理するAIアシスタント
-  icon: 🤖
-  icon_background: '#D1E9FF'
+  icon: 076a6844-24f0-46a5-9268-c4e70861e36c
+  icon_background: '#FFEAD5'
   mode: agent-chat
-  name: 開発中_からあげ店長クン_v2026.2.17
+  name: 開発中_からあげ店長クン_v2026.2.18
   use_icon_as_answer_icon: true
 dependencies:
 - current_identifier: null
@@ -14,10 +14,10 @@ dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.17@31d4eea0e85143ad4af7c3632a668b3226a880eddc6438850d2caca46754b195
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.18@PLACEHOLDER
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
-    version: v2026.2.17
+    version: v2026.2.18
 kind: app
 model_config:
   agent_mode:
@@ -205,16 +205,16 @@ model_config:
       datasets:
       - dataset:
           enabled: true
-          id: 790bf2dc-0060-4470-83d1-56b1403a732a
-      - dataset:
-          enabled: true
-          id: 4e7f08f1-0e4e-46c3-b4f4-51cc1e16b73a
+          id: 3d1fb58f-d8cd-44cc-b6a6-e28251b22ca6
       - dataset:
           enabled: true
           id: a5e7883e-5d2e-402e-bc17-351a5378838e
       - dataset:
           enabled: true
-          id: 3d1fb58f-d8cd-44cc-b6a6-e28251b22ca6
+          id: 4e7f08f1-0e4e-46c3-b4f4-51cc1e16b73a
+      - dataset:
+          enabled: true
+          id: 790bf2dc-0060-4470-83d1-56b1403a732a
     reranking_enable: false
     reranking_mode: weighted_score
     reranking_model:
@@ -310,6 +310,9 @@ model_config:
 
     6. **追加提案禁止**: 「追加でできます」「次にできること」「他にご希望は？」は出さない。聞かれたことだけ答える
 
+    7. **シフト変更時は必ずDB更新**: 「休み」「キャンセル」「交代」の話が出たら、**最初に** shift_manager
+    で UPDATE shifts SET status=''cancelled'' を実行すること。LINEメッセージ作成やシフト表表示の**前に**必ず実行する。更新しないとシフト表に古いデータが表示される。
+
 
     ## ナレッジベース（RAG）
 
@@ -346,7 +349,7 @@ model_config:
     line_id, notes)
 
     - shifts (shift_id, staff_id, staff_name, date, start_time, end_time, status,
-    created_at, cancelled_at, cancel_reason)
+    created_at, cancelled_at, cancel_reason, swapped_from, swapped_at)
 
     - swap_requests (swap_id, shift_id, original_staff_id, original_staff_name, date,
     start_time, end_time, reason, status, approved_staff_id, approved_staff_name,
@@ -363,10 +366,28 @@ model_config:
     - シフト作成: INSERT INTO shifts VALUES (''SH001'', ''tanaka'', ''田中太郎'', ''2026-02-10'',
     ''09:00'', ''17:00'', ''confirmed'', NOW(), NULL, NULL)
 
-    - キャンセル: UPDATE shifts SET status = ''cancelled'', cancel_reason = ''体調不良'' WHERE
-    shift_id = ''SH001''
+    - キャンセル: UPDATE shifts SET status = ''cancelled'', cancelled_at = NOW(), cancel_reason
+    = ''体調不良'' WHERE staff_id = ''tanaka'' AND date = CURRENT_DATE + 1
 
     - 月曜出勤可能なスタッフ: SELECT name, phone FROM staff WHERE availability LIKE ''%mon%''
+
+
+    **シフト交代・休み対応の手順（必ず守ること）:**
+
+    「〇〇さんが休み」「交代」「キャンセル」等の依頼が来たら、以下の順番で実行すること:
+
+    ステップ1: shift_manager で UPDATE を実行（これが最優先）
+
+    例: UPDATE shifts SET status = ''cancelled'', cancelled_at = NOW(), cancel_reason = ''休み希望''
+    WHERE staff_id = ''tanaka'' AND date = CURRENT_DATE + 1 AND status = ''confirmed''
+
+    ステップ2: shift_table_generator で更新後のシフトデータを再取得
+
+    ステップ3: 必要に応じて line_composer で交代依頼メッセージを作成
+
+    ステップ4: dashboard_template (shift_table) で更新後のシフト表を描画
+
+    **注意**: ステップ1を飛ばすとシフト表に古いデータが表示される。必ずUPDATEが最初。
 
 
     #### shift_optimizer（シフト最適化）
