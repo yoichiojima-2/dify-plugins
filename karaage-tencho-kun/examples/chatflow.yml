@@ -3,16 +3,16 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 開発中_からあげ店長クン_v2026.2.16-5
+  name: 開発中_からあげ店長クン_v2026.2.16-6
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-5@d45ff6935a957424b45dac910e0f886d6d6621374ffea19285c2b83360abc0a1
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-6@63d0af6a4116fd20bc037d95386458641378028633565681cd0f8b26400ad95d
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
-    version: v2026.2.15-7
+    version: v2026.2.16-6
 kind: app
 version: 0.1.0
 workflow:
@@ -150,10 +150,8 @@ workflow:
               - filename: ファイル名（例: sales_dashboard_weekly）
               - file_type: html
 
-              file_writerを実行するとファイルが自動生成され、ダウンロードリンク付きのテキストが返されます。
-              **重要**: file_writerの返すテキストに含まれるマークダウンリンク（[📎 ... をダウンロード](/files/tools/...)）を
-              必ずそのまま（URLを変えずに）あなたの返答に含めてください。
-              ユーザーがクリックしてファイルをダウンロードできるようにするためです。
+              file_writerを呼び出すとファイルが自動的にダウンロード可能になります。
+              ファイル作成後は、ファイルが完成したことをユーザーに伝えてください。
 
               ## ナレッジベース（RAG）
 
@@ -498,7 +496,7 @@ workflow:
       width: 241
     # Answer Node
     - data:
-        answer: '{{#agent.text#}}'
+        answer: '{{#agent.text#}}{{#agent.files#}}'
         selected: false
         title: Answer
         type: answer
