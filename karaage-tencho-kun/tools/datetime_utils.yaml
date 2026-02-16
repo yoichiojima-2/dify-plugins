@@ -3,7 +3,7 @@ identity:
   author: "yoichiojima"
   label:
     en_US: "Datetime Utils"
-    ja_JP: "日時util関数"
+    ja_JP: "日時変換"
 description:
   human:
     en_US: "Convert a date-time to Japan Standard Time (JST)"
