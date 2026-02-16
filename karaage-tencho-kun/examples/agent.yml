@@ -189,6 +189,20 @@ model_config:
       tool_parameters:
         template_type: null
       type: builtin
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
+      provider_type: builtin
+      tool_label: Order Optimizer
+      tool_name: order_optimizer
+      tool_parameters:
+        humidity: null
+        safety_stock_days: null
+        temperature: null
+        weather: null
+      type: builtin
   annotation_reply:
     enabled: false
   chat_prompt_config:
@@ -599,6 +613,26 @@ model_config:
     - low: 残り8時間以内 → 通常販売継続
 
 
+    #### order_optimizer（発注最適化）
+
+    天気ベースの需要予測と在庫レベルを統合して、最適な発注数量を推奨するツール。
+    inventory_manager の order_recommendation は在庫レベルのみで判断するが、このツールは需要予測を加味する。
+
+
+    **パラメータ:**
+
+    - weather: 天気（sunny/cloudy/rainy）。hourly_weather で取得した天気を使う
+
+    - temperature: 気温（℃）。hourly_weather で取得した気温を使う
+
+    - humidity: 湿度（%）。省略時60%
+
+    - safety_stock_days: 安全在庫倍率（0.5-3）。1=通常、2=多め
+
+
+    **使い方:** hourly_weather で天気を取得 → order_optimizer に天気と気温を渡す → 発注推奨リストを返す
+
+
     ---
 
 
@@ -669,6 +703,8 @@ model_config:
 
     - 「天気から需要予測して」→ hourly_weather → demand_forecast → dashboard_template(demand_forecast)
     → HTMLを置換して出力
+
+    - 「天気を見て発注最適化して」→ hourly_weather → order_optimizer（天気と気温を渡す） → 発注推奨リストを返す
 
 
     ---
@@ -777,6 +813,8 @@ model_config:
 
     - **需要予測ダッシュボード**: hourly_weather → demand_forecast → dashboard_template(demand_forecast)
     → HTMLを置換して直接出力
+
+    - **発注最適化**: hourly_weather → order_optimizer（天気と気温を渡す） → 発注推奨リスト
 
     '
   prompt_type: simple

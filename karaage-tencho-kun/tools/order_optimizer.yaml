@@ -1,0 +1,84 @@
+identity:
+  name: "order_optimizer"
+  author: "yoichiojima"
+  label:
+    en_US: "Order Optimizer"
+    ja_JP: "発注最適化"
+description:
+  human:
+    en_US: "Combine demand forecast with inventory levels to recommend optimal order quantities"
+    ja_JP: "需要予測と在庫レベルを統合して最適な発注数量を推奨"
+  llm: |
+    天気ベースの需要予測と現在の在庫レベルを統合し、
+    商品別の最適な発注数量を推奨するツール。
+
+    ## 機能
+    - 天気・気温から需要予測モデルを自動実行
+    - カテゴリ別の需要変動率を商品レベルに適用
+    - 消費期限を考慮した発注量調整
+    - 安全在庫日数による発注量調整
+
+    ## 使い方
+    - 晴れで25度: weather="sunny", temperature=25
+    - 雨で10度: weather="rainy", temperature=10
+    - 安全在庫多め: safety_stock_days=2
+
+    ## inventory_manager.order_recommendation との違い
+    - inventory_manager は在庫レベルのみで判断（天気・需要無視）
+    - このツールは天気・気温による需要予測を統合して判断
+    - 「明日雨なので発注調整したい」等のケースで使用
+
+    ## 出力
+    - 各商品の推奨発注数量と理由
+    - カテゴリ別の需要変動率と発注合計
+    - 全体の発注サマリ
+parameters:
+  - name: weather
+    type: string
+    required: true
+    label:
+      en_US: Weather
+      ja_JP: 天気
+    human_description:
+      en_US: "Weather condition (sunny, cloudy, rainy)"
+      ja_JP: "天気（sunny, cloudy, rainy）"
+    llm_description: "天気条件。sunny（晴れ）、cloudy（曇り）、rainy（雨）のいずれか"
+    form: llm
+  - name: temperature
+    type: number
+    required: true
+    label:
+      en_US: Temperature
+      ja_JP: 気温
+    human_description:
+      en_US: "Temperature in Celsius"
+      ja_JP: "気温（摂氏）"
+    llm_description: "気温（摂氏）。例: 25"
+    form: llm
+  - name: humidity
+    type: number
+    required: false
+    label:
+      en_US: Humidity
+      ja_JP: 湿度
+    human_description:
+      en_US: "Humidity percentage (0-100)"
+      ja_JP: "湿度（0-100%）"
+    llm_description: "湿度（%）。例: 70。省略時は60%"
+    form: llm
+    default: 60
+  - name: safety_stock_days
+    type: number
+    required: false
+    label:
+      en_US: Safety Stock Days
+      ja_JP: 安全在庫日数
+    human_description:
+      en_US: "Safety stock buffer multiplier (0.5-3, default 1)"
+      ja_JP: "安全在庫バッファ倍率（0.5-3、デフォルト1）"
+    llm_description: "安全在庫バッファ倍率。1=通常、2=多め。省略時は1"
+    form: llm
+    default: 1
+extra:
+  python:
+    source: tools/order_optimizer.py
