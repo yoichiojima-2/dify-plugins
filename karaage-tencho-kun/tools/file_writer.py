@@ -18,6 +18,34 @@ MIME_TYPES = {
     "md": "text/markdown",
 }
 
+# Internal Docker hostnames used by Dify in self-hosted setups.
+# When preview_url contains one of these, we replace with http://localhost
+# so the link works from the user's browser.
+# On cloud.dify.ai, preview_url should already have a public hostname.
+_INTERNAL_HOSTS = {"api", "dify-api", "sandbox", "localhost"}
+
+
+def _make_download_url(preview_url: str) -> str:
+    """Convert preview_url to a browser-accessible download URL.
+
+    Dify's chat frontend only renders markdown links whose href starts with
+    http:, https:, //, or mailto: (see isValidUrl in markdown-blocks/utils.ts).
+
+    - If preview_url already has a public hostname → use as-is.
+    - If it uses an internal Docker hostname (e.g. http://api:5001/...) →
+      replace with http://localhost (works for self-hosted Dify).
+    """
+    parsed = urlparse(preview_url)
+    hostname = parsed.hostname or ""
+
+    # Check if the hostname looks internal (Docker service name or bare localhost)
+    if hostname in _INTERNAL_HOSTS or "." not in hostname:
+        path_and_query = f"{parsed.path}?{parsed.query}" if parsed.query else parsed.path
+        return f"http://localhost{path_and_query}"
+
+    # Public hostname (e.g. cloud.dify.ai) — use preview_url as-is
+    return preview_url
+
 
 class FileWriterTool(Tool):
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
@@ -47,12 +75,8 @@ class FileWriterTool(Tool):
                 content=content_bytes,
                 mimetype=mime_type,
             )
-            # preview_url contains a signed URL for downloading the file
-            # It may use an internal Docker hostname (e.g., http://api:5001/files/tools/...)
-            # Extract the path+query so the link works relative to the user's Dify domain
             if upload_response and upload_response.preview_url:
-                parsed = urlparse(upload_response.preview_url)
-                download_url = f"{parsed.path}?{parsed.query}" if parsed.query else parsed.path
+                download_url = _make_download_url(upload_response.preview_url)
         except Exception:
             pass  # Upload failure is non-fatal; blob message still provides the file
 

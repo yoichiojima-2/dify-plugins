@@ -182,12 +182,14 @@ class TestFileWriter(unittest.TestCase):
         messages = list(tool._invoke({"content": "<html></html>"}))
 
         text_msg = messages[1]
-        # Should contain relative path (not internal Docker hostname)
-        self.assertIn("/files/tools/abc123.html?timestamp=123&nonce=xyz&sign=sig", text_msg.text)
+        # Should contain absolute URL with http://localhost (passes Dify frontend isValidUrl)
+        self.assertIn("http://localhost/files/tools/abc123.html?timestamp=123&nonce=xyz&sign=sig", text_msg.text)
         # Should contain markdown link
         self.assertIn("[📎", text_msg.text)
         # Should NOT contain internal Docker hostname
         self.assertNotIn("api:5001", text_msg.text)
+        # URL must start with http: to pass Dify frontend's isValidUrl() check
+        self.assertIn("](http://localhost/", text_msg.text)
 
     def test_fallback_text_when_no_preview_url(self) -> None:
         """When preview_url is None, text message should show fallback message."""
@@ -205,8 +207,56 @@ class TestFileWriter(unittest.TestCase):
         messages = list(tool._invoke({"content": "<html></html>"}))
 
         text_msg = messages[1]
-        self.assertIn("/files/tools/abc123.html", text_msg.text)
+        self.assertIn("http://localhost/files/tools/abc123.html", text_msg.text)
         self.assertNotIn("api:5001", text_msg.text)
+
+    def test_public_preview_url_used_as_is(self) -> None:
+        """When preview_url has a public hostname (e.g. cloud.dify.ai), use it directly."""
+        preview_url = "https://cloud.dify.ai/files/tools/abc123.html?timestamp=123&sign=sig"
+        tool = self._make_tool(preview_url=preview_url)
+        messages = list(tool._invoke({"content": "<html></html>"}))
+
+        text_msg = messages[1]
+        self.assertIn(preview_url, text_msg.text)
+
+    def test_dify_api_internal_host_replaced(self) -> None:
+        """Internal Docker hostname 'dify-api' should be replaced with localhost."""
+        preview_url = "http://dify-api:5001/files/tools/abc123.html?sign=sig"
+        tool = self._make_tool(preview_url=preview_url)
+        messages = list(tool._invoke({"content": "<html></html>"}))
+
+        text_msg = messages[1]
+        self.assertIn("http://localhost/files/tools/abc123.html?sign=sig", text_msg.text)
+        self.assertNotIn("dify-api", text_msg.text)
+
+
+class TestMakeDownloadUrl(unittest.TestCase):
+    """Unit tests for _make_download_url helper."""
+
+    def test_internal_api_host(self) -> None:
+        url = fw._make_download_url("http://api:5001/files/tools/abc.html?sign=x")
+        self.assertEqual(url, "http://localhost/files/tools/abc.html?sign=x")
+
+    def test_internal_dify_api_host(self) -> None:
+        url = fw._make_download_url("http://dify-api:5001/files/tools/abc.html")
+        self.assertEqual(url, "http://localhost/files/tools/abc.html")
+
+    def test_internal_localhost_host(self) -> None:
+        url = fw._make_download_url("http://localhost:5001/files/tools/abc.html")
+        self.assertEqual(url, "http://localhost/files/tools/abc.html")
+
+    def test_public_cloud_dify_ai(self) -> None:
+        url = "https://cloud.dify.ai/files/tools/abc.html?sign=x"
+        self.assertEqual(fw._make_download_url(url), url)
+
+    def test_public_custom_domain(self) -> None:
+        url = "https://my-dify.example.com/files/tools/abc.html?sign=x"
+        self.assertEqual(fw._make_download_url(url), url)
+
+    def test_unknown_single_word_host_treated_as_internal(self) -> None:
+        """Single-word hostnames without dots are likely Docker service names."""
+        url = fw._make_download_url("http://myservice:8080/files/tools/abc.html")
+        self.assertEqual(url, "http://localhost/files/tools/abc.html")
 
 
 if __name__ == "__main__":
