@@ -127,10 +127,10 @@ workflow:
         isInLoop: false
         sourceType: question-classifier
         targetType: answer
-      id: classifier-1-text-answer-target
+      id: classifier-1-textanswer-target
       source: classifier
       sourceHandle: '1'
-      target: text-answer
+      target: textanswer
       targetHandle: target
       type: custom
       zIndex: 0
@@ -139,10 +139,10 @@ workflow:
         isInLoop: false
         sourceType: question-classifier
         targetType: llm
-      id: classifier-2-report-llm-target
+      id: classifier-2-reportllm-target
       source: classifier
       sourceHandle: '2'
-      target: report-llm
+      target: reportllm
       targetHandle: target
       type: custom
       zIndex: 0
@@ -151,10 +151,10 @@ workflow:
         isInLoop: false
         sourceType: llm
         targetType: tool
-      id: report-llm-source-save-file-target
-      source: report-llm
+      id: reportllm-source-savefile-target
+      source: reportllm
       sourceHandle: source
-      target: save-file
+      target: savefile
       targetHandle: target
       type: custom
       zIndex: 0
@@ -163,10 +163,10 @@ workflow:
         isInLoop: false
         sourceType: tool
         targetType: tool
-      id: save-file-source-get-url-target
-      source: save-file
+      id: savefile-source-geturl-target
+      source: savefile
       sourceHandle: source
-      target: get-url
+      target: geturl
       targetHandle: target
       type: custom
       zIndex: 0
@@ -175,10 +175,10 @@ workflow:
         isInLoop: false
         sourceType: tool
         targetType: answer
-      id: get-url-source-file-answer-target
-      source: get-url
+      id: geturl-source-fileanswer-target
+      source: geturl
       sourceHandle: source
-      target: file-answer
+      target: fileanswer
       targetHandle: target
       type: custom
       zIndex: 0
@@ -598,7 +598,7 @@ workflow:
         type: answer
         variables: []
       height: 103
-      id: text-answer
+      id: textanswer
       position:
         x: 1026
         y: 200
@@ -624,7 +624,7 @@ workflow:
           name: gpt-5-mini
           provider: langgenius/openai/openai
         prompt_template:
-        - id: report-llm-prompt-1
+        - id: reportllm-prompt-1
           role: system
           text: |
             あなたはからあげクンです。以下の分析結果をもとに、モダンなデザインの1枚のHTMLファイルを出力してください。
@@ -640,7 +640,7 @@ workflow:
             - Chart.js CDN を使ってグラフを表示: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']
             - レスポンシブデザイン
             - 日本語フォント: 'Noto Sans JP', sans-serif
-        - id: report-llm-prompt-2
+        - id: reportllm-prompt-2
           role: user
           text: '{{#agent.text#}}'
         selected: false
@@ -649,7 +649,7 @@ workflow:
         vision:
           enabled: false
       height: 132
-      id: report-llm
+      id: reportllm
       position:
         x: 1026
         y: 400
@@ -769,7 +769,7 @@ workflow:
         tool_parameters:
           content:
             type: mixed
-            value: '{{#report-llm.text#}}'
+            value: '{{#reportllm.text#}}'
           encoding:
             type: mixed
             value: ''
@@ -781,7 +781,7 @@ workflow:
             value: ''
         type: tool
       height: 132
-      id: save-file
+      id: savefile
       position:
         x: 1368
         y: 400
@@ -872,14 +872,14 @@ workflow:
           file:
             type: variable
             value:
-            - save-file
+            - savefile
             - files
           link_text:
             type: mixed
             value: ''
         type: tool
       height: 88
-      id: get-url
+      id: geturl
       position:
         x: 1710
         y: 422
@@ -897,13 +897,13 @@ workflow:
 
           🐓 レポートが完成しました!
 
-          {{#get-url.text#}}'
+          {{#geturl.text#}}'
         selected: false
         title: 答える（ファイル付き）
         type: answer
         variables: []
       height: 137
-      id: file-answer
+      id: fileanswer
       position:
         x: 2052
         y: 400
