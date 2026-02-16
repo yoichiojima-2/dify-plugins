@@ -376,7 +376,7 @@ model_config:
 
     「〇〇さんが休み」「交代」「キャンセル」等の依頼が来たら、以下の順番で実行すること:
 
-    ステップ1: shift_manager で UPDATE を実行（これが最優先）
+    ステップ1: shift_manager で UPDATE を実行（これが最優先。1回のツール呼び出しで1つのSQLのみ）
 
     例: UPDATE shifts SET status = ''cancelled'', cancelled_at = NOW(), cancel_reason = ''休み希望''
     WHERE staff_id = ''tanaka'' AND date = CURRENT_DATE + 1 AND status = ''confirmed''
@@ -388,6 +388,8 @@ model_config:
     ステップ4: dashboard_template (shift_table) で更新後のシフト表を描画
 
     **注意**: ステップ1を飛ばすとシフト表に古いデータが表示される。必ずUPDATEが最初。
+
+    **DuckDB制約**: WITH句（CTE）でUPDATE/INSERTは使えない。UPDATEとINSERTは別々のツール呼び出しで実行すること。
 
 
     #### shift_optimizer（シフト最適化）

@@ -18,6 +18,8 @@ description:
     - 結果が得られたら、すぐにユーザーに回答してください
     - 結果が空でも、その旨を伝えて終了してください
     - 同じクエリを繰り返さないでください
+    - **DuckDB制約**: WITH句（CTE）でUPDATE/INSERTは使えない。UPDATE と INSERT は別々のツール呼び出しで実行すること
+    - **1回のツール呼び出し = 1つのSQL文**。複数のSQL文をセミコロンで結合しないこと
 
     ## スキーマ
 
@@ -64,7 +66,7 @@ parameters:
     human_description:
       en_US: "SQL query to execute"
       ja_JP: "実行するSQLクエリ"
-    llm_description: "実行するSQL（DuckDB/PostgreSQL構文）"
+    llm_description: "実行するSQL（DuckDB構文。1回に1つのSQL文のみ。CTE+UPDATEは不可）"
     form: llm
 extra:
   python:
