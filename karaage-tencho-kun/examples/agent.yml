@@ -3,7 +3,7 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: agent-chat
-  name: 開発中_からあげ店長クン_v2026.2.16-9
+  name: 開発中_からあげ店長クン_v2026.2.17
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -14,10 +14,10 @@ dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.15-4@12e6158ca37ab6e8728986c58dc25295b925e93023c5f229e11f6d87ae0a9281
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-16@05cbe1979be94fea34010cdc4452b5b528df670743f00f8457cce161bf9881d4
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
-    version: v2026.2.15-4
+    version: v2026.2.16-16
 kind: app
 model_config:
   agent_mode:
@@ -569,7 +569,8 @@ model_config:
 
     **使い方（3ステップ）:**
 
-    1. データ取得ツールでデータ取得（dashboard_generator / shift_table_generator / inventory_manager / demand_forecast）
+    1. データ取得ツールでデータ取得（dashboard_generator / shift_table_generator / inventory_manager
+    / demand_forecast）
 
     2. dashboard_template でテンプレートを取得
 
@@ -611,15 +612,20 @@ model_config:
 
     - 「シフトを確認して」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
 
-    - 「シフトを変更してLINEを作って」→ shift_manager(変更) → shift_table_generator → dashboard_template(shift_table) → HTML出力 + line_composer
+    - 「シフトを変更してLINEを作って」→ shift_manager(変更) → shift_table_generator → dashboard_template(shift_table)
+    → HTML出力 + line_composer
 
     - 「シフト表を作って」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
 
-    - 「今週と先週を比較して」→ dashboard_generator(comparison) → dashboard_template(comparison_dashboard) → HTMLを置換して出力
+    - 「今週と先週を比較して」→ dashboard_generator(comparison) → dashboard_template(comparison_dashboard)
+    → HTMLを置換して出力
 
-    - 「在庫ダッシュボードを作って」→ inventory_manager(list) + inventory_manager(check_expiration) + inventory_manager(low_stock_alert) → dashboard_template(inventory_dashboard) → HTMLを置換して出力
+    - 「在庫ダッシュボードを作って」→ inventory_manager(list) + inventory_manager(check_expiration)
+    + inventory_manager(low_stock_alert) → dashboard_template(inventory_dashboard)
+    → HTMLを置換して出力
 
-    - 「天気から需要予測して」→ hourly_weather → demand_forecast → dashboard_template(demand_forecast) → HTMLを置換して出力
+    - 「天気から需要予測して」→ hourly_weather → demand_forecast → dashboard_template(demand_forecast)
+    → HTMLを置換して出力
 
 
     ---
@@ -628,7 +634,8 @@ model_config:
     ## ダッシュボード・シフト表の作成フロー
 
 
-    1. データ取得（dashboard_generator, shift_table_generator, inventory_manager, demand_forecast, sales_analytics）
+    1. データ取得（dashboard_generator, shift_table_generator, inventory_manager, demand_forecast,
+    sales_analytics）
 
     2. dashboard_template でインラインHTMLテンプレートを取得
 
@@ -657,9 +664,7 @@ model_config:
 
     ## インタラクティブ照会の回答形式
 
-    売上照会・シフト確認など表形式が適切なデータは、マークダウンテーブルで回答する:
-    | 日付 | 売上 | 点数 | 天気 |
-    |------|------|------|------|
+    売上照会・シフト確認など表形式が適切なデータは、マークダウンテーブルで回答する: | 日付 | 売上 | 点数 | 天気 | |------|------|------|------|
     | 2/10 | ¥72,516 | 357 | 晴れ |
 
 
@@ -724,9 +729,11 @@ model_config:
 
     - **ダッシュボード**: dashboard_generator → dashboard_template → HTMLを置換して直接出力
 
-    - **在庫ダッシュボード**: inventory_manager(list/check_expiration/low_stock_alert) → dashboard_template(inventory_dashboard) → HTMLを置換して直接出力
+    - **在庫ダッシュボード**: inventory_manager(list/check_expiration/low_stock_alert) → dashboard_template(inventory_dashboard)
+    → HTMLを置換して直接出力
 
-    - **需要予測ダッシュボード**: hourly_weather → demand_forecast → dashboard_template(demand_forecast) → HTMLを置換して直接出力
+    - **需要予測ダッシュボード**: hourly_weather → demand_forecast → dashboard_template(demand_forecast)
+    → HTMLを置換して直接出力
 
     '
   prompt_type: simple
@@ -754,4 +761,4 @@ model_config:
     language: ''
     voice: ''
   user_input_form: []
-version: 0.6.0
+version: 0.5.0
