@@ -58,8 +58,8 @@
         "{{WEATHER_ROWS}}": "天気別の横棒グラフ"
       },
       "instructions": {
-        "daily_bars_exemplar": "<div style=\"flex:1;display:flex;flex-direction:column;align-items:center;\"><div style=\"width:100%;background:#3b82f6;border-radius:3px 3px 0 0;height:{{PERCENT}}%;\" title=\"{{DATE}}: ¥{{AMOUNT}}\"></div></div>",
-        "daily_bars_note": "7日分のバーを生成。heightは売上/最大日売上*100%。今日のバーは色を#60a5faにする。",
+        "daily_bars_exemplar": "<div style=\"flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;\"><div style=\"width:100%;background:#3b82f6;border-radius:3px 3px 0 0;height:{{PERCENT}}%;min-height:3px;\" title=\"{{DATE}}: ¥{{AMOUNT}}\"></div></div>",
+        "daily_bars_note": "7日分のバーを生成。各バーのwrapperには必ずheight:100%を指定。heightは売上/最大日売上*100%。今日のバーは色を#60a5faにする。",
         "daily_labels_exemplar": "<div style=\"flex:1;text-align:center;font-size:10px;color:#64748b;\">{{WEEKDAY}}<br>{{DAY}}</div>",
         "daily_labels_note": "各日の曜日(月〜日)とday(例:10)を表示。今日は色を#e2e8f0にする。",
         "category_rows_exemplar": "<div style=\"margin-bottom:8px;\"><div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;\"><span>{{CATEGORY}}</span><span style=\"color:#94a3b8;\">¥{{AMOUNT}}</span></div><div style=\"background:#0f3460;border-radius:4px;height:8px;\"><div style=\"background:#3b82f6;border-radius:4px;height:8px;width:{{PERCENT}}%;\"></div></div></div>",
@@ -84,8 +84,8 @@
         "{{CATEGORY_COMPARISON_ROWS}}": "カテゴリ別比較行（下記exemplar参照）"
       },
       "instructions": {
-        "dow_bars_exemplar": "<div style=\"flex:1;display:flex;gap:2px;align-items:flex-end;\"><div style=\"flex:1;background:#3b82f6;border-radius:2px 2px 0 0;height:{{THIS_PERCENT}}%;\" title=\"今週: ¥{{THIS_AMOUNT}}\"></div><div style=\"flex:1;background:#475569;border-radius:2px 2px 0 0;height:{{LAST_PERCENT}}%;\" title=\"先週: ¥{{LAST_AMOUNT}}\"></div></div>",
-        "dow_bars_note": "月〜日の7組を生成。各組に今週(青#3b82f6)と先週(灰#475569)の2本のバー。heightは各金額/全曜日の最大値*100%。",
+        "dow_bars_exemplar": "<div style=\"flex:1;display:flex;gap:2px;align-items:flex-end;height:100%;\"><div style=\"flex:1;background:#3b82f6;border-radius:2px 2px 0 0;height:{{THIS_PERCENT}}%;min-height:3px;\" title=\"今週: ¥{{THIS_AMOUNT}}\"></div><div style=\"flex:1;background:#475569;border-radius:2px 2px 0 0;height:{{LAST_PERCENT}}%;min-height:3px;\" title=\"先週: ¥{{LAST_AMOUNT}}\"></div></div>",
+        "dow_bars_note": "月〜日の7組を生成。各組のwrapperには必ずheight:100%を指定。各組に今週(青#3b82f6)と先週(灰#475569)の2本のバー。heightは各金額/全曜日の最大値*100%。",
         "dow_labels_exemplar": "<div style=\"flex:1;text-align:center;font-size:10px;color:#64748b;\">{{WEEKDAY}}</div>",
         "dow_labels_note": "月、火、水、木、金、土、日 のラベル。土日は色を#f59e0bにする。",
         "category_comparison_exemplar": "<div style=\"margin-bottom:10px;\"><div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;\"><span>{{CATEGORY}}</span><span style=\"color:{{ROW_CHANGE_COLOR}};\">{{ROW_CHANGE_ICON}} {{ROW_CHANGE_PCT}}%</span></div><div style=\"display:flex;gap:2px;\"><div style=\"background:#0f3460;border-radius:4px;height:8px;flex:1;position:relative;\"><div style=\"background:#3b82f6;border-radius:4px;height:8px;width:{{THIS_PERCENT}}%;\"></div></div></div><div style=\"display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;margin-top:2px;\"><span>今週 ¥{{THIS_AMOUNT}}</span><span>先週 ¥{{LAST_AMOUNT}}</span></div></div>",
