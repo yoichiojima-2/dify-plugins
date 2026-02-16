@@ -150,8 +150,8 @@ workflow:
               - filename: ファイル名（例: sales_dashboard_weekly）
               - file_type: html
 
-              file_writerを実行するとダウンロードリンクが自動生成されます。
-              ユーザーには「ダウンロードリンクを作成しました」と案内してください。
+              file_writerを実行するとファイルが自動生成されます。
+              ユーザーには「ファイルを作成しました」と案内してください。
 
               ## ナレッジベース（RAG）
 
@@ -174,7 +174,7 @@ workflow:
               - **sales_analytics**: 売上分析SQL
               - **dashboard_generator**: ダッシュボードデータ取得（JSON）
               - **inventory_manager**: 在庫管理
-              - **file_writer**: HTMLやCSVなどをダウンロードリンク付きファイルとして出力
+              - **file_writer**: HTMLやCSVなどをダウンロード可能なファイルとして出力
 
               ## HTML生成時のデザインルール（ローソンブランドカラー）
 

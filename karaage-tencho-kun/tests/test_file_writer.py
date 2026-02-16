@@ -1,13 +1,12 @@
 import sys
 import unittest
 from pathlib import Path
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
 if str(PLUGIN_ROOT) not in sys.path:
     sys.path.insert(0, str(PLUGIN_ROOT))
 
-from data import file_store
 from tools import file_writer as fw
 
 
@@ -27,21 +26,20 @@ class TextMessage:
 
 
 class TestFileWriter(unittest.TestCase):
-    def setUp(self):
-        """Clean file store before each test."""
-        with file_store._lock:
-            file_store._store.clear()
-
-    def _make_tool(self, credentials: dict | None = None):
+    def _make_tool(self):
         """テスト用のツールインスタンスを作成"""
         tool = object.__new__(fw.FileWriterTool)
         tool.create_json_message = lambda body: body
         tool.create_blob_message = lambda blob, meta: BlobMessage(blob, meta)
         tool.create_text_message = lambda text: TextMessage(text)
 
-        # Mock runtime with credentials
-        tool.runtime = MagicMock()
-        tool.runtime.credentials = credentials or {}
+        # Mock session with file upload
+        tool.session = MagicMock()
+        tool.session.file.upload.return_value = MagicMock(
+            id="fake-file-id",
+            name="output.html",
+            preview_url=None,
+        )
 
         return tool
 
@@ -52,56 +50,23 @@ class TestFileWriter(unittest.TestCase):
         self.assertEqual(len(messages), 1)
         self.assertIn("error", messages[0])
 
-    # --- Tests with endpoint credentials configured ---
-
-    def test_returns_text_with_link_when_credentials_set(self) -> None:
-        tool = self._make_tool(credentials={
-            "dify_base_url": "http://localhost",
-            "endpoint_hook_id": "abc123",
-        })
-        messages = list(tool._invoke({"content": "<html></html>"}))
-
-        self.assertEqual(len(messages), 1)
-        self.assertIsInstance(messages[0], TextMessage)
-        self.assertIn("http://localhost/e/abc123/download/", messages[0].text)
-        self.assertIn("output.html", messages[0].text)
-
-    def test_link_contains_correct_filename(self) -> None:
-        tool = self._make_tool(credentials={
-            "dify_base_url": "http://localhost",
-            "endpoint_hook_id": "hook1",
-        })
-        messages = list(tool._invoke({
-            "content": "<html></html>",
-            "filename": "my_dashboard",
-            "file_type": "html",
-        }))
-
-        self.assertIn("my_dashboard.html", messages[0].text)
-
-    def test_file_stored_in_memory_when_credentials_set(self) -> None:
-        tool = self._make_tool(credentials={
-            "dify_base_url": "http://localhost",
-            "endpoint_hook_id": "hook1",
-        })
-        list(tool._invoke({"content": "<html>test</html>"}))
-
-        # Verify file was stored
-        with file_store._lock:
-            self.assertEqual(len(file_store._store), 1)
-            entry = list(file_store._store.values())[0]
-            self.assertEqual(entry["content"], b"<html>test</html>")
-            self.assertEqual(entry["mime_type"], "text/html")
-
-    # --- Tests with fallback (no credentials) ---
-
-    def test_returns_blob_message_without_credentials(self) -> None:
+    def test_returns_blob_and_text_messages(self) -> None:
         tool = self._make_tool()
         messages = list(tool._invoke({"content": "<html></html>"}))
 
         self.assertEqual(len(messages), 2)  # blob + text
         self.assertIsInstance(messages[0], BlobMessage)
         self.assertIsInstance(messages[1], TextMessage)
+
+    def test_uploads_file_to_dify_storage(self) -> None:
+        tool = self._make_tool()
+        list(tool._invoke({"content": "<html>test</html>"}))
+
+        tool.session.file.upload.assert_called_once_with(
+            filename="output.html",
+            content=b"<html>test</html>",
+            mimetype="text/html",
+        )
 
     def test_default_file_type_is_html(self) -> None:
         tool = self._make_tool()
@@ -190,16 +155,25 @@ class TestFileWriter(unittest.TestCase):
 
         self.assertEqual(result.meta["mime_type"], "text/plain")
 
-    def test_base_url_trailing_slash_stripped(self) -> None:
-        tool = self._make_tool(credentials={
-            "dify_base_url": "http://localhost/",
-            "endpoint_hook_id": "hook1",
-        })
-        messages = list(tool._invoke({"content": "test"}))
+    def test_still_works_when_upload_fails(self) -> None:
+        """Upload failure should not prevent blob message from being returned."""
+        tool = self._make_tool()
+        tool.session.file.upload.side_effect = Exception("upload failed")
 
-        # Should not have double slashes
-        self.assertNotIn("localhost//e", messages[0].text)
-        self.assertIn("localhost/e/hook1/download/", messages[0].text)
+        messages = list(tool._invoke({"content": "<html></html>"}))
+
+        # Should still return blob + text
+        self.assertEqual(len(messages), 2)
+        self.assertIsInstance(messages[0], BlobMessage)
+        self.assertIsInstance(messages[1], TextMessage)
+
+    def test_text_message_contains_filename(self) -> None:
+        tool = self._make_tool()
+        messages = list(
+            tool._invoke({"content": "data", "filename": "report", "file_type": "csv"})
+        )
+
+        self.assertIn("report.csv", messages[1].text)
 
 
 if __name__ == "__main__":

@@ -1,12 +1,11 @@
 # ファイル出力ツール
-# Stores files in memory and returns download links via plugin endpoint
+# Uploads files to Dify's built-in storage via session.file.upload()
+# Returns blob message for file download + text confirmation
 
 from collections.abc import Generator
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
-
-from data.file_store import store_file
 
 
 # Supported MIME types
@@ -37,34 +36,26 @@ class FileWriterTool(Tool):
         if not filename.lower().endswith(extension):
             filename = f"{filename}{extension}"
 
-        # Store file in memory for endpoint download
-        file_id = store_file(
-            content=content.encode("utf-8"),
-            filename=filename,
-            mime_type=mime_type,
+        content_bytes = content.encode("utf-8")
+
+        # Upload file to Dify's built-in storage (works on any Dify instance, no config needed)
+        try:
+            self.session.file.upload(
+                filename=filename,
+                content=content_bytes,
+                mimetype=mime_type,
+            )
+        except Exception:
+            pass  # Upload failure is non-fatal; blob message still provides the file
+
+        # Return blob message for file download
+        yield self.create_blob_message(
+            blob=content_bytes,
+            meta={
+                "mime_type": mime_type,
+                "filename": filename,
+            },
         )
-
-        # Try to construct download URL from credentials
-        base_url = self.runtime.credentials.get("dify_base_url", "").strip().rstrip("/")
-        hook_id = self.runtime.credentials.get("endpoint_hook_id", "").strip()
-
-        if base_url and hook_id:
-            download_url = f"{base_url}/e/{hook_id}/download/{file_id}"
-            # Return markdown link in text message (survives Agent node)
-            yield self.create_text_message(
-                f"ファイル「{filename}」を作成しました。\n\n"
-                f"[📥 ダウンロード: {filename}]({download_url})"
-            )
-        else:
-            # Fallback: return blob message (works in non-agent contexts like standalone Tool nodes)
-            yield self.create_blob_message(
-                blob=content.encode("utf-8"),
-                meta={
-                    "mime_type": mime_type,
-                    "filename": filename,
-                },
-            )
-            yield self.create_text_message(
-                f"ファイル「{filename}」を作成しました。上のファイルアイコンからダウンロードできます。\n\n"
-                f"（ダウンロードリンクを有効にするには、プラグイン設定で Dify Base URL と Endpoint Hook ID を設定してください。）"
-            )
+        yield self.create_text_message(
+            f"ファイル「{filename}」を作成しました。上のファイルアイコンからダウンロードできます。"
+        )
