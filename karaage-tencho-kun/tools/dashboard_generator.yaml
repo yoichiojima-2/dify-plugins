@@ -35,7 +35,7 @@ description:
     ## 出力
     JSON形式のデータを返します。
     dashboard_templateツールでテンプレートを取得し、プレースホルダーをデータで置換して
-    そのままチャットメッセージとしてHTMLを出力してください（file_writer不要）。
+    そのままチャットメッセージとしてHTMLを出力してください。
 parameters:
   - name: report_type
     type: string

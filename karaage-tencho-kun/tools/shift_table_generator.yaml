@@ -35,7 +35,7 @@ description:
     ## 出力
     JSON形式のデータを返します。
     dashboard_templateツール(shift_table)でテンプレートを取得し、プレースホルダーをデータで置換して
-    そのままチャットメッセージとしてHTMLを出力してください（file_writer不要）。
+    そのままチャットメッセージとしてHTMLを出力してください。
 parameters:
   - name: view_type
     type: string

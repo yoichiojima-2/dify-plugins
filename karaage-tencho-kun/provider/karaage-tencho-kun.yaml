@@ -22,7 +22,6 @@ tools:
   - tools/dashboard_generator.yaml
   - tools/shift_table_generator.yaml
   - tools/dashboard_template.yaml
-  - tools/file_writer.yaml
 extra:
   python:
     source: provider/karaage-tencho-kun.py

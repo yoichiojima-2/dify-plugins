@@ -10,7 +10,7 @@
       "外部フォントは使用禁止（system-ui, sans-serifを使う）",
       "レイアウトは display:flex のみ（gridも可だが flexが安全）",
       "バーチャートは <div> の width または height をパーセント指定",
-      "HTMLをそのままチャットメッセージとして出力（file_writer不要）"
+      "HTMLをそのままチャットメッセージとして出力"
     ]
   },
   "templates": {

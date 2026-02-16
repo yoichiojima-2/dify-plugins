@@ -37,8 +37,7 @@ This plugin uses **agent-chat mode** (`examples/agent.yml`) as the primary deplo
 │   ├── inventory_manager.*    # Inventory management
 │   ├── line_composer.*        # LINE message generation
 │   ├── lawson_items.*         # Product catalog
-│   ├── datetime_utils.*       # JST conversion utilities
-│   └── file_writer.*          # Create downloadable files (kept for backward compat, not in agent)
+│   └── datetime_utils.*       # JST conversion utilities
 ├── data/                      # Static data files
 │   ├── dashboard_templates.json  # HTML templates for inline rendering
 │   ├── line_templates.json
@@ -68,7 +67,7 @@ This plugin uses **agent-chat mode** (`examples/agent.yml`) as the primary deplo
 | `line_composer` | Generate LINE messages | Static templates |
 | `lawson_items` | Product catalog search | Static JSON |
 | `datetime_utils` | Convert datetime to JST | Pure Python |
-| `file_writer` | Create downloadable files | N/A (kept but not in agent tools) |
+
 
 ## Inline HTML Constraints (Quick Reference)
 
