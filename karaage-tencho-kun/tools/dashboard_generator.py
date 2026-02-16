@@ -1,19 +1,23 @@
-# ダッシュボード生成ツール - JSON版
+"""ダッシュボードデータ生成ツール。
+
+売上データベースからKPI・時間別・カテゴリ別の集計データをJSON形式で返す。
+dashboard_templateツールと組み合わせてインラインHTMLダッシュボードを生成する。
+レポートタイプ: daily（日次）、weekly（週次）、comparison（今週vs先週）。
+"""
 
 from collections.abc import Generator
 from datetime import datetime
-from zoneinfo import ZoneInfo
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
-# sales_analyticsの接続を再利用
+from tools.datetime_utils import JST, WEEKDAY_JA_SUN_START
 from tools.sales_analytics import _get_connection as _get_sales_connection
-
-JST = ZoneInfo("Asia/Tokyo")
 
 
 class DashboardGeneratorTool(Tool):
+    """売上ダッシュボードデータをJSON形式で生成するツール。"""
+
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
         report_type = tool_parameters.get("report_type", "daily").strip().lower()
 
@@ -42,7 +46,10 @@ class DashboardGeneratorTool(Tool):
             yield self.create_json_message({"error": str(e)})
 
     def _get_daily_data(self, conn, now: datetime) -> dict:
-        """日次ダッシュボードデータを取得"""
+        """日次ダッシュボードデータを取得する。
+
+        KPI（売上・販売点数・客単価・前日比）、時間別売上、カテゴリ別売上を返す。
+        """
 
         # 今日の売上データ
         today_data = conn.execute("""
@@ -128,7 +135,10 @@ class DashboardGeneratorTool(Tool):
         }
 
     def _get_weekly_data(self, conn, now: datetime) -> dict:
-        """週次ダッシュボードデータを取得"""
+        """週次ダッシュボードデータを取得する。
+
+        KPI（週間売上・日平均・前週比）、日別売上推移、カテゴリ別・天気別売上を返す。
+        """
 
         # 過去7日間の日別売上
         daily_sales = conn.execute("""
@@ -229,7 +239,10 @@ class DashboardGeneratorTool(Tool):
         }
 
     def _get_comparison_data(self, conn, now: datetime) -> dict:
-        """今週 vs 先週 比較データを取得"""
+        """今週 vs 先週の比較データを取得する。
+
+        KPI（今週/先週の合計・差額・変化率）、曜日別・カテゴリ別の比較データを返す。
+        """
 
         # 今週データ（曜日別）
         this_week = conn.execute("""
@@ -288,15 +301,14 @@ class DashboardGeneratorTool(Tool):
         change_amount = this_total - last_total
         sales_change = self._calc_change(this_total, last_total)
 
-        # 曜日別データを整形
-        dow_labels = ["日", "月", "火", "水", "木", "金", "土"]
+        # 曜日別データを整形（日曜始まり — DuckDB EXTRACT(DOW) に合わせる）
         this_week_data = {int(row[0]): row[1] for row in this_week}
         last_week_data = {int(row[0]): row[1] for row in last_week}
 
         dow_comparison = [
             {
                 "dow": i,
-                "dow_label": dow_labels[i],
+                "dow_label": WEEKDAY_JA_SUN_START[i],
                 "this_week": this_week_data.get(i, 0),
                 "last_week": last_week_data.get(i, 0),
             }
@@ -330,7 +342,7 @@ class DashboardGeneratorTool(Tool):
         }
 
     def _calc_change(self, current: float, previous: float) -> float | None:
-        """変化率を計算"""
+        """変化率（パーセント）を計算する。前期がゼロの場合はNoneを返す。"""
         if previous == 0:
             return None
         return round(((current - previous) / previous) * 100, 1)

@@ -95,7 +95,7 @@ class TestHourlyWeather(unittest.TestCase):
 
         self.assertEqual(len(messages), 1)
         self.assertIn("error", messages[0])
-        self.assertIn("Failed to fetch weather data", messages[0]["error"])
+        self.assertIn("天気データの取得に失敗", messages[0]["error"])
 
 
 if __name__ == "__main__":

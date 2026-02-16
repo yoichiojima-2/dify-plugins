@@ -11,8 +11,7 @@ from tools import inventory_manager as im
 
 class TestInventoryManager(unittest.TestCase):
     def setUp(self) -> None:
-        im._conn = None
-        im._SEED_CACHE = None
+        im._db.reset()
 
     def _make_tool(self):
         """テスト用のツールインスタンスを作成"""
@@ -23,7 +22,7 @@ class TestInventoryManager(unittest.TestCase):
     # === Schema Tests ===
 
     def test_get_connection_initializes_schema(self) -> None:
-        conn = im._get_connection()
+        conn = im._db.get_connection()
         inv_count = conn.execute("SELECT COUNT(*) FROM inventory").fetchone()[0]
         self.assertGreater(inv_count, 0)
 
@@ -31,7 +30,7 @@ class TestInventoryManager(unittest.TestCase):
         self.assertGreater(mov_count, 0)
 
     def test_inventory_has_new_columns(self) -> None:
-        conn = im._get_connection()
+        conn = im._db.get_connection()
         result = conn.execute(
             "SELECT min_stock_level, reorder_point FROM inventory LIMIT 1"
         ).fetchone()
@@ -140,7 +139,7 @@ class TestInventoryManager(unittest.TestCase):
         tool = self._make_tool()
 
         # Get current quantity
-        conn = im._get_connection()
+        conn = im._db.get_connection()
         before = conn.execute(
             "SELECT quantity FROM inventory WHERE item_id = 'INV001'"
         ).fetchone()[0]
@@ -197,7 +196,7 @@ class TestInventoryManager(unittest.TestCase):
         tool = self._make_tool()
 
         # Get current quantity
-        conn = im._get_connection()
+        conn = im._db.get_connection()
         before = conn.execute(
             "SELECT quantity FROM inventory WHERE item_id = 'INV001'"
         ).fetchone()[0]

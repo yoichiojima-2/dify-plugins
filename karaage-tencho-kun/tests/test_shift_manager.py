@@ -11,10 +11,10 @@ from tools import shift_manager as sm
 
 class TestShiftManager(unittest.TestCase):
     def setUp(self) -> None:
-        sm._conn = None
+        sm._db.reset()
 
     def test_get_connection_initializes_schema_and_seed_data(self) -> None:
-        conn = sm._get_connection()
+        conn = sm._db.get_connection()
 
         staff_count = conn.execute("SELECT COUNT(*) FROM staff").fetchone()[0]
         shift_count = conn.execute("SELECT COUNT(*) FROM shifts").fetchone()[0]

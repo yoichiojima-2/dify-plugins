@@ -12,7 +12,7 @@ from tools import dashboard_generator as dg
 
 class TestDashboardGenerator(unittest.TestCase):
     def setUp(self) -> None:
-        sa._conn = None
+        sa._db.reset()
 
     def _make_tool(self):
         """テスト用のツールインスタンスを作成"""

@@ -1,69 +1,23 @@
-# シフト管理ツール - SQL版 (インメモリDB)
+"""シフト管理ツール（インメモリDuckDB）。
+
+SQL文を受け取り、シフトデータに対してクエリを実行する。
+テーブル: staff, shifts, swap_requests。
+インメモリDBを使用（Difyクラウド環境はファイルシステムが読み取り専用のため）。
+"""
 
 from collections.abc import Generator
 import json
-from pathlib import Path
 from typing import Any
 
 import duckdb
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
-_SEED_FILE = Path(__file__).resolve().parent.parent / "data" / "shift_manager_seed.json"
-_SEED_CACHE: dict[str, Any] | None = None
-
-# インメモリDBを使用（Difyクラウド環境はファイルシステムが読み取り専用のため）
-_conn = None
+from tools.db_utils import DuckDBManager
 
 
-def _load_seed_data() -> dict[str, Any]:
-    global _SEED_CACHE
-    if _SEED_CACHE is None:
-        _SEED_CACHE = json.loads(_SEED_FILE.read_text(encoding="utf-8"))
-    return _SEED_CACHE
-
-
-def _get_connection() -> duckdb.DuckDBPyConnection:
-    global _conn
-    if _conn is None:
-        _conn = duckdb.connect(":memory:")
-        _init_schema(_conn)
-    return _conn
-
-
-class ShiftManagerTool(Tool):
-    def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
-        # Some agents may send alternative keys after a failed call.
-        # Accept aliases to avoid retry loops caused only by key mismatch.
-        sql = (
-            tool_parameters.get("sql")
-            or tool_parameters.get("query")
-            or tool_parameters.get("statement")
-            or ""
-        ).strip()
-
-        if not sql:
-            yield self.create_json_message(
-                {
-                    "error": "SQLが指定されていません",
-                    "hint": "tool_parameters に `sql` キーでSQL文字列を指定してください",
-                }
-            )
-            return
-
-        try:
-            conn = _get_connection()
-            result = conn.execute(sql).fetchdf()
-            yield self.create_json_message(result.to_dict(orient="records"))
-
-        except Exception as e:
-            yield self.create_json_message({"error": str(e)})
-
-
-def _init_schema(conn: duckdb.DuckDBPyConnection) -> None:
-    """スキーマとサンプルデータを初期化"""
-
-    seed_data = _load_seed_data()
+def _init_schema(conn: duckdb.DuckDBPyConnection, seed_data: dict[str, Any]) -> None:
+    """スキーマとサンプルデータを初期化する。"""
 
     # スキーマ作成
     conn.execute("""
@@ -197,3 +151,42 @@ def _init_schema(conn: duckdb.DuckDBPyConnection) -> None:
                 None,  # approved_at
             ],
         )
+
+
+# --- モジュールレベルのDB管理インスタンス ---
+_db = DuckDBManager("shift_manager_seed.json", _init_schema)
+
+# 後方互換性のためのエイリアス（shift_table_generator, shift_optimizer等からのインポート用）
+_load_seed_data = _db.load_seed_data
+_get_connection = _db.get_connection
+
+
+class ShiftManagerTool(Tool):
+    """SQL文でシフトデータを操作・分析するツール。"""
+
+    def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
+        # Some agents may send alternative keys after a failed call.
+        # Accept aliases to avoid retry loops caused only by key mismatch.
+        sql = (
+            tool_parameters.get("sql")
+            or tool_parameters.get("query")
+            or tool_parameters.get("statement")
+            or ""
+        ).strip()
+
+        if not sql:
+            yield self.create_json_message(
+                {
+                    "error": "SQLが指定されていません",
+                    "hint": "tool_parameters に `sql` キーでSQL文字列を指定してください",
+                }
+            )
+            return
+
+        try:
+            conn = _db.get_connection()
+            result = conn.execute(sql).fetchdf()
+            yield self.create_json_message(result.to_dict(orient="records"))
+
+        except Exception as e:
+            yield self.create_json_message({"error": str(e)})

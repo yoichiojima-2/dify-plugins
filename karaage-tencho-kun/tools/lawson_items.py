@@ -1,25 +1,28 @@
+"""ローソン商品カタログ検索ツール。
+
+data/lawson_items.json からからあげクン等の商品情報を読み込み、
+カテゴリ・キーワード・季節限定フラグでフィルタリングして返す。
+"""
+
 from collections.abc import Generator
-import json
-from pathlib import Path
 from typing import Any
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
-_DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "lawson_items.json"
-_DATA_CACHE: dict[str, Any] | None = None
+from tools.data_loader import CachedJSONLoader
 
-
-def _load_catalog() -> dict[str, Any]:
-    global _DATA_CACHE
-    if _DATA_CACHE is None:
-        _DATA_CACHE = json.loads(_DATA_FILE.read_text(encoding="utf-8"))
-    return _DATA_CACHE
+_loader = CachedJSONLoader("lawson_items.json")
 
 
 class LawsonItemsTool(Tool):
+    """ローソン商品カタログ検索ツール。
+
+    商品をカテゴリ・キーワード・季節限定フラグで絞り込んで返す。
+    """
+
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
-        catalog = _load_catalog()
+        catalog = _loader.load()
         items = catalog["items"]
         categories = catalog["categories"]
 

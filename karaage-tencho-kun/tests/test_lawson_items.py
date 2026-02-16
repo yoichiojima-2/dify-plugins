@@ -11,10 +11,10 @@ from tools import lawson_items as li
 
 class TestLawsonItems(unittest.TestCase):
     def setUp(self) -> None:
-        li._DATA_CACHE = None
+        li._loader.reset()
 
     def test_catalog_loads_with_expected_shape(self) -> None:
-        catalog = li._load_catalog()
+        catalog = li._loader.load()
 
         self.assertIn("items", catalog)
         self.assertIn("categories", catalog)

@@ -12,7 +12,7 @@ from tools import shift_table_generator as stg
 
 class TestShiftTableGenerator(unittest.TestCase):
     def setUp(self) -> None:
-        sm._conn = None
+        sm._db.reset()
 
     def _make_tool(self):
         """テスト用のツールインスタンスを作成"""

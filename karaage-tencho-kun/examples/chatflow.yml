@@ -489,31 +489,6 @@ workflow:
               ---
 
 
-              ### 📁 ファイル出力
-
-
-              #### file_writer（ファイル作成）
-
-              コンテンツをファイルとして作成します。
-
-
-              **パラメータ:**
-
-              - content: ファイルに書き込む内容（必須）
-
-              - filename: 出力ファイル名（拡張子は自動付与）
-
-              - file_type: html / json / csv / txt / md
-
-
-              **出力:**
-
-              ダウンロード可能なファイルを返します。ファイルパスは自動的にクリック可能なリンクになります。
-
-
-              ---
-
-
               ## 複合タスクの処理
 
 
@@ -524,24 +499,24 @@ workflow:
 
               - 「天気を見てシフトを最適化して」→ hourly_weather → shift_optimizer
 
-              - 「売上分析してダッシュボードを作って」→ sales_analytics → dashboard_generator → file_writer
+              - 「売上分析してダッシュボードを作って」→ sales_analytics → dashboard_generator → dashboard_template → インラインHTML出力
 
               - 「シフトを確認して変更のLINEを作って」→ shift_manager → line_composer
 
-              - 「来週のシフト表をHTMLで作って」→ shift_table_generator → HTMLを生成 → file_writer
+              - 「来週のシフト表をHTMLで作って」→ shift_table_generator → dashboard_template → インラインHTML出力
 
 
               ---
 
 
-              ## シフト表/レポート/ダッシュボード作成の流れ
+              ## ダッシュボード・レポート作成の流れ
 
 
               1. データ取得ツール（shift_table_generator, dashboard_generator等）でJSONデータを取得
 
-              2. 取得したデータをもとに、見やすいHTMLを生成
+              2. dashboard_templateでインラインHTMLテンプレートを取得
 
-              3. file_writerでHTMLファイルとして出力（ダウンロード可能なファイルが返される）
+              3. テンプレートのプレースホルダーをデータで置換し、インラインHTMLとして出力
 
 
               ---

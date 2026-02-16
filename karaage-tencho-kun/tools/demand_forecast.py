@@ -1,4 +1,9 @@
-# 需要予測ツール - 天気ベースの商品需要予測（sklearn RandomForest）
+"""需要予測ツール（sklearn RandomForest）。
+
+天気・気温・湿度・曜日・時間帯を入力として、
+商品カテゴリ別の需要予測を行う。
+学習済みモデルは models/demand_model.pkl から読み込む。
+"""
 
 import pickle
 from collections.abc import Generator
@@ -15,6 +20,7 @@ _model_cache = None
 
 
 def _load_model():
+    """学習済みモデルを読み込み、キャッシュして返す。"""
     global _model_cache
     if _model_cache is None:
         with open(MODEL_PATH, "rb") as f:
@@ -23,6 +29,8 @@ def _load_model():
 
 
 class DemandForecastTool(Tool):
+    """天気ベースの商品需要予測ツール。RandomForestモデルで予測する。"""
+
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
         weather = tool_parameters.get("weather", "sunny").lower()
         temperature = tool_parameters.get("temperature", 20)
@@ -83,7 +91,19 @@ class DemandForecastTool(Tool):
         is_weekend: int,
         hour: int,
     ) -> list[dict]:
-        """モデルで需要を予測"""
+        """モデルで需要を予測する。
+
+        Args:
+            weather: 天気（sunny/cloudy/rainy等）
+            temperature: 気温（℃）
+            humidity: 湿度（%）
+            day_of_week: 曜日（0=月曜）
+            is_weekend: 週末フラグ（0 or 1）
+            hour: 時間（0-23）
+
+        Returns:
+            (予測結果リスト, 天気警告メッセージまたはNone)
+        """
         model_data = _load_model()
 
         model = model_data["model"]
@@ -92,7 +112,7 @@ class DemandForecastTool(Tool):
         items = model_data["items"]
         base_demand = model_data["base_demand"]
 
-        # 天気をエンコード
+        # 天気をエンコード（未対応の天気はcloudyにフォールバック）
         weather_warning = None
         if weather not in weather_encoder.classes_:
             valid = ", ".join(weather_encoder.classes_)
@@ -128,7 +148,7 @@ class DemandForecastTool(Tool):
                 "change_percent": change_pct,
             })
 
-        # 変化率でソート
+        # 変化率の絶対値でソート（影響が大きい順）
         predictions.sort(key=lambda x: abs(x["change_percent"]), reverse=True)
 
         return predictions, weather_warning

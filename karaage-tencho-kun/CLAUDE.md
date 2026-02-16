@@ -26,30 +26,71 @@ This plugin uses **agent-chat mode** (`examples/agent.yml`) as the primary deplo
 ├── provider/
 │   └── karaage-tencho-kun.yaml/py   # Tool provider definition
 ├── tools/                     # Dify tools
-│   ├── shift_manager.*        # Shift management (SQL/DuckDB)
-│   ├── shift_optimizer.*      # Shift optimization
-│   ├── shift_table_generator.*# Shift table data (JSON)
-│   ├── sales_analytics.*      # Sales analysis (SQL/DuckDB)
-│   ├── dashboard_generator.*  # Dashboard data (JSON)
-│   ├── dashboard_template.*   # Inline HTML templates for chat bubble rendering
-│   ├── hourly_weather.*       # Weather forecast (Open-Meteo)
-│   ├── demand_forecast.*      # ML demand prediction
-│   ├── inventory_manager.*    # Inventory management
-│   ├── line_composer.*        # LINE message generation
-│   ├── lawson_items.*         # Product catalog
-│   └── datetime_utils.*       # JST conversion utilities
-├── data/                      # Static data files
-│   ├── dashboard_templates.json  # HTML templates for inline rendering
+│   ├── db_utils.py            # 共有: DuckDBManager (接続・シードデータ管理)
+│   ├── data_loader.py         # 共有: CachedJSONLoader (JSON読み込み・キャッシュ)
+│   ├── datetime_utils.*       # 共有: JST変換, 曜日定数, 日付フォーマット
+│   ├── shift_manager.*        # シフト管理 (SQL/DuckDB)
+│   ├── shift_optimizer.*      # シフト最適化
+│   ├── shift_table_generator.*# シフト表データ (JSON)
+│   ├── sales_analytics.*      # 売上分析 (SQL/DuckDB)
+│   ├── dashboard_generator.*  # ダッシュボードデータ (JSON)
+│   ├── dashboard_template.*   # インラインHTMLテンプレート
+│   ├── hourly_weather.*       # 天気予報 (Open-Meteo API)
+│   ├── demand_forecast.*      # 需要予測 (MLモデル)
+│   ├── inventory_manager.*    # 在庫管理
+│   ├── line_composer.*        # LINEメッセージ生成
+│   └── lawson_items.*         # 商品カタログ
+├── data/                      # 静的データファイル
+│   ├── dashboard_templates.json  # インラインHTMLテンプレート
 │   ├── line_templates.json
 │   ├── inventory_manager_seed.json
 │   ├── sales_analytics_seed.json
 │   ├── shift_manager_seed.json
 │   └── lawson_items.json
-├── tests/                     # Unit tests
-└── examples/                  # Dify app YAML
-    ├── agent.yml              # PRIMARY: Agent-chat mode app
-    └── chatflow.yml           # ARCHIVE: Chatflow mode (no longer primary)
+├── tests/                     # ユニットテスト (107件)
+└── examples/                  # Dify アプリYAML
+    ├── agent.yml              # PRIMARY: エージェントモード
+    └── chatflow.yml           # ARCHIVE: チャットフロー (非推奨)
 ```
+
+## Shared Utilities (共有ユーティリティ)
+
+### `tools/db_utils.py` — DuckDBManager
+DuckDBインメモリ接続とシードデータのキャッシュを一元管理するクラス。
+使用元: `sales_analytics`, `shift_manager`, `inventory_manager`
+
+```python
+from tools.db_utils import DuckDBManager
+_db = DuckDBManager("seed_file.json", _init_schema)
+conn = _db.get_connection()     # 初回にスキーマ初期化
+seed = _db.load_seed_data()     # JSONキャッシュ読み込み
+_db.reset()                     # テスト用リセット
+```
+
+### `tools/data_loader.py` — CachedJSONLoader
+静的JSONファイルの読み込みとキャッシュを管理するクラス。
+使用元: `lawson_items`, `line_composer`, `dashboard_template`
+
+```python
+from tools.data_loader import CachedJSONLoader
+_loader = CachedJSONLoader("data_file.json")
+data = _loader.load()           # JSONキャッシュ読み込み
+path = _loader.file_path        # ファイルパス取得
+_loader.reset()                 # テスト用リセット
+```
+
+### `tools/datetime_utils.py` — 共有定数 & ユーティリティ
+複数ツールで共通利用する日付関連の定数・関数。
+
+| Export | 説明 |
+|--------|------|
+| `JST` | `ZoneInfo("Asia/Tokyo")` |
+| `WEEKDAY_JA` | `["月", "火", ..., "日"]` (月曜始まり, weekday()対応) |
+| `WEEKDAY_JA_SUN_START` | `["日", "月", ..., "土"]` (日曜始まり, DOW対応) |
+| `WEEKDAY_KEYS` | `["mon", "tue", ..., "sun"]` (availability JSON用) |
+| `get_weekday_ja(date_str)` | 日付文字列→日本語曜日 |
+| `format_date_ja(date_str)` | 日付文字列→`"M/D"`形式 |
+| `parse_expires_at(v, now)` | 消費期限パース (str/datetime両対応) |
 
 ## Tools
 

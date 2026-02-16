@@ -128,13 +128,13 @@ class TestLineComposer(unittest.TestCase):
         self.assertIn("17:00", result["message"])
 
     def test_get_weekday_ja(self) -> None:
-        self.assertEqual(lc._get_weekday_ja("2026-02-16"), "月")  # Monday
-        self.assertEqual(lc._get_weekday_ja("2026-02-15"), "日")  # Sunday
-        self.assertEqual(lc._get_weekday_ja("2026-02-20"), "金")  # Friday
+        self.assertEqual(lc.get_weekday_ja("2026-02-16"), "月")  # Monday
+        self.assertEqual(lc.get_weekday_ja("2026-02-15"), "日")  # Sunday
+        self.assertEqual(lc.get_weekday_ja("2026-02-20"), "金")  # Friday
 
     def test_format_date_ja(self) -> None:
-        self.assertEqual(lc._format_date_ja("2026-02-15"), "2/15")
-        self.assertEqual(lc._format_date_ja("2026-12-01"), "12/1")
+        self.assertEqual(lc.format_date_ja("2026-02-15"), "2/15")
+        self.assertEqual(lc.format_date_ja("2026-12-01"), "12/1")
 
 
 if __name__ == "__main__":

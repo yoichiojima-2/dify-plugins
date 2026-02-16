@@ -1,51 +1,31 @@
-# LINE メッセージ作成ツール
+"""LINE メッセージ作成ツール。
 
-import json
+data/line_templates.json のテンプレートを使用し、
+シフトリマインダー・交代依頼・緊急連絡等のLINEメッセージを生成する。
+"""
+
 from collections.abc import Generator
 from datetime import datetime, timedelta
-from pathlib import Path
 from typing import Any
-from zoneinfo import ZoneInfo
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
-JST = ZoneInfo("Asia/Tokyo")
+from tools.data_loader import CachedJSONLoader
+from tools.datetime_utils import JST, format_date_ja, get_weekday_ja
 
-_TEMPLATES_FILE = Path(__file__).resolve().parent.parent / "data" / "line_templates.json"
-_TEMPLATES_CACHE: dict[str, Any] | None = None
-
-
-def _load_templates() -> dict[str, Any]:
-    global _TEMPLATES_CACHE
-    if _TEMPLATES_CACHE is None:
-        _TEMPLATES_CACHE = json.loads(_TEMPLATES_FILE.read_text(encoding="utf-8"))
-    return _TEMPLATES_CACHE
-
-
-def _get_weekday_ja(date_str: str) -> str:
-    """日付文字列から曜日を取得"""
-    try:
-        dt = datetime.strptime(date_str, "%Y-%m-%d")
-        templates = _load_templates()
-        return templates["weekdays_ja"][dt.weekday()]
-    except ValueError:
-        return "?"
-
-
-def _format_date_ja(date_str: str) -> str:
-    """日付を日本語形式にフォーマット (例: 2/15)"""
-    try:
-        dt = datetime.strptime(date_str, "%Y-%m-%d")
-        return f"{dt.month}/{dt.day}"
-    except ValueError:
-        return date_str
+_loader = CachedJSONLoader("line_templates.json")
 
 
 class LineComposerTool(Tool):
+    """LINE メッセージ生成ツール。
+
+    テンプレートとパラメータからLINEメッセージ本文を組み立てて返す。
+    """
+
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
         message_type = tool_parameters.get("message_type", "").strip()
-        templates_data = _load_templates()
+        templates_data = _loader.load()
         templates = templates_data["templates"]
 
         if not message_type:
@@ -72,7 +52,7 @@ class LineComposerTool(Tool):
 
         # 共通パラメータのデフォルト値
         date = tool_parameters.get("date") or tomorrow.strftime("%Y-%m-%d")
-        weekday = _get_weekday_ja(date)
+        weekday = get_weekday_ja(date)
         start_time = tool_parameters.get("start_time", "09:00")
         end_time = tool_parameters.get("end_time", "17:00")
 
@@ -84,7 +64,7 @@ class LineComposerTool(Tool):
             staff_name = tool_parameters.get("staff_name", "スタッフ")
             message = template.format(
                 staff_name=staff_name,
-                date=_format_date_ja(date),
+                date=format_date_ja(date),
                 weekday=weekday,
                 start_time=start_time,
                 end_time=end_time,
@@ -101,7 +81,7 @@ class LineComposerTool(Tool):
             reason = tool_parameters.get("reason", "急用のため")
             message = template.format(
                 original_staff=original_staff,
-                date=_format_date_ja(date),
+                date=format_date_ja(date),
                 weekday=weekday,
                 start_time=start_time,
                 end_time=end_time,
@@ -118,9 +98,9 @@ class LineComposerTool(Tool):
         elif message_type == "emergency_coverage":
             # 緊急の場合は今日
             date = tool_parameters.get("date") or now.strftime("%Y-%m-%d")
-            weekday = _get_weekday_ja(date)
+            weekday = get_weekday_ja(date)
             message = template.format(
-                date=_format_date_ja(date),
+                date=format_date_ja(date),
                 weekday=weekday,
                 start_time=start_time,
                 end_time=end_time,
@@ -152,9 +132,9 @@ class LineComposerTool(Tool):
             )
 
             message = template.format(
-                week_start=_format_date_ja(week_start),
-                week_end=_format_date_ja(week_end),
-                deadline=_format_date_ja(deadline),
+                week_start=format_date_ja(week_start),
+                week_end=format_date_ja(week_end),
+                deadline=format_date_ja(deadline),
             )
             recipient = "all_staff"
             metadata = {
@@ -167,7 +147,7 @@ class LineComposerTool(Tool):
             time = tool_parameters.get("time", "17:00")
             agenda = tool_parameters.get("agenda", "月次ミーティング")
             message = template.format(
-                date=_format_date_ja(date),
+                date=format_date_ja(date),
                 weekday=weekday,
                 time=time,
                 agenda=agenda,

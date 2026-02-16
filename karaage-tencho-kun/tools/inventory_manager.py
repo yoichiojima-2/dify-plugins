@@ -1,42 +1,33 @@
-# 在庫管理ツール
+"""在庫管理ツール（インメモリDuckDB）。
 
-import json
+在庫一覧・消費期限チェック・入出庫管理・在庫不足アラート・発注推奨など、
+コンビニの在庫管理業務を支援する機能を提供する。
+テーブル: inventory, stock_movements。
+"""
+
 import uuid
 from collections.abc import Generator
 from datetime import datetime, timedelta
-from pathlib import Path
 from typing import Any
-from zoneinfo import ZoneInfo
 
 import duckdb
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
-JST = ZoneInfo("Asia/Tokyo")
-
-_SEED_FILE = Path(__file__).resolve().parent.parent / "data" / "inventory_manager_seed.json"
-_SEED_CACHE: dict[str, Any] | None = None
-_conn = None
-
-
-def _load_seed_data() -> dict[str, Any]:
-    global _SEED_CACHE
-    if _SEED_CACHE is None:
-        _SEED_CACHE = json.loads(_SEED_FILE.read_text(encoding="utf-8"))
-    return _SEED_CACHE
-
-
-def _get_connection() -> duckdb.DuckDBPyConnection:
-    global _conn
-    if _conn is None:
-        _conn = duckdb.connect(":memory:")
-        _init_schema(_conn)
-    return _conn
+from tools.db_utils import DuckDBManager
+from tools.datetime_utils import JST, parse_expires_at
 
 
 def _get_urgency(remaining_hours: float) -> str:
-    """残り時間から緊急度を判定"""
-    seed = _load_seed_data()
+    """残り時間から緊急度を判定する。
+
+    シードデータの markdown_rules に定義されたしきい値に基づき、
+    'high'・'medium'・'low' のいずれかを返す。
+
+    Args:
+        remaining_hours: 消費期限までの残り時間（時間単位）
+    """
+    seed = _db.load_seed_data()
     rules = seed["markdown_rules"]
     if remaining_hours <= rules["high"]["threshold_hours"]:
         return "high"
@@ -47,11 +38,20 @@ def _get_urgency(remaining_hours: float) -> str:
 
 
 def _generate_movement_id() -> str:
-    """入出庫履歴用のIDを生成"""
+    """入出庫履歴用のユニークIDを生成する。
+
+    'MOV' プレフィックス + UUID先頭8文字（大文字）の形式で返す。
+    """
     return f"MOV{uuid.uuid4().hex[:8].upper()}"
 
 
 class InventoryManagerTool(Tool):
+    """コンビニの在庫管理を行うDifyツール。
+
+    アクションパラメータに応じて在庫一覧取得・消費期限チェック・
+    入出庫処理・在庫不足アラート・発注推奨・入出庫履歴を実行する。
+    """
+
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
         action = tool_parameters.get("action", "list").strip().lower()
 
@@ -79,10 +79,14 @@ class InventoryManagerTool(Tool):
             yield self.create_json_message({"error": str(e)})
 
     def _action_list(self, params: dict) -> dict:
-        """在庫一覧を取得"""
+        """在庫一覧を取得する。
+
+        カテゴリでのフィルタリングに対応し、各商品の消費期限までの
+        残り時間とカテゴリ別集計を含む一覧を返す。
+        """
         category = params.get("category", "").strip() if params.get("category") else ""
         now = datetime.now(JST)
-        conn = _get_connection()
+        conn = _db.get_connection()
 
         query = """
             SELECT item_id, item_name, category, quantity,
@@ -106,14 +110,7 @@ class InventoryManagerTool(Tool):
         for row in result:
             item_id, item_name, cat, qty, min_level, reorder_pt, stocked_at, expires_at = row
 
-            # 消費期限をdatetimeに変換
-            if isinstance(expires_at, str):
-                exp_dt = datetime.fromisoformat(expires_at.replace("Z", "+00:00"))
-            else:
-                exp_dt = expires_at
-                if exp_dt.tzinfo is None:
-                    exp_dt = exp_dt.replace(tzinfo=JST)
-
+            exp_dt = parse_expires_at(expires_at, now)
             remaining_hours = (exp_dt - now).total_seconds() / 3600
 
             items.append({
@@ -141,15 +138,19 @@ class InventoryManagerTool(Tool):
         }
 
     def _action_check_expiration(self, params: dict) -> dict:
-        """消費期限チェック（既存のexpirationAlertロジック）"""
+        """消費期限チェックを実行する。
+
+        緊急度（high/medium/low）と時間しきい値によるフィルタリングに対応し、
+        各商品の推奨アクション・割引率を含むアラート一覧を返す。
+        """
         category = params.get("category", "").strip() if params.get("category") else ""
         urgency_filter = params.get("urgency", "").strip().lower() if params.get("urgency") else ""
         hours_threshold = params.get("hours_threshold")
 
         now = datetime.now(JST)
-        seed = _load_seed_data()
+        seed = _db.load_seed_data()
         rules = seed["markdown_rules"]
-        conn = _get_connection()
+        conn = _db.get_connection()
 
         query = """
             SELECT
@@ -178,14 +179,7 @@ class InventoryManagerTool(Tool):
         for row in result:
             item_id, item_name, cat, qty, stocked_at, expires_at = row
 
-            # 消費期限をdatetimeに変換
-            if isinstance(expires_at, str):
-                exp_dt = datetime.fromisoformat(expires_at.replace("Z", "+00:00"))
-            else:
-                exp_dt = expires_at
-                if exp_dt.tzinfo is None:
-                    exp_dt = exp_dt.replace(tzinfo=JST)
-
+            exp_dt = parse_expires_at(expires_at, now)
             remaining = (exp_dt - now).total_seconds() / 3600
             urgency = _get_urgency(remaining)
 
@@ -224,7 +218,12 @@ class InventoryManagerTool(Tool):
         }
 
     def _action_add_stock(self, params: dict) -> dict:
-        """入荷処理"""
+        """入荷処理を実行する。
+
+        既存商品への追加入荷、または新規商品の登録に対応する。
+        新規商品の場合はカテゴリ別のデフォルト消費期限を自動設定する。
+        入出庫履歴にも自動で記録する。
+        """
         item_id = params.get("item_id", "").strip() if params.get("item_id") else ""
         item_name = params.get("item_name", "").strip() if params.get("item_name") else ""
         category = params.get("category", "").strip() if params.get("category") else ""
@@ -235,8 +234,8 @@ class InventoryManagerTool(Tool):
             return {"error": "quantity は1以上の数値を指定してください"}
 
         now = datetime.now(JST)
-        conn = _get_connection()
-        seed = _load_seed_data()
+        conn = _db.get_connection()
+        seed = _db.load_seed_data()
 
         # 既存商品の確認
         existing = conn.execute(
@@ -326,7 +325,11 @@ class InventoryManagerTool(Tool):
             }
 
     def _action_remove_stock(self, params: dict) -> dict:
-        """出庫/販売処理"""
+        """出庫・販売処理を実行する。
+
+        指定された商品の在庫を減少させ、入出庫履歴に記録する。
+        理由に「廃棄」「期限」が含まれる場合は movement_type を 'expired' に設定する。
+        """
         item_id = params.get("item_id", "").strip() if params.get("item_id") else ""
         quantity = params.get("quantity")
         reason = params.get("reason", "販売").strip() if params.get("reason") else "販売"
@@ -337,7 +340,7 @@ class InventoryManagerTool(Tool):
             return {"error": "quantity は1以上の数値を指定してください"}
 
         now = datetime.now(JST)
-        conn = _get_connection()
+        conn = _db.get_connection()
 
         # 既存商品の確認
         existing = conn.execute(
@@ -385,9 +388,14 @@ class InventoryManagerTool(Tool):
         }
 
     def _action_low_stock_alert(self, params: dict) -> dict:
-        """在庫不足アラート"""
+        """在庫不足アラートを生成する。
+
+        発注点（reorder_point）以下の商品を検出し、
+        最低在庫レベル以下は 'critical'、発注点以下は 'warning' として分類する。
+        推奨発注数量も算出して返す。
+        """
         category = params.get("category", "").strip() if params.get("category") else ""
-        conn = _get_connection()
+        conn = _db.get_connection()
         now = datetime.now(JST)
 
         query = """
@@ -447,10 +455,13 @@ class InventoryManagerTool(Tool):
         }
 
     def _action_order_recommendation(self, params: dict) -> dict:
-        """発注推奨"""
-        conn = _get_connection()
+        """発注推奨リストを生成する。
+
+        発注点以下の全商品を対象に、消費期限の残り時間を考慮して
+        最適な発注数量を算出する。期限切れ間近の商品は発注を見送る。
+        """
+        conn = _db.get_connection()
         now = datetime.now(JST)
-        seed = _load_seed_data()
 
         # 発注点以下の商品を取得
         result = conn.execute("""
@@ -468,13 +479,7 @@ class InventoryManagerTool(Tool):
             item_id, item_name, cat, qty, min_level, reorder_pt, expires_at = row
 
             # 消費期限をチェック
-            if isinstance(expires_at, str):
-                exp_dt = datetime.fromisoformat(expires_at.replace("Z", "+00:00"))
-            else:
-                exp_dt = expires_at
-                if exp_dt.tzinfo is None:
-                    exp_dt = exp_dt.replace(tzinfo=JST)
-
+            exp_dt = parse_expires_at(expires_at, now)
             remaining_hours = (exp_dt - now).total_seconds() / 3600
 
             # 基本発注数量: 発注点 + バッファ - 現在庫
@@ -526,10 +531,14 @@ class InventoryManagerTool(Tool):
         }
 
     def _action_movement_history(self, params: dict) -> dict:
-        """入出庫履歴"""
+        """入出庫履歴を取得する。
+
+        指定期間（デフォルト7日間）の入出庫履歴を返す。
+        カテゴリフィルタにも対応し、入荷・出庫・廃棄の集計も行う。
+        """
         days = params.get("days", 7) or 7
         category = params.get("category", "").strip() if params.get("category") else ""
-        conn = _get_connection()
+        conn = _db.get_connection()
         now = datetime.now(JST)
 
         cutoff = now - timedelta(days=days)
@@ -591,8 +600,16 @@ class InventoryManagerTool(Tool):
         }
 
 
-def _init_schema(conn: duckdb.DuckDBPyConnection) -> None:
-    """スキーマとサンプルデータを初期化"""
+def _init_schema(conn: duckdb.DuckDBPyConnection, seed_data: dict[str, Any]) -> None:
+    """スキーマとサンプルデータを初期化する。
+
+    inventory テーブルと stock_movements テーブルを作成し、
+    シードデータから現在時刻基準のサンプルデータを投入する。
+
+    Args:
+        conn: DuckDBインメモリ接続
+        seed_data: シードデータ辞書（sample_inventory, sample_movements等を含む）
+    """
 
     # inventory テーブル（拡張）
     conn.execute("""
@@ -623,10 +640,9 @@ def _init_schema(conn: duckdb.DuckDBPyConnection) -> None:
 
     # サンプルデータを生成（現在時刻基準）
     now = datetime.now(JST)
-    seed = _load_seed_data()
 
     # 在庫データ
-    for item in seed["sample_inventory"]:
+    for item in seed_data["sample_inventory"]:
         stocked_at = now - timedelta(hours=item["stocked_hours_ago"])
         expires_at = now + timedelta(hours=item["expires_in_hours"])
 
@@ -647,7 +663,7 @@ def _init_schema(conn: duckdb.DuckDBPyConnection) -> None:
         )
 
     # 入出庫履歴データ
-    for movement in seed.get("sample_movements", []):
+    for movement in seed_data.get("sample_movements", []):
         created_at = now - timedelta(hours=movement["hours_ago"])
 
         conn.execute(
@@ -664,3 +680,6 @@ def _init_schema(conn: duckdb.DuckDBPyConnection) -> None:
                 created_at.isoformat(),
             ],
         )
+
+
+_db = DuckDBManager("inventory_manager_seed.json", _init_schema)

@@ -1,20 +1,19 @@
-# シフト最適化ツール
+"""シフト最適化ツール。
+
+天気予報・曜日・需要予測を考慮して、最適なシフト配置を提案するDifyツール。
+マネージャーの優先配置、からあげスキル保持者のピーク時間配置、
+人件費最適化モードなどのロジックを含む。
+"""
 
 from collections.abc import Generator
 from datetime import datetime
-from zoneinfo import ZoneInfo
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
+from tools.datetime_utils import JST, WEEKDAY_JA, WEEKDAY_KEYS
 # shift_managerの接続を再利用
 from tools.shift_manager import _get_connection as _get_shift_connection
-
-JST = ZoneInfo("Asia/Tokyo")
-
-# 曜日マッピング
-WEEKDAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
-WEEKDAY_JA = ["月", "火", "水", "木", "金", "土", "日"]
 
 # 時間帯別の必要人数（基本）
 BASE_STAFF_REQUIREMENTS = {
@@ -37,7 +36,16 @@ WEATHER_IMPACT = {
 
 
 def _parse_availability(availability_json: str, weekday_key: str) -> list[tuple[int, int]]:
-    """スタッフの出勤可能時間をパース"""
+    """スタッフの出勤可能時間帯をパースする。
+
+    availability JSONから指定曜日のスロットを取り出し、
+    (開始時, 終了時) のタプルリストとして返す。
+    深夜シフト（例: 22:00-06:00）にも対応。
+
+    Args:
+        availability_json: スタッフの出勤可能時間JSON文字列
+        weekday_key: 曜日キー（例: "mon", "tue"）
+    """
     import json
 
     try:
@@ -58,13 +66,29 @@ def _parse_availability(availability_json: str, weekday_key: str) -> list[tuple[
 
 
 def _check_hour_coverage(start: int, end: int, hour: int) -> bool:
-    """指定時間がシフトでカバーされているか"""
+    """指定時間がシフトでカバーされているか判定する。
+
+    深夜シフト（end > 24）の場合、早朝時間帯（hour < 6）を
+    24加算して比較する。
+
+    Args:
+        start: シフト開始時（0〜23）
+        end: シフト終了時（深夜跨ぎの場合24超）
+        hour: 判定対象の時間（0〜23）
+    """
     if end > 24 and hour < 6:  # 深夜シフト
         hour += 24
     return start <= hour < end
 
 
 class ShiftOptimizerTool(Tool):
+    """シフト最適化ツール。
+
+    指定日の天気・曜日・既存シフトを考慮し、
+    最適なスタッフ配置を提案する。人件費最適化モードでは
+    必要最小限の人員配置を優先する。
+    """
+
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
         target_date = tool_parameters.get("date", "").strip()
         weather = tool_parameters.get("weather", "sunny").strip().lower()

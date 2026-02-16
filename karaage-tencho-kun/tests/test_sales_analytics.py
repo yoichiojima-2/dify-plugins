@@ -11,11 +11,10 @@ from tools import sales_analytics as sa
 
 class TestSalesAnalytics(unittest.TestCase):
     def setUp(self) -> None:
-        sa._SEED_CACHE = None
-        sa._conn = None
+        sa._db.reset()
 
     def test_seed_loads_with_expected_shape(self) -> None:
-        seed = sa._load_seed_data()
+        seed = sa._db.load_seed_data()
 
         self.assertIn("items_master", seed)
         self.assertIn("daily_patterns", seed)
@@ -26,7 +25,7 @@ class TestSalesAnalytics(unittest.TestCase):
         self.assertEqual(len(seed["hourly_item_profiles"]), 17)
 
     def test_connection_initializes_seeded_tables(self) -> None:
-        conn = sa._get_connection()
+        conn = sa._db.get_connection()
 
         item_count = conn.execute("SELECT COUNT(*) FROM items").fetchone()[0]
         sales_count = conn.execute("SELECT COUNT(*) FROM sales").fetchone()[0]

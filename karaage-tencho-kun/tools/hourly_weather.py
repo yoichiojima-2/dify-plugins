@@ -1,12 +1,19 @@
+"""時間別天気予報ツール（Open-Meteo API）。
+
+Open-Meteo APIから時間別の天気予報を取得し、
+コンビニ運営に影響する需要インパクト（客足・ホットスナック・冷飲料・傘）を算出する。
+外部API呼び出しはOpen-Meteoのみ（無料・API キー不要）。
+"""
+
 from collections.abc import Generator
 from typing import Any
-import requests
 
+import requests
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
 
-# WMO Weather Code mapping
+# WMO天気コードマッピング（日本語/英語/アイコン）
 WEATHER_CODES = {
     0: {"ja": "快晴", "en": "Clear sky", "icon": "☀️"},
     1: {"ja": "晴れ", "en": "Mainly clear", "icon": "🌤️"},
@@ -38,38 +45,48 @@ WEATHER_CODES = {
 
 
 def get_weather_description(code: int) -> dict:
-    """Get weather description from WMO code."""
+    """WMOコードから天気情報（日本語名・英語名・アイコン）を取得する。"""
     return WEATHER_CODES.get(code, {"ja": "不明", "en": "Unknown", "icon": "❓"})
 
 
 def calculate_demand_impact(
     temp: float, precipitation: float, weather_code: int
 ) -> dict:
-    """Calculate estimated impact on customer traffic and product demand."""
-    # Base impact (1.0 = normal)
+    """気温・降水量・天気コードからコンビニ需要インパクトを算出する。
+
+    Args:
+        temp: 気温（℃）
+        precipitation: 降水量（mm）
+        weather_code: WMO天気コード
+
+    Returns:
+        各カテゴリの需要倍率（1.0が通常）:
+        traffic_impact, hot_food_demand, cold_drink_demand, umbrella_demand
+    """
+    # 基準値（1.0 = 通常）
     traffic_impact = 1.0
-    hot_food_demand = 1.0  # からあげクン, おでん etc.
+    hot_food_demand = 1.0  # からあげクン、おでん等
     cold_drink_demand = 1.0
     umbrella_demand = 1.0
 
-    # Temperature effects
-    if temp < 5:
+    # 気温の影響（高温を先に判定）
+    if temp > 30:
+        traffic_impact *= 0.85
+        hot_food_demand *= 0.5
+        cold_drink_demand *= 1.6
+    elif temp > 25:
+        traffic_impact *= 0.95
+        hot_food_demand *= 0.7
+        cold_drink_demand *= 1.4
+    elif temp < 5:
         traffic_impact *= 0.85
         hot_food_demand *= 1.3
         cold_drink_demand *= 0.6
     elif temp < 10:
         hot_food_demand *= 1.15
         cold_drink_demand *= 0.8
-    elif temp > 25:
-        traffic_impact *= 0.95
-        hot_food_demand *= 0.7
-        cold_drink_demand *= 1.4
-    elif temp > 30:
-        traffic_impact *= 0.85
-        hot_food_demand *= 0.5
-        cold_drink_demand *= 1.6
 
-    # Precipitation effects
+    # 降水量の影響
     if precipitation > 0:
         umbrella_demand *= 2.0
         if precipitation > 5:
@@ -78,10 +95,10 @@ def calculate_demand_impact(
         elif precipitation > 1:
             traffic_impact *= 0.85
 
-    # Weather code effects (rain/snow significantly reduces traffic)
-    if weather_code in [65, 75, 82, 86, 95, 96, 99]:  # Heavy precipitation
+    # 天気コードの影響（強い降水は客足を大きく減少させる）
+    if weather_code in [65, 75, 82, 86, 95, 96, 99]:  # 強い降水
         traffic_impact *= 0.6
-    elif weather_code in [63, 73, 81, 85]:  # Moderate precipitation
+    elif weather_code in [63, 73, 81, 85]:  # 中程度の降水
         traffic_impact *= 0.75
 
     return {
@@ -93,15 +110,17 @@ def calculate_demand_impact(
 
 
 class HourlyWeatherTool(Tool):
+    """Open-Meteo APIから時間別天気予報と需要インパクトを取得するツール。"""
+
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
         latitude = tool_parameters.get("latitude")
         longitude = tool_parameters.get("longitude")
         hours = min(int(tool_parameters.get("hours", 24)), 168)
 
-        # Calculate forecast days needed
+        # 必要な予報日数を計算
         forecast_days = (hours // 24) + 1
 
-        # Call Open-Meteo API
+        # Open-Meteo APIを呼び出す
         url = "https://api.open-meteo.com/v1/forecast"
         params = {
             "latitude": latitude,
@@ -117,11 +136,11 @@ class HourlyWeatherTool(Tool):
             data = response.json()
         except requests.RequestException as e:
             yield self.create_json_message(
-                {"error": f"Failed to fetch weather data: {str(e)}"}
+                {"error": f"天気データの取得に失敗: {e!s}"}
             )
             return
 
-        # Process hourly data
+        # 時間別データを処理
         hourly = data.get("hourly", {})
         times = hourly.get("time", [])[:hours]
         temperatures = hourly.get("temperature_2m", [])[:hours]
@@ -130,7 +149,7 @@ class HourlyWeatherTool(Tool):
         humidities = hourly.get("relative_humidity_2m", [])[:hours]
         wind_speeds = hourly.get("wind_speed_10m", [])[:hours]
 
-        # Build hourly forecast with demand impact
+        # 時間別予報と需要インパクトを構築
         hourly_forecast = []
         for i in range(len(times)):
             weather_info = get_weather_description(weather_codes[i])
@@ -153,7 +172,7 @@ class HourlyWeatherTool(Tool):
                 }
             )
 
-        # Calculate summary statistics
+        # サマリー統計を計算
         avg_temp = sum(temperatures) / len(temperatures) if temperatures else 0
         total_precip = sum(precipitations) if precipitations else 0
         avg_traffic_impact = (

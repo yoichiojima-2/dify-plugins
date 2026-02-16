@@ -1,19 +1,27 @@
-# シフト表データ取得ツール
+"""シフト表データ取得ツール。
+
+週間・日次・スタッフ別のシフト表データをDuckDBから取得し、
+JSON形式で返すDifyツール。dashboard_templateツールと組み合わせて
+チャットバブル内にシフト表をインライン描画する。
+"""
 
 from collections.abc import Generator
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
+from tools.datetime_utils import JST, WEEKDAY_JA
 from tools.shift_manager import _get_connection as _get_shift_connection
-
-JST = ZoneInfo("Asia/Tokyo")
-WEEKDAY_JA = ["月", "火", "水", "木", "金", "土", "日"]
 
 
 class ShiftTableGeneratorTool(Tool):
+    """シフト表データ取得ツール。
+
+    ビュータイプ（weekly / daily / staff）に応じて、
+    DuckDBからシフトデータを取得しJSON形式で返す。
+    """
+
     def _invoke(self, tool_parameters: dict) -> Generator[ToolInvokeMessage]:
         view_type = tool_parameters.get("view_type", "weekly").strip().lower()
         start_date = tool_parameters.get("start_date", "").strip()
@@ -58,7 +66,15 @@ class ShiftTableGeneratorTool(Tool):
             yield self.create_json_message({"error": str(e)})
 
     def _get_weekly_data(self, base_date: datetime, now: datetime) -> dict:
-        """週間シフトデータを取得"""
+        """週間シフトデータを取得する。
+
+        指定された開始日から7日間のシフトデータを、
+        スタッフ×日付のマトリクス形式で返す。
+
+        Args:
+            base_date: 週の開始日（月曜日）
+            now: 現在日時（今日判定に使用）
+        """
         conn = _get_shift_connection()
 
         # 日付リスト（7日間）
@@ -165,7 +181,14 @@ class ShiftTableGeneratorTool(Tool):
         }
 
     def _get_daily_data(self, base_date: datetime, now: datetime) -> dict:
-        """日次シフトデータを取得"""
+        """日次シフトデータを取得する。
+
+        指定日のシフトと時間帯別カバレッジ（6時〜24時）を返す。
+
+        Args:
+            base_date: 対象日
+            now: 現在日時
+        """
         conn = _get_shift_connection()
 
         date_str = base_date.strftime("%Y-%m-%d")
@@ -225,7 +248,14 @@ class ShiftTableGeneratorTool(Tool):
         }
 
     def _get_staff_view_data(self, base_date: datetime, now: datetime) -> dict:
-        """スタッフ別2週間データを取得"""
+        """スタッフ別2週間シフトデータを取得する。
+
+        各スタッフの2週間分のシフト、合計労働時間、推定給与を返す。
+
+        Args:
+            base_date: 開始日
+            now: 現在日時（今日判定に使用）
+        """
         conn = _get_shift_connection()
 
         # 2週間分

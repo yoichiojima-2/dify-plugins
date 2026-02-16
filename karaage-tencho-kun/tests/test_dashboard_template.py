@@ -16,28 +16,28 @@ EXPECTED_TEMPLATE_TYPES = ["daily_dashboard", "weekly_dashboard", "comparison_da
 
 class TestDashboardTemplate(unittest.TestCase):
     def setUp(self) -> None:
-        dt._TEMPLATES_CACHE = None
+        dt._loader.reset()
 
     def test_templates_load_successfully(self) -> None:
-        data = dt._load_templates()
+        data = dt._loader.load()
         self.assertIn("templates", data)
         self.assertIn("constraints", data)
 
     def test_all_expected_template_types_exist(self) -> None:
-        data = dt._load_templates()
+        data = dt._loader.load()
         templates = data["templates"]
         for ttype in EXPECTED_TEMPLATE_TYPES:
             self.assertIn(ttype, templates, f"Missing template type: {ttype}")
 
     def test_each_template_has_required_keys(self) -> None:
-        data = dt._load_templates()
+        data = dt._loader.load()
         for ttype, tinfo in data["templates"].items():
             self.assertIn("html_template", tinfo, f"{ttype}: missing html_template")
             self.assertIn("placeholders", tinfo, f"{ttype}: missing placeholders")
             self.assertIn("instructions", tinfo, f"{ttype}: missing instructions")
 
     def test_html_has_no_forbidden_tags(self) -> None:
-        data = dt._load_templates()
+        data = dt._loader.load()
         for ttype, tinfo in data["templates"].items():
             html = tinfo["html_template"]
             for tag in FORBIDDEN_TAGS:
@@ -48,7 +48,7 @@ class TestDashboardTemplate(unittest.TestCase):
                 )
 
     def test_html_has_no_empty_lines(self) -> None:
-        data = dt._load_templates()
+        data = dt._loader.load()
         for ttype, tinfo in data["templates"].items():
             html = tinfo["html_template"]
             self.assertNotIn(
@@ -58,7 +58,7 @@ class TestDashboardTemplate(unittest.TestCase):
             )
 
     def test_html_has_no_class_attributes(self) -> None:
-        data = dt._load_templates()
+        data = dt._loader.load()
         for ttype, tinfo in data["templates"].items():
             html = tinfo["html_template"]
             # Match class="..." or className="..." but not class inside words
@@ -70,7 +70,7 @@ class TestDashboardTemplate(unittest.TestCase):
             )
 
     def test_html_has_no_p_tags(self) -> None:
-        data = dt._load_templates()
+        data = dt._loader.load()
         for ttype, tinfo in data["templates"].items():
             html = tinfo["html_template"]
             matches = re.findall(r'<p[\s>]', html, re.IGNORECASE)
@@ -116,7 +116,7 @@ class TestDashboardTemplate(unittest.TestCase):
         self.assertIn("available_types", payload)
 
     def test_constraints_has_rules(self) -> None:
-        data = dt._load_templates()
+        data = dt._loader.load()
         constraints = data["constraints"]
         self.assertIn("forbidden_tags", constraints)
         self.assertIn("rules", constraints)
@@ -124,7 +124,7 @@ class TestDashboardTemplate(unittest.TestCase):
 
     def test_instructions_exemplars_have_no_forbidden_tags(self) -> None:
         """Exemplar HTML snippets in instructions should also comply with Dify constraints."""
-        data = dt._load_templates()
+        data = dt._loader.load()
         for ttype, tinfo in data["templates"].items():
             for key, value in tinfo["instructions"].items():
                 if "exemplar" in key:
