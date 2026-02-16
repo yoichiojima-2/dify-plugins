@@ -9,7 +9,7 @@ dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-6@63d0af6a4116fd20bc037d95386458641378028633565681cd0f8b26400ad95d
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-6@46aeebcd7b85624059e9e5f3454dc41aa6e75046902ee23f9160175c7bb9d9a4
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
     version: v2026.2.16-6
