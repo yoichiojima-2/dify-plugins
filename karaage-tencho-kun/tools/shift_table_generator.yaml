@@ -33,8 +33,9 @@ description:
     - スタッフ別: view_type="staff"
 
     ## 出力
-    JSON形式のデータを返します。このデータをもとにHTMLシフト表を生成し、
-    file_writerツールで出力してください。
+    JSON形式のデータを返します。
+    dashboard_templateツール(shift_table)でテンプレートを取得し、プレースホルダーをデータで置換して
+    そのままチャットメッセージとしてHTMLを出力してください（file_writer不要）。
 parameters:
   - name: view_type
     type: string

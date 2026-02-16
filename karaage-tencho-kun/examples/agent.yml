@@ -3,7 +3,7 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: agent-chat
-  name: 開発中_からあげ店長クン_v2026.2.15-3
+  name: 開発中_からあげ店長クン_v2026.2.16-9
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -183,12 +183,10 @@ model_config:
       provider_id: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
       provider_name: yoichiojima/karaage-tencho-kun/karaage-tencho-kun
       provider_type: builtin
-      tool_label: File Writer
-      tool_name: file_writer
+      tool_label: Dashboard Template
+      tool_name: dashboard_template
       tool_parameters:
-        content: null
-        file_type: html
-        filename: output
+        template_type: null
       type: builtin
   annotation_reply:
     enabled: false
@@ -561,26 +559,35 @@ model_config:
     ---
 
 
-    ### 📁 ファイル出力
+    ### 📐 ダッシュボードテンプレート
 
 
-    #### file_writer（ファイル作成）
+    #### dashboard_template（インラインHTMLテンプレート取得）
 
-    コンテンツをファイルとして作成します。
-
-
-    **パラメータ:**
-
-    - content: ファイルに書き込む内容（必須）
-
-    - filename: 出力ファイル名（拡張子は自動付与）
-
-    - file_type: html / json / csv / txt / md
+    Difyチャットバブル内で直接表示できるインラインHTML/CSSテンプレートを返します。
 
 
-    **出力:**
+    **使い方（3ステップ）:**
 
-    ダウンロード可能なファイルを返します。ファイルパスは自動的にクリック可能なリンクになります。
+    1. dashboard_generator / shift_table_generator でデータ取得
+
+    2. dashboard_template でテンプレートを取得
+
+    3. テンプレートの {{PLACEHOLDER}} をデータで置換し、そのままチャットメッセージとして出力
+
+
+    **テンプレートタイプ:**
+
+    - daily_dashboard: 本日の売上ダッシュボード
+
+    - weekly_dashboard: 週間売上ダッシュボード
+
+    - comparison_dashboard: 今週 vs 先週 比較
+
+    - shift_table: シフト表
+
+
+    **重要:** file_writerは使わない。置換済みHTMLをそのままテキストとして出力する。
 
 
     ---
@@ -596,42 +603,47 @@ model_config:
 
     - 「天気を見てシフトを最適化して」→ hourly_weather → shift_optimizer
 
-    - 「売上分析してダッシュボードを作って」→ sales_analytics → dashboard_generator → file_writer
+    - 「ダッシュボードを作って」→ dashboard_generator → dashboard_template → HTMLを置換して出力
 
     - 「シフトを確認して変更のLINEを作って」→ shift_manager → line_composer
 
-    - 「来週のシフト表をHTMLで作って」→ shift_table_generator → HTMLを生成 → file_writer
+    - 「シフト表を作って」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
+
+    - 「今週と先週を比較して」→ dashboard_generator(comparison) → dashboard_template(comparison_dashboard) → HTMLを置換して出力
 
 
     ---
 
 
-    ## シフト表/レポート/ダッシュボード作成の流れ
+    ## ダッシュボード・シフト表の作成フロー
 
 
-    1. データ取得ツール（shift_table_generator, dashboard_generator等）でJSONデータを取得
+    1. データ取得（dashboard_generator, shift_table_generator, sales_analytics）
 
-    2. 取得したデータをもとに、見やすいHTMLを生成
+    2. dashboard_template でインラインHTMLテンプレートを取得
 
-    3. file_writerでHTMLファイルとして出力（ダウンロード可能なファイルが返される）
+    3. テンプレートの {{PLACEHOLDER}} をデータで置換
+
+    4. 置換済みHTMLをそのままメッセージとして出力（file_writer不要、ダウンロード不要）
 
 
-    ---
+    ## インラインHTML出力ルール（厳守）
 
+    - HTMLをそのまま回答に含める（チャットバブル内で直接レンダリングされる）
 
-    ## ダッシュボード生成時のルール
+    - 禁止タグ: style, script, html, body, iframe, p（divを使う）
 
-    ダッシュボードを頼まれたら、できるだけ多くのデータを集める:
-    - dashboard_generator（weekly推奨）でKPI・日別・カテゴリ・天気別データ取得
-    - sales_analytics で商品別TOP5、時間帯別売上、客数データも追加取得
-    - file_writer でHTMLとして出力する際は以下のデザインルールを遵守
+    - class属性禁止 → style属性のみ使用
 
-    ## HTMLデザインルール（Stripe Dashboard / Linear風）
-    - 背景: #0B0F1A、サーフェス: #141925、ボーダー: #1E2533
-    - テキスト: #E2E8F0（primary）、#64748B（secondary）
-    - アクセント: #3B82F6（ブルー）、上昇: #10B981、下降: #EF4444
-    - 角丸6px、影なし（フラット）、余白を十分に、font: Inter + Noto Sans JP
-    - Chart.js 4 CDN必須
+    - HTML内に空行を絶対に入れない（Difyレンダリングが壊れる）
+
+    - バーチャートは div の width/height パーセント指定で実現
+
+    - テンプレートのinstructionsに従ってexemplarを繰り返しデータ分生成する
+
+    - 金額はカンマ区切り（例: ¥1,234,567）
+
+    - 変化率がプラスなら色#10b981でアイコン▲、マイナスなら色#ef4444でアイコン▼
 
     ## インタラクティブ照会の回答形式
 
@@ -696,7 +708,9 @@ model_config:
 
     - **シフト照会/変更**: shift_manager（SQL直接操作）、表示用は shift_table_generator
 
-    - **ダッシュボード**: dashboard_generator でJSON取得 → file_writer でHTMLとして出力
+    - **ダッシュボード**: dashboard_generator → dashboard_template → HTMLを置換して直接出力
+
+    - **シフト表**: shift_table_generator → dashboard_template(shift_table) → HTMLを置換して直接出力
 
     '
   prompt_type: simple

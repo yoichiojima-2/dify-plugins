@@ -1,4 +1,4 @@
-version: 2026.2.16-8
+version: 2026.2.16-9
 type: plugin
 author: yoichiojima
 name: karaage-tencho-kun
@@ -20,7 +20,7 @@ plugins:
   tools:
     - provider/karaage-tencho-kun.yaml
 meta:
-  version: 2026.2.16-8
+  version: 2026.2.16-9
   arch:
     - amd64
     - arm64

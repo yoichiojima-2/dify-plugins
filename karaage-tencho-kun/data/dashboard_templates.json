@@ -1,0 +1,116 @@
+{
+  "constraints": {
+    "forbidden_tags": ["<style>", "<script>", "<html>", "<body>", "<head>", "<meta>", "<link>", "<iframe>", "<p>"],
+    "forbidden_attributes": ["class", "className", "onclick", "onload"],
+    "rules": [
+      "全てのスタイルは style=\"...\" 属性で指定すること",
+      "HTML内に空行（連続する改行 \\n\\n）を入れないこと",
+      "<p>タグは使用禁止 → <div>を使う",
+      "class属性は使用禁止 → style属性のみ",
+      "外部フォントは使用禁止（system-ui, sans-serifを使う）",
+      "レイアウトは display:flex のみ（gridも可だが flexが安全）",
+      "バーチャートは <div> の width または height をパーセント指定",
+      "HTMLをそのままチャットメッセージとして出力（file_writer不要）"
+    ]
+  },
+  "templates": {
+    "daily_dashboard": {
+      "html_template": "<div style=\"background:#1a1a2e;border-radius:12px;padding:20px;font-family:system-ui,sans-serif;color:#e2e8f0;max-width:640px;\">\n<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;\">\n<div style=\"font-size:18px;font-weight:700;\">📊 本日の売上ダッシュボード</div>\n<div style=\"font-size:13px;color:#94a3b8;\">{{DATE}}</div>\n</div>\n<div style=\"display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;\">\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">売上</div>\n<div style=\"font-size:22px;font-weight:700;color:#3b82f6;\">¥{{TOTAL_SALES}}</div>\n<div style=\"font-size:11px;color:{{SALES_CHANGE_COLOR}};\">{{SALES_CHANGE_ICON}} {{SALES_CHANGE_PCT}}% vs 前日</div>\n</div>\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">販売点数</div>\n<div style=\"font-size:22px;font-weight:700;color:#e2e8f0;\">{{TOTAL_ITEMS}}点</div>\n<div style=\"font-size:11px;color:{{ITEMS_CHANGE_COLOR}};\">{{ITEMS_CHANGE_ICON}} {{ITEMS_CHANGE_PCT}}% vs 前日</div>\n</div>\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">客単価</div>\n<div style=\"font-size:22px;font-weight:700;color:#e2e8f0;\">¥{{AVG_TRANSACTION}}</div>\n<div style=\"font-size:11px;color:#94a3b8;\">{{TRANSACTIONS}}件</div>\n</div>\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;margin-bottom:16px;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">⏰ 時間帯別売上</div>\n<div style=\"display:flex;align-items:flex-end;gap:2px;height:100px;\">\n{{HOURLY_BARS}}\n</div>\n<div style=\"display:flex;gap:2px;margin-top:4px;\">\n{{HOURLY_LABELS}}\n</div>\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">🏷️ カテゴリ別売上</div>\n{{CATEGORY_ROWS}}\n</div>\n</div>",
+      "placeholders": {
+        "{{DATE}}": "日付文字列（例: 2026年2月16日（日））",
+        "{{TOTAL_SALES}}": "本日の売上合計（カンマ区切り）",
+        "{{SALES_CHANGE_PCT}}": "前日比パーセント（数値）",
+        "{{SALES_CHANGE_COLOR}}": "前日比の色（上昇:#10b981 下降:#ef4444）",
+        "{{SALES_CHANGE_ICON}}": "前日比アイコン（上昇:▲ 下降:▼）",
+        "{{TOTAL_ITEMS}}": "販売点数合計",
+        "{{ITEMS_CHANGE_PCT}}": "販売点数の前日比パーセント",
+        "{{ITEMS_CHANGE_COLOR}}": "販売点数の前日比色",
+        "{{ITEMS_CHANGE_ICON}}": "販売点数の前日比アイコン",
+        "{{AVG_TRANSACTION}}": "客単価（カンマ区切り）",
+        "{{TRANSACTIONS}}": "取引件数",
+        "{{HOURLY_BARS}}": "時間帯別の棒グラフ（下記exemplar参照）",
+        "{{HOURLY_LABELS}}": "時間帯ラベル（下記exemplar参照）",
+        "{{CATEGORY_ROWS}}": "カテゴリ別の横棒グラフ（下記exemplar参照）"
+      },
+      "instructions": {
+        "hourly_bars_exemplar": "<div style=\"flex:1;background:#3b82f6;border-radius:2px 2px 0 0;height:{{PERCENT}}%;min-width:8px;\" title=\"{{HOUR}}時: ¥{{AMOUNT}}\"></div>",
+        "hourly_bars_note": "6時〜23時の各時間について上記divを生成。heightはその時間の売上/最大売上*100%。売上0の時間はheight:2%で薄い色(#1e3a5f)にする。",
+        "hourly_labels_exemplar": "<div style=\"flex:1;text-align:center;font-size:9px;color:#64748b;min-width:8px;\">{{H}}</div>",
+        "hourly_labels_note": "3時間おきにラベルを表示（6,9,12,15,18,21）、それ以外は空文字。",
+        "category_rows_exemplar": "<div style=\"margin-bottom:8px;\"><div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;\"><span>{{CATEGORY}}</span><span style=\"color:#94a3b8;\">¥{{AMOUNT}}</span></div><div style=\"background:#0f3460;border-radius:4px;height:8px;\"><div style=\"background:#3b82f6;border-radius:4px;height:8px;width:{{PERCENT}}%;\"></div></div></div>",
+        "category_rows_note": "各カテゴリについて上記divを生成。widthはそのカテゴリの売上/最大カテゴリ売上*100%。"
+      }
+    },
+    "weekly_dashboard": {
+      "html_template": "<div style=\"background:#1a1a2e;border-radius:12px;padding:20px;font-family:system-ui,sans-serif;color:#e2e8f0;max-width:640px;\">\n<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;\">\n<div style=\"font-size:18px;font-weight:700;\">📈 週間売上ダッシュボード</div>\n<div style=\"font-size:13px;color:#94a3b8;\">{{PERIOD}}</div>\n</div>\n<div style=\"display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;\">\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">週間売上</div>\n<div style=\"font-size:22px;font-weight:700;color:#3b82f6;\">¥{{TOTAL_SALES}}</div>\n<div style=\"font-size:11px;color:{{SALES_CHANGE_COLOR}};\">{{SALES_CHANGE_ICON}} {{SALES_CHANGE_PCT}}% vs 前週</div>\n</div>\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">日平均</div>\n<div style=\"font-size:22px;font-weight:700;color:#e2e8f0;\">¥{{DAILY_AVG}}</div>\n<div style=\"font-size:11px;color:#94a3b8;\">{{TRANSACTIONS}}件 / 週</div>\n</div>\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">販売点数</div>\n<div style=\"font-size:22px;font-weight:700;color:#e2e8f0;\">{{TOTAL_ITEMS}}点</div>\n<div style=\"font-size:11px;color:#94a3b8;\">週間合計</div>\n</div>\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;margin-bottom:16px;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">📅 日別売上推移</div>\n<div style=\"display:flex;align-items:flex-end;gap:6px;height:120px;\">\n{{DAILY_BARS}}\n</div>\n<div style=\"display:flex;gap:6px;margin-top:4px;\">\n{{DAILY_LABELS}}\n</div>\n</div>\n<div style=\"display:flex;gap:10px;margin-bottom:0;flex-wrap:wrap;\">\n<div style=\"flex:1;min-width:280px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">🏷️ カテゴリ別売上</div>\n{{CATEGORY_ROWS}}\n</div>\n<div style=\"flex:1;min-width:280px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">🌤️ 天気別売上</div>\n{{WEATHER_ROWS}}\n</div>\n</div>\n</div>",
+      "placeholders": {
+        "{{PERIOD}}": "期間表示（例: 2/10(月) 〜 2/16(日)）",
+        "{{TOTAL_SALES}}": "週間売上合計（カンマ区切り）",
+        "{{SALES_CHANGE_PCT}}": "前週比パーセント",
+        "{{SALES_CHANGE_COLOR}}": "前週比の色（上昇:#10b981 下降:#ef4444）",
+        "{{SALES_CHANGE_ICON}}": "前週比アイコン（上昇:▲ 下降:▼）",
+        "{{DAILY_AVG}}": "日平均売上（カンマ区切り）",
+        "{{TRANSACTIONS}}": "週間取引件数",
+        "{{TOTAL_ITEMS}}": "週間販売点数",
+        "{{DAILY_BARS}}": "日別の棒グラフ（下記exemplar参照）",
+        "{{DAILY_LABELS}}": "日別ラベル（下記exemplar参照）",
+        "{{CATEGORY_ROWS}}": "カテゴリ別の横棒グラフ",
+        "{{WEATHER_ROWS}}": "天気別の横棒グラフ"
+      },
+      "instructions": {
+        "daily_bars_exemplar": "<div style=\"flex:1;display:flex;flex-direction:column;align-items:center;\"><div style=\"width:100%;background:#3b82f6;border-radius:3px 3px 0 0;height:{{PERCENT}}%;\" title=\"{{DATE}}: ¥{{AMOUNT}}\"></div></div>",
+        "daily_bars_note": "7日分のバーを生成。heightは売上/最大日売上*100%。今日のバーは色を#60a5faにする。",
+        "daily_labels_exemplar": "<div style=\"flex:1;text-align:center;font-size:10px;color:#64748b;\">{{WEEKDAY}}<br>{{DAY}}</div>",
+        "daily_labels_note": "各日の曜日(月〜日)とday(例:10)を表示。今日は色を#e2e8f0にする。",
+        "category_rows_exemplar": "<div style=\"margin-bottom:8px;\"><div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;\"><span>{{CATEGORY}}</span><span style=\"color:#94a3b8;\">¥{{AMOUNT}}</span></div><div style=\"background:#0f3460;border-radius:4px;height:8px;\"><div style=\"background:#3b82f6;border-radius:4px;height:8px;width:{{PERCENT}}%;\"></div></div></div>",
+        "category_rows_note": "各カテゴリについて生成。widthはそのカテゴリ売上/最大カテゴリ売上*100%。",
+        "weather_rows_exemplar": "<div style=\"margin-bottom:8px;\"><div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;\"><span>{{WEATHER_EMOJI}} {{WEATHER}}</span><span style=\"color:#94a3b8;\">¥{{AMOUNT}}（{{DAYS}}日間）</span></div><div style=\"background:#0f3460;border-radius:4px;height:8px;\"><div style=\"background:#f59e0b;border-radius:4px;height:8px;width:{{PERCENT}}%;\"></div></div></div>",
+        "weather_rows_note": "天気ごとに生成。天気名に応じた絵文字を付ける（晴れ→☀️、曇り→☁️、雨→🌧️）。widthはその天気の売上/最大天気売上*100%。色はオレンジ(#f59e0b)。"
+      }
+    },
+    "comparison_dashboard": {
+      "html_template": "<div style=\"background:#1a1a2e;border-radius:12px;padding:20px;font-family:system-ui,sans-serif;color:#e2e8f0;max-width:640px;\">\n<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;\">\n<div style=\"font-size:18px;font-weight:700;\">⚖️ 今週 vs 先週 比較</div>\n<div style=\"font-size:13px;color:#94a3b8;\">{{GENERATED_DATE}}</div>\n</div>\n<div style=\"display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;\">\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">今週</div>\n<div style=\"font-size:22px;font-weight:700;color:#3b82f6;\">¥{{THIS_WEEK_TOTAL}}</div>\n</div>\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">先週</div>\n<div style=\"font-size:22px;font-weight:700;color:#94a3b8;\">¥{{LAST_WEEK_TOTAL}}</div>\n</div>\n<div style=\"flex:1;min-width:140px;background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:11px;color:#94a3b8;margin-bottom:4px;\">差額</div>\n<div style=\"font-size:22px;font-weight:700;color:{{CHANGE_COLOR}};\">{{CHANGE_SIGN}}¥{{CHANGE_AMOUNT}}</div>\n<div style=\"font-size:11px;color:{{CHANGE_COLOR}};\">{{CHANGE_ICON}} {{CHANGE_PCT}}%</div>\n</div>\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;margin-bottom:16px;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">📊 曜日別比較</div>\n<div style=\"display:flex;gap:8px;align-items:flex-end;height:120px;\">\n{{DOW_BARS}}\n</div>\n<div style=\"display:flex;gap:8px;margin-top:4px;\">\n{{DOW_LABELS}}\n</div>\n<div style=\"display:flex;gap:16px;margin-top:8px;font-size:11px;\">\n<div style=\"display:flex;align-items:center;gap:4px;\"><div style=\"width:10px;height:10px;background:#3b82f6;border-radius:2px;\"></div><span>今週</span></div>\n<div style=\"display:flex;align-items:center;gap:4px;\"><div style=\"width:10px;height:10px;background:#475569;border-radius:2px;\"></div><span>先週</span></div>\n</div>\n</div>\n<div style=\"background:#16213e;border-radius:8px;padding:14px;border:1px solid #0f3460;\">\n<div style=\"font-size:13px;font-weight:600;margin-bottom:10px;\">🏷️ カテゴリ別比較</div>\n{{CATEGORY_COMPARISON_ROWS}}\n</div>\n</div>",
+      "placeholders": {
+        "{{GENERATED_DATE}}": "生成日（例: 2026年2月16日）",
+        "{{THIS_WEEK_TOTAL}}": "今週の売上合計（カンマ区切り）",
+        "{{LAST_WEEK_TOTAL}}": "先週の売上合計（カンマ区切り）",
+        "{{CHANGE_AMOUNT}}": "差額の絶対値（カンマ区切り）",
+        "{{CHANGE_SIGN}}": "差額の符号（+または-）",
+        "{{CHANGE_PCT}}": "変化率パーセント",
+        "{{CHANGE_COLOR}}": "変化の色（増加:#10b981 減少:#ef4444）",
+        "{{CHANGE_ICON}}": "変化アイコン（増加:▲ 減少:▼）",
+        "{{DOW_BARS}}": "曜日別の棒グラフペア（下記exemplar参照）",
+        "{{DOW_LABELS}}": "曜日ラベル（下記exemplar参照）",
+        "{{CATEGORY_COMPARISON_ROWS}}": "カテゴリ別比較行（下記exemplar参照）"
+      },
+      "instructions": {
+        "dow_bars_exemplar": "<div style=\"flex:1;display:flex;gap:2px;align-items:flex-end;\"><div style=\"flex:1;background:#3b82f6;border-radius:2px 2px 0 0;height:{{THIS_PERCENT}}%;\" title=\"今週: ¥{{THIS_AMOUNT}}\"></div><div style=\"flex:1;background:#475569;border-radius:2px 2px 0 0;height:{{LAST_PERCENT}}%;\" title=\"先週: ¥{{LAST_AMOUNT}}\"></div></div>",
+        "dow_bars_note": "月〜日の7組を生成。各組に今週(青#3b82f6)と先週(灰#475569)の2本のバー。heightは各金額/全曜日の最大値*100%。",
+        "dow_labels_exemplar": "<div style=\"flex:1;text-align:center;font-size:10px;color:#64748b;\">{{WEEKDAY}}</div>",
+        "dow_labels_note": "月、火、水、木、金、土、日 のラベル。土日は色を#f59e0bにする。",
+        "category_comparison_exemplar": "<div style=\"margin-bottom:10px;\"><div style=\"display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;\"><span>{{CATEGORY}}</span><span style=\"color:{{ROW_CHANGE_COLOR}};\">{{ROW_CHANGE_ICON}} {{ROW_CHANGE_PCT}}%</span></div><div style=\"display:flex;gap:2px;\"><div style=\"background:#0f3460;border-radius:4px;height:8px;flex:1;position:relative;\"><div style=\"background:#3b82f6;border-radius:4px;height:8px;width:{{THIS_PERCENT}}%;\"></div></div></div><div style=\"display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;margin-top:2px;\"><span>今週 ¥{{THIS_AMOUNT}}</span><span>先週 ¥{{LAST_AMOUNT}}</span></div></div>",
+        "category_comparison_note": "各カテゴリについて生成。THIS_PERCENTは今週売上/最大カテゴリ売上*100%。変化率を算出して色分け。"
+      }
+    },
+    "shift_table": {
+      "html_template": "<div style=\"background:#1a1a2e;border-radius:12px;padding:20px;font-family:system-ui,sans-serif;color:#e2e8f0;max-width:720px;\">\n<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;\">\n<div style=\"font-size:18px;font-weight:700;\">📋 シフト表</div>\n<div style=\"font-size:13px;color:#94a3b8;\">{{PERIOD}}</div>\n</div>\n<div style=\"display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;\">\n<div style=\"flex:1;min-width:100px;background:#16213e;border-radius:8px;padding:12px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;\">スタッフ数</div>\n<div style=\"font-size:20px;font-weight:700;color:#3b82f6;\">{{STAFF_COUNT}}名</div>\n</div>\n<div style=\"flex:1;min-width:100px;background:#16213e;border-radius:8px;padding:12px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;\">シフト数</div>\n<div style=\"font-size:20px;font-weight:700;color:#e2e8f0;\">{{TOTAL_SHIFTS}}</div>\n</div>\n<div style=\"flex:1;min-width:100px;background:#16213e;border-radius:8px;padding:12px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;\">合計時間</div>\n<div style=\"font-size:20px;font-weight:700;color:#e2e8f0;\">{{TOTAL_HOURS}}h</div>\n</div>\n<div style=\"flex:1;min-width:100px;background:#16213e;border-radius:8px;padding:12px;border:1px solid #0f3460;text-align:center;\">\n<div style=\"font-size:11px;color:#94a3b8;\">日平均</div>\n<div style=\"font-size:20px;font-weight:700;color:#e2e8f0;\">{{DAILY_AVG_HOURS}}h</div>\n</div>\n</div>\n<div style=\"background:#16213e;border-radius:8px;border:1px solid #0f3460;overflow-x:auto;\">\n<table style=\"width:100%;border-collapse:collapse;font-size:12px;\">\n<thead>\n<tr style=\"background:#0f3460;\">\n<th style=\"padding:8px 10px;text-align:left;font-weight:600;border-bottom:1px solid #1e3a5f;min-width:80px;\">スタッフ</th>\n{{DATE_HEADERS}}\n</tr>\n</thead>\n<tbody>\n{{STAFF_ROWS}}\n</tbody>\n</table>\n</div>\n</div>",
+      "placeholders": {
+        "{{PERIOD}}": "期間表示（例: 2/10(月) 〜 2/16(日)）",
+        "{{STAFF_COUNT}}": "スタッフ人数",
+        "{{TOTAL_SHIFTS}}": "シフト総数",
+        "{{TOTAL_HOURS}}": "合計労働時間",
+        "{{DAILY_AVG_HOURS}}": "日平均労働時間",
+        "{{DATE_HEADERS}}": "日付ヘッダー列（下記exemplar参照）",
+        "{{STAFF_ROWS}}": "スタッフ行（下記exemplar参照）"
+      },
+      "instructions": {
+        "date_headers_exemplar": "<th style=\"padding:8px 6px;text-align:center;font-weight:600;border-bottom:1px solid #1e3a5f;min-width:60px;color:{{DOW_COLOR}};\">{{WEEKDAY}}<br><span style=\"font-size:10px;font-weight:400;\">{{MONTH}}/{{DAY}}</span></th>",
+        "date_headers_note": "7日分を生成。DOW_COLORは平日:#e2e8f0、土:#3b82f6、日:#ef4444。today（is_today=true）のthにbackground:#1e3a5fを追加。",
+        "staff_rows_exemplar": "<tr style=\"border-bottom:1px solid #0f3460;\"><td style=\"padding:8px 10px;font-weight:500;\"><span style=\"color:{{ROLE_COLOR}};font-size:10px;\">●</span> {{STAFF_NAME}}</td>{{SHIFT_CELLS}}</tr>",
+        "staff_rows_note": "各スタッフについて生成。ROLE_COLORは店長:#f59e0b、社員:#3b82f6、バイト:#10b981。",
+        "shift_cells_exemplar": "<td style=\"padding:6px;text-align:center;font-size:11px;background:{{CELL_BG}};\">{{SHIFT_TEXT}}</td>",
+        "shift_cells_note": "各日のシフトセルを生成。シフトありの場合は時間(例:9-17)を表示しCELL_BGを#1a2744に。休みの場合は「-」でCELL_BGは透明。cancelledは取消線。todayの列はCELL_BGを少し明るく(#1e3353)。"
+      }
+    }
+  }
+}

@@ -2,66 +2,83 @@
 
 POC Dify plugin for Lawson convenience store operations assistant.
 
-## Background
+## Architecture: Agent-Only with Inline HTML
 
-This project is a proof-of-concept Dify app called "からあげ店長クン" (Karaage Tencho-kun) that assists Lawson store managers with daily operations.
+This plugin uses **agent-chat mode** (`examples/agent.yml`) as the primary deployment. Dashboards and reports are rendered directly in the Dify chat bubble using inline HTML/CSS — no file downloads needed.
 
-### Why a Custom Plugin?
+### Dashboard Rendering Flow
+1. Data tool (dashboard_generator, shift_table_generator, sales_analytics) returns JSON
+2. `dashboard_template` tool returns an HTML template with `{{PLACEHOLDER}}` markers
+3. LLM fills placeholders with actual data from step 1
+4. LLM outputs the completed HTML directly as a chat message
+5. Dify renders the HTML inline in the chat bubble
 
-The Dify cloud environment has significant limitations:
-- Cannot use marketplace plugins that require API configuration
-- Available built-in tools are limited (DuckDuckGo search, datetime, etc.)
-- File system is read-only
-
-To work around these constraints, this custom plugin bundles all necessary functionality:
-- In-memory databases (DuckDB) for shift/sales data
-- Mock external APIs (weather, product catalog)
-- Utility functions (datetime conversion)
+### Why Not Chatflow?
+- Chatflow pipeline (Agent → Classifier → LLM → save_file → download URL) was complex and flaky
+- Agent nodes don't forward `create_blob_message()` files (Dify bug)
+- Inline HTML rendering eliminates the need for file downloads entirely
 
 ## Project Structure
 
 ```
-├── manifest.yaml              # Plugin manifest
+├── manifest.yaml              # Plugin manifest + version
 ├── main.py                    # Entry point
 ├── provider/
 │   └── karaage-tencho-kun.yaml/py   # Tool provider definition
 ├── tools/                     # Dify tools
 │   ├── shift_manager.*        # Shift management (SQL/DuckDB)
 │   ├── shift_optimizer.*      # Shift optimization
-│   ├── shift_table_generator.*# HTML shift table generation
+│   ├── shift_table_generator.*# Shift table data (JSON)
 │   ├── sales_analytics.*      # Sales analysis (SQL/DuckDB)
-│   ├── dashboard_generator.*  # HTML dashboard with Chart.js
+│   ├── dashboard_generator.*  # Dashboard data (JSON)
+│   ├── dashboard_template.*   # Inline HTML templates for chat bubble rendering
 │   ├── hourly_weather.*       # Weather forecast (Open-Meteo)
 │   ├── demand_forecast.*      # ML demand prediction
-│   ├── inventory_manager.*    # Inventory management (stock, expiration, orders)
+│   ├── inventory_manager.*    # Inventory management
 │   ├── line_composer.*        # LINE message generation
 │   ├── lawson_items.*         # Product catalog
 │   ├── datetime_utils.*       # JST conversion utilities
-│   └── file_writer.*          # Create downloadable files (HTML, JSON, CSV, etc.)
+│   └── file_writer.*          # Create downloadable files (kept for backward compat, not in agent)
 ├── data/                      # Static data files
-│   ├── inventory_manager_seed.json
+│   ├── dashboard_templates.json  # HTML templates for inline rendering
 │   ├── line_templates.json
-│   └── ...
+│   ├── inventory_manager_seed.json
+│   ├── sales_analytics_seed.json
+│   ├── shift_manager_seed.json
+│   └── lawson_items.json
 ├── tests/                     # Unit tests
-└── examples/                  # Example Dify workflow YAML
+└── examples/                  # Dify app YAML
+    ├── agent.yml              # PRIMARY: Agent-chat mode app
+    └── chatflow.yml           # ARCHIVE: Chatflow mode (no longer primary)
 ```
 
 ## Tools
 
-| Tool | Description | Implementation |
-|------|-------------|----------------|
-| `shift_manager` | SQL-based shift CRUD | In-memory DuckDB with sample staff/shifts |
-| `shift_optimizer` | Auto-suggest optimal shifts | Uses shift_manager DB + demand prediction |
-| `shift_table_generator` | Beautiful HTML shift tables | Weekly/daily/staff views with color coding |
-| `sales_analytics` | Sales data analysis | In-memory DuckDB with sample sales data |
-| `dashboard_generator` | HTML dashboards with Chart.js | Daily/weekly/comparison reports |
-| `hourly_weather` | Weather forecast | Open-Meteo API (real weather) |
-| `demand_forecast` | Demand prediction | ML model based on weather |
-| `inventory_manager` | Inventory management | In-memory DuckDB with stock tracking, expiration alerts, order recommendations |
-| `line_composer` | Generate LINE messages | Templates for staff communication |
-| `lawson_items` | Product catalog search | Static JSON data |
-| `datetime_utils` | Convert datetime to JST | Pure Python (zoneinfo) |
-| `file_writer` | Create downloadable files | Returns blob message with clickable sandbox link |
+| Tool | Description | Data Source |
+|------|-------------|-------------|
+| `shift_manager` | SQL-based shift CRUD | In-memory DuckDB |
+| `shift_optimizer` | Auto-suggest optimal shifts | DuckDB + demand model |
+| `shift_table_generator` | Shift data as JSON | DuckDB |
+| `sales_analytics` | Sales data analysis via SQL | In-memory DuckDB |
+| `dashboard_generator` | Dashboard data as JSON (daily/weekly/comparison) | DuckDB |
+| `dashboard_template` | Inline HTML/CSS templates for chat bubble rendering | Static JSON |
+| `hourly_weather` | Weather forecast | Open-Meteo API |
+| `demand_forecast` | Demand prediction | ML model |
+| `inventory_manager` | Inventory management | In-memory DuckDB |
+| `line_composer` | Generate LINE messages | Static templates |
+| `lawson_items` | Product catalog search | Static JSON |
+| `datetime_utils` | Convert datetime to JST | Pure Python |
+| `file_writer` | Create downloadable files | N/A (kept but not in agent tools) |
+
+## Inline HTML Constraints (Quick Reference)
+
+- All styles via `style="..."` — no `<style>` blocks, no `class=`
+- No `<p>` tags — use `<div>`
+- No empty lines in HTML (breaks Dify rendering)
+- No `<script>`, `<iframe>`, `<html>`, `<body>`
+- Bar charts: `<div>` with percentage `width`/`height`
+- Layout: `display:flex` (preferred) or `display:grid`
+- Dark theme: bg `#1a1a2e`, cards `#16213e`, borders `#0f3460`
 
 ## Development
 
@@ -79,37 +96,17 @@ cd .. && make build
 
 ## Versioning
 
-**Format:** Date-based versioning `YYYY.M.DD-N` (e.g., `2026.2.15-1`)
-- `YYYY.M.DD` = date (month without leading zero)
-- `-N` = division number (increment for multiple releases on same day)
+**Format:** Date-based `YYYY.M.DD-N` (e.g., `2026.2.16-1`)
 
 **Release steps:**
+1. Bump version in `manifest.yaml` (both `version:` and `meta.version:`)
+2. Commit and push
+3. Create release: `gh release create vYYYY.M.DD-N --title "vYYYY.M.DD-N" --notes "..."`
 
-1. **Bump version in `manifest.yaml`** (both `version:` and `meta.version:` fields)
-2. **Commit and push**
-3. **Create release:** `gh release create vYYYY.MMDD.N --title "vYYYY.MMDD.N" --notes "Release vYYYY.MMDD.N"`
-
-The CI workflow (`.github/workflows/build.yml`) will automatically:
-- Build the `.difypkg` package
-- Update `examples/chatflow.yml`:
-  - App name version (`name: 開発中_からあげ店長クン_vX.X.X`)
-  - Plugin reference (`plugin_unique_identifier: ...`) in dependencies with version and checksum
-  - App version field
-- Commit the chatflow.yml changes
-- Upload the package to the release
+CI auto-builds `.difypkg`, updates `examples/agent.yml` references, and uploads to release.
 
 ## Constraints
 
-- **No external API calls** - All data is mocked or embedded
-- **In-memory only** - Dify cloud has read-only filesystem
-- **Single plugin** - Bundle everything to avoid marketplace dependencies
-
-## Example Chatflow
-
-See `examples/chatflow.yml` for a Dify chatflow (advanced-chat mode) that uses this plugin.
-Structure: Start → Agent node (with all tools) → Answer node.
-Chatflow mode is used instead of agent-chat because `create_blob_message` file downloads
-only work properly in chatflow mode on Dify cloud.
-
-**Note:** Knowledge bases (RAG datasets) need to be added manually in the Dify UI after import,
-as dataset IDs are environment-specific.
+- **No external API calls** except Open-Meteo (free weather) — all other data is embedded
+- **In-memory only** — Dify cloud has read-only filesystem
+- **Single plugin** — Bundle everything to avoid marketplace dependencies

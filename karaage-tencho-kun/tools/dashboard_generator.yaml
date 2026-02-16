@@ -33,8 +33,9 @@ description:
     - 週間比較: report_type="comparison"
 
     ## 出力
-    JSON形式のデータを返します。このデータをもとにHTMLダッシュボードを生成し、
-    file_writerツールで出力してください。
+    JSON形式のデータを返します。
+    dashboard_templateツールでテンプレートを取得し、プレースホルダーをデータで置換して
+    そのままチャットメッセージとしてHTMLを出力してください（file_writer不要）。
 parameters:
   - name: report_type
     type: string

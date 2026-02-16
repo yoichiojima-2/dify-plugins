@@ -1,0 +1,45 @@
+identity:
+  name: "dashboard_template"
+  author: "yoichiojima"
+  label:
+    en_US: "Dashboard Template"
+    ja_JP: "ダッシュボードテンプレート"
+description:
+  human:
+    en_US: "Get inline HTML dashboard templates for Dify chat bubble rendering"
+    ja_JP: "Difyチャットバブル内で表示可能なインラインHTMLダッシュボードテンプレートを取得"
+  llm: |
+    Difyチャットバブル内で直接表示できるインラインHTML/CSSダッシュボードテンプレートを返します。
+    データ取得ツールの後にこのツールを呼び、テンプレートのプレースホルダーをデータで置換して出力してください。
+
+    ## 使い方（3ステップ）
+    1. dashboard_generator / shift_table_generator / sales_analytics でデータ取得
+    2. このツールでテンプレートを取得
+    3. テンプレートの {{PLACEHOLDER}} をデータで置換し、そのままチャットメッセージとして出力
+
+    ## テンプレートタイプ
+    - weekly_dashboard: 週間売上ダッシュボード（KPI、日別バーチャート、カテゴリ別、天気別）
+    - daily_dashboard: 日次売上ダッシュボード（KPI、時間別バーチャート、カテゴリ別）
+    - comparison_dashboard: 今週vs先週 比較ダッシュボード
+    - shift_table: シフト表
+
+    ## 重要
+    - file_writerは使わない。置換済みHTMLをそのままテキストとして出力する
+    - HTML内に空行を入れない（レンダリングが壊れる）
+    - <p>タグは使わない（<div>を使う）
+    - <style>, <script>タグは使わない
+parameters:
+  - name: template_type
+    type: string
+    required: true
+    label:
+      en_US: Template Type
+      ja_JP: テンプレートタイプ
+    human_description:
+      en_US: "Type of dashboard template: weekly_dashboard, daily_dashboard, comparison_dashboard, shift_table"
+      ja_JP: "ダッシュボードテンプレートの種類"
+    llm_description: "テンプレートの種類を指定: weekly_dashboard, daily_dashboard, comparison_dashboard, shift_table"
+    form: llm
+extra:
+  python:
+    source: tools/dashboard_template.py
