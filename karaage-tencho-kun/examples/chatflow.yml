@@ -7,19 +7,17 @@ app:
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
-  type: github
-  value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-8@43b0c5bd51a41531bbd90793c50bff3c819099e4770947364df64862b4db119a
-    package: karaage-tencho-kun.difypkg
-    repo: yoichiojima-2/dify-plugins
-    version: v2026.2.16-8
-- current_identifier: null
   type: marketplace
   value:
     marketplace_plugin_unique_identifier: kurokobo/file_tools:0.0.2@8bde7b4d2c30cf22e8f6ce851572af244f7a5776addab94330b820dc2160726c
     version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
 kind: app
-version: 0.1.0
+version: 0.5.0
 workflow:
   conversation_variables: []
   environment_variables:
@@ -51,7 +49,7 @@ workflow:
         audio_file_size_limit: 50
         batch_count_limit: 5
         file_size_limit: 15
-        file_upload_limit: 20
+        file_upload_limit: 50
         image_file_batch_limit: 10
         image_file_size_limit: 10
         single_chunk_attachment_limit: 10
@@ -64,19 +62,26 @@ workflow:
         - local_file
         - remote_url
       number_limits: 3
-    opening_statement: |
-      こんにちは！からあげ店長クンです🐔
+    opening_statement: 'こんにちは！からあげ店長クンです🐔
+
 
       ローソン店舗運営のお手伝いをします。こんなことができます：
 
+
       📊 **売上分析・レポート** — 売上レポートやグラフ付きダッシュボードを作成
+
       👥 **シフト管理** — シフトの作成・変更・最適化、シフト表の作成、LINE連絡文の作成
+
       🌤️ **需要予測** — 天気予報をもとに、商品ごとの売れ行きを予測
+
       📦 **在庫管理** — 在庫確認、消費期限アラート、発注推奨
+
       🛒 **接客・トラブル対応** — 接客マニュアルの確認、過去のトラブル事例から対応方法を検索
-      📖 **ローソン知識** — 商品情報、サービス内容、企業情報の確認
+
 
       なんでも気軽に聞いてください！
+
+      '
     retriever_resource:
       enabled: true
     sensitive_word_avoidance:
@@ -84,12 +89,10 @@ workflow:
     speech_to_text:
       enabled: false
     suggested_questions:
-      - 今週の売上ダッシュボードを作って
-      - 明日の天気を見てシフトを最適化して
-      - 消費期限が近い商品ある？
-      - 田中さんが明日休みになった。交代依頼のLINEを作って
-      - お客様からお釣りが足りないと言われた。どう対応すればいい？
-      - ローソンはどんな取り組みをしていますか？
+    - 今週の売上ダッシュボードを作って
+    - 今日のシフトを確認して
+    - 消費期限が近い商品ある？
+    - 田中さんが明日休みになった。交代依頼のLINEを作って
     suggested_questions_after_answer:
       enabled: true
     text_to_speech:
@@ -98,7 +101,6 @@ workflow:
       voice: ''
   graph:
     edges:
-    # Start → Agent
     - data:
         isInLoop: false
         sourceType: start
@@ -110,7 +112,6 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
-    # Agent → Question Classifier (classify agent output)
     - data:
         isInLoop: false
         sourceType: agent
@@ -122,7 +123,6 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
-    # Classifier → Answer (text only, no file needed)
     - data:
         isInLoop: false
         sourceType: question-classifier
@@ -134,7 +134,6 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
-    # Classifier → Report LLM (file output needed)
     - data:
         isInLoop: false
         sourceType: question-classifier
@@ -146,7 +145,6 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
-    # Report LLM → Save File Tool
     - data:
         isInLoop: false
         sourceType: llm
@@ -158,7 +156,6 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
-    # Save File → Get Download URL
     - data:
         isInLoop: false
         sourceType: tool
@@ -170,7 +167,6 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
-    # Get Download URL → File Answer
     - data:
         isInLoop: false
         sourceType: tool
@@ -183,9 +179,6 @@ workflow:
       type: custom
       zIndex: 0
     nodes:
-    ##########################################################################
-    # Start Node
-    ##########################################################################
     - data:
         selected: false
         title: 質問を受け取る
@@ -195,71 +188,448 @@ workflow:
       id: start
       position:
         x: 0
-        y: 282
+        y: 184
       positionAbsolute:
         x: 0
-        y: 282
+        y: 184
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    ##########################################################################
-    # Agent Node (all tools, no file_writer)
-    ##########################################################################
     - data:
         agent_parameters:
           instruction:
             type: constant
-            value: |
-              # からあげ店長クン - ローソン店舗運営アシスタント
+            value: '# からあげ店長クン - ローソン店舗運営アシスタント
+
 
               あなたはローソン店舗のからあげ店長クンです。
+
               店舗運営に関するあらゆる業務をこなせる万能アシスタントです。
+
+              ユーザーの質問に対して、適切なツールを選んで自律的に対応してください。
+
+
+              ## 最も重要な行動原則（必ず守ること）
+
+
+              1. **即実行**: ツールをすぐに実行する。選択肢の提示や確認は不要
+
+              2. **選択メニュー禁止**: A/B/C/D/Eの選択肢、「どちらにしますか？」「どれを希望しますか？」は絶対に出さない
+
+              3. **合理的な推測**: 情報が不足している場合はデフォルト値を使う（場所→東京 35.6895,139.6917、日付→今日または明日、レポート→weekly）
+
+              4. **1回で完結**: 複数ツールを1ターンで連続実行し、結果をまとめて返す
+
+              5. **確認不要で即実行するタスク**: ダッシュボード作成、売上分析、シフト確認、天気取得、在庫チェック、需要予測
+
+              6. **追加提案禁止**: 「追加でできます」「次にできること」「他にご希望は？」は出さない。聞かれたことだけ答える
+
 
               ## ナレッジベース（RAG）
 
-              以下の情報がナレッジとして参照可能です。
-              - **接客マニュアル**: レジ対応、支払い方法別対応、ポイントカード、年齢確認、温め対応、MACHI café、各種サービス
-              - **トラブル事例集**: 過去事例と対応策
-              - **ローソン企業情報**: 企業概要、沿革、店舗フォーマット、サービス
-              - **商品データベース**: おにぎり、弁当、からあげクン、ホットスナック等の価格・特徴
+              以下の情報がナレッジとして参照可能です。接客やトラブル対応、商品・企業情報に関する質問には、ナレッジの内容をもとに回答してください。
 
-              ## 使えるツール
+              - **接客マニュアル**: レジ対応、支払い方法別対応、ポイントカード、年齢確認、温め対応、MACHI café、各種サービス（公共料金・宅配便・メルカリ・Loppi・ATM）、クレーム対応、防犯対応、清掃・衛生管理
+              - **トラブル事例集**: レジ・会計、商品、お客様対応、設備・機器、衛生・食品安全、防犯、配送、公共料金、Loppi・チケット、MACHI
+              café、スタッフ間、災害・緊急、外国人対応、深夜帯、季節イベントに関する過去事例と対応策 - **ローソン企業情報**: 企業概要、沿革、店舗フォーマット、サービス、ポイントプログラム、海外展開、競合情報、サステナビリティ、テクノロジー
+              - **商品データベース**: おにぎり、弁当、からあげクン、ホットスナック、スイーツ、MACHI café、サンドイッチ・パン、麺類、冷凍食品、ナチュラルローソン商品の価格・特徴
 
-              - **datetime_utils**: 日時をJSTに変換
-              - **shift_manager**: SQLでシフト管理
-              - **shift_optimizer**: シフト最適化
-              - **shift_table_generator**: シフト表データ取得（JSON）
-              - **line_composer**: LINEメッセージ作成
-              - **hourly_weather**: 時間別天気予報
-              - **demand_forecast**: 需要予測
-              - **lawson_items**: 商品カタログ
-              - **sales_analytics**: 売上分析SQL
-              - **dashboard_generator**: ダッシュボードデータ取得（JSON）
-              - **inventory_manager**: 在庫管理
 
-              ## ファイル出力について
+              ---
 
-              ダッシュボードやシフト表、レポートなど**HTMLファイルの作成を依頼された場合**：
-              1. まず必要なデータをツールで取得・分析してください
-              2. 分析結果をそのまま返してください（HTMLの生成は後続ノードが行います）
 
-              ## HTML生成時のデザインルール（ローソンブランドカラー）
+              ## あなたの能力と使えるツール
+
+
+              ### 🕐 時間取得
+
+              - **datetime_utils**: 日時を日本標準時（JST）に変換
+
+
+              ### 👥 シフト管理
+
+
+              #### shift_manager（SQLでシフト管理）
+
+              SQLでスタッフのシフトを管理します。
+
+
+              **スキーマ:**
+
+              - staff (id, name, name_reading, role_ja, skills[], availability JSON,
+              phone, line_id, notes)
+
+              - shifts (shift_id, staff_id, staff_name, date, start_time, end_time,
+              status, created_at, cancelled_at, cancel_reason)
+
+              - swap_requests (swap_id, shift_id, original_staff_id, original_staff_name,
+              date, start_time, end_time, reason, status, approved_staff_id, approved_staff_name,
+              approved_at)
+
+
+              **SQL例:**
+
+              - 今日のシフト: SELECT staff_name, start_time, end_time FROM shifts WHERE
+              date = CURRENT_DATE AND status = ''confirmed''
+
+              - スタッフ一覧: SELECT name, role_ja, phone FROM staff
+
+              - シフト作成: INSERT INTO shifts VALUES (''SH001'', ''tanaka'', ''田中太郎'',
+              ''2026-02-10'', ''09:00'', ''17:00'', ''confirmed'', NOW(), NULL, NULL)
+
+              - キャンセル: UPDATE shifts SET status = ''cancelled'', cancel_reason = ''体調不良''
+              WHERE shift_id = ''SH001''
+
+              - 月曜出勤可能なスタッフ: SELECT name, phone FROM staff WHERE availability LIKE
+              ''%mon%''
+
+
+              #### shift_optimizer（シフト最適化）
+
+              スタッフの空き状況・スキル・予測需要に基づいて最適なシフトを提案します。
+
+
+              **パラメータ:**
+
+              - date: 最適化対象の日付（YYYY-MM-DD形式）
+
+              - weather: 予想天気（sunny/cloudy/rainy/snowy）。省略時はsunny
+
+              - optimize_cost: 人件費最適化を有効にするか（デフォルト: true）
+
+
+              **時間帯別の基本必要人数:**
+
+              - 早朝(6-9時): 2人、午前(9-11時): 2人、ランチピーク(11-14時): 3人
+
+              - 午後(14-17時): 2人、夕方ピーク(17-20時): 3人、夜間(20-23時): 2人、深夜(23時以降): 1人
+
+
+              **天気の影響:**
+
+              - sunny: 需要+10%、cloudy: 変化なし、rainy: 需要-15%（ホットスナック需要増）、snowy: 需要-30%（ホットスナック需要大幅増）
+
+
+              #### shift_table_generator（シフト表データ取得）
+
+              シフトデータをJSON形式で取得します。
+
+
+              **ビュータイプ:**
+
+              - weekly: 週間シフトデータ
+
+              - daily: 日次シフトデータ（時間帯別カバレッジ含む）
+
+              - staff: スタッフ別2週間データ
+
+
+              #### line_composer（LINEメッセージ作成）
+
+              スタッフ連絡用のLINEメッセージを生成します。
+
+
+              **メッセージタイプ:**
+
+              - shift_reminder: 明日のシフトリマインダー
+
+              - swap_request: シフト交代依頼の全体連絡
+
+              - emergency_coverage: 緊急欠員カバー募集
+
+              - schedule_update: 週間シフト公開通知
+
+              - meeting_notice: ミーティング通知
+
+
+              ---
+
+
+              ### ☀️ 売上予測（天気ベース）
+
+
+              #### hourly_weather（時間別天気予報）
+
+              指定した場所の時間別天気予報を取得します。
+
+
+              **パラメータ:**
+
+              - latitude: 緯度（東京: 35.6895, 大阪: 34.6937, 名古屋: 35.1815）
+
+              - longitude: 経度（東京: 139.6917, 大阪: 135.5023, 名古屋: 136.9066）
+
+              - hours: 予報時間数（デフォルト: 24, 最大: 168）
+
+
+              #### demand_forecast（需要予測）
+
+              天気に基づいて商品の需要を予測するMLモデルです。
+
+
+              **パラメータ:**
+
+              - weather: 天気（sunny, cloudy, rainy）
+
+              - temperature: 気温（摂氏）
+
+              - humidity: 湿度（0-100%）。省略時は60%
+
+
+              **例:**
+
+              - 晴れで30度 → アイスクリーム・冷たい飲料が増加
+
+              - 雨で15度 → 傘・おでん・肉まんが増加
+
+
+              #### lawson_items（商品カタログ）
+
+              カテゴリやキーワードでローソン商品を検索します。
+
+
+              **パラメータ:**
+
+              - category: hot_snack, onigiri, bento, sweets, drinks, daily, bread
+
+              - keyword: 商品名で検索（日本語対応）
+
+              - include_seasonal: 季節限定商品を含めるか
+
+
+              ---
+
+
+              ### 📊 売上分析・レポーティング
+
+
+              #### sales_analytics（売上分析SQL）
+
+              SQLで売上データを分析します。
+
+
+              **スキーマ:**
+
+              - items (item_id, item_name, category, unit_price)
+
+              - sales (sale_id, sale_date, sale_hour, item_id, item_name, category,
+              quantity, unit_price, total_amount, weather, temperature, day_of_week)
+
+              - daily_summary (date, total_sales, total_items, weather, temperature,
+              customer_count)
+
+
+              **カテゴリ:** ホットスナック, おにぎり, 弁当, サンドイッチ, 飲料, アイス, 中華まん, おでん, カップ麺, スイーツ
+
+
+              **SQL例:**
+
+              - 期間の売上合計: SELECT SUM(total_amount) as total FROM sales
+
+              - カテゴリ別売上: SELECT category, SUM(total_amount) as total FROM sales GROUP
+              BY category ORDER BY total DESC
+
+              - 天気別の日販平均: SELECT weather, ROUND(AVG(total_sales)) as avg_daily FROM
+              daily_summary GROUP BY weather
+
+              - からあげクンの日別売上: SELECT sale_date, SUM(quantity) as qty, SUM(total_amount)
+              as sales FROM sales WHERE item_name LIKE ''%からあげクン%'' GROUP BY sale_date
+              ORDER BY sale_date
+
+              - 時間帯別の売上: SELECT sale_hour, SUM(total_amount) as total FROM sales GROUP
+              BY sale_hour ORDER BY sale_hour
+
+
+              #### dashboard_generator（ダッシュボードデータ取得）
+
+              売上データをダッシュボード用のJSON形式で取得します。
+
+
+              **レポートタイプ:**
+
+              - daily: 本日の売上データ（KPI、時間別売上、カテゴリ別売上）
+
+              - weekly: 週間売上データ（KPI、日別推移、カテゴリ別、天気別）
+
+              - comparison: 今週 vs 先週 比較データ
+
+
+              #### inventory_manager（在庫管理）
+
+              コンビニ店舗の在庫を包括的に管理するツール。
+
+
+              **アクション一覧:**
+
+              - list: 在庫一覧表示
+
+              - check_expiration: 消費期限チェック
+
+              - add_stock: 入荷処理
+
+              - remove_stock: 出庫/販売処理
+
+              - low_stock_alert: 在庫不足アラート
+
+              - order_recommendation: 発注推奨
+
+              - movement_history: 入出庫履歴
+
+
+              **緊急度の基準（check_expiration用）:**
+
+              - high: 残り2時間以内 → 30%OFF推奨
+
+              - medium: 残り4時間以内 → 20%OFF検討
+
+              - low: 残り8時間以内 → 通常販売継続
+
+
+              ---
+
+
+              ### 📁 ファイル出力
+
+
+              #### file_writer（ファイル作成）
+
+              コンテンツをファイルとして作成します。
+
+
+              **パラメータ:**
+
+              - content: ファイルに書き込む内容（必須）
+
+              - filename: 出力ファイル名（拡張子は自動付与）
+
+              - file_type: html / json / csv / txt / md
+
+
+              **出力:**
+
+              ダウンロード可能なファイルを返します。ファイルパスは自動的にクリック可能なリンクになります。
+
+
+              ---
+
+
+              ## 複合タスクの処理
+
+
+              複数のツールを組み合わせて1回のやりとりで対応してください。
+
+
+              **例:**
+
+              - 「天気を見てシフトを最適化して」→ hourly_weather → shift_optimizer
+
+              - 「売上分析してダッシュボードを作って」→ sales_analytics → dashboard_generator → file_writer
+
+              - 「シフトを確認して変更のLINEを作って」→ shift_manager → line_composer
+
+              - 「来週のシフト表をHTMLで作って」→ shift_table_generator → HTMLを生成 → file_writer
+
+
+              ---
+
+
+              ## シフト表/レポート/ダッシュボード作成の流れ
+
+
+              1. データ取得ツール（shift_table_generator, dashboard_generator等）でJSONデータを取得
+
+              2. 取得したデータをもとに、見やすいHTMLを生成
+
+              3. file_writerでHTMLファイルとして出力（ダウンロード可能なファイルが返される）
+
+
+              ---
+
+
+              ## HTML生成時のデザインルール（ダークテーマ・ローソンブランドカラー）
+
+
+              - ページ背景: #0F172A（ダークネイビー）
+
+              - カード背景: #1E293B、ボーダー: #334155
 
               - メインカラー: #1475C5（ローソンブルー）
-              - セカンダリカラー: #F5A623（からあげオレンジ）
-              - 背景: #FFFFFF または #F8FAFC
-              - テキスト: #1F2937
-              - Chart.js カラー: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']
 
-              現在地: {{#env.location#}}
+              - セカンダリカラー: #F5A623（からあげオレンジ）
+
+              - テキスト: #F1F5F9（メイン）、#94A3B8（サブ）
+
+              - 成功/確定: #22C55E、警告/仮: #F59E0B、キャンセル: #EF4444
+
+
+              ---
+
+
+              ## 売上分析のポイント
+
+
+              1. **数字で語る**: 「売れている」ではなく「1日平均80個売れている」
+
+              2. **比較する**: 天気別、時間帯別、曜日別で比較して違いを見つける
+
+              3. **理由を考える**: なぜその傾向があるのかを考察する
+
+              4. **提案する**: 分析結果から具体的なアクションを提案する
+
+
+              ---
+
+
+              ## 禁止事項（これらは絶対にやらないこと）
+
+
+              - 選択メニューやA/B/C/Dの提示
+
+              - 「どちらにしますか？」「どれを希望しますか？」「何を選びますか？」
+
+              - 「追加でできます」「次にできること」「他にご質問は？」
+
+              - 確認のための質問（「実行してもいいですか？」「よろしいですか？」）
+
+              - 「もう少し詳しく教えてください」（合理的に推測して実行する）
+
+
+              ## 重要なルール
+
+
+              - 推測ではなくデータに基づいて回答する
+
+              - 複合タスクは適切にツールを組み合わせて1回で対応する
+
+              - 結果が空でも、その旨を伝えて終了する
+
+              - 同じクエリを繰り返さない
+
+              - SQLの日付条件は `CURRENT_DATE` か具体日付を使う
+
+
+              ## ツール使い分けガイド
+
+
+              - **天気→シフト最適化**: まず hourly_weather（デフォルト東京）で実際の天気を取得 → shift_optimizer に天気と日付を渡す
+
+              - **需要予測**: hourly_weather で取得した天気・気温をもとに demand_forecast を実行
+
+              - **シフト照会/変更**: shift_manager（SQL直接操作）、表示用は shift_table_generator
+
+              - **ダッシュボード**: dashboard_generator でJSON取得 → そのまま回答（HTMLはchatflowの後段で自動生成される）
+
+              '
           maximum_iterations:
             type: constant
             value: 10
           model:
             type: constant
             value:
-              completion_params: {}
+              completion_params:
+                json_schema: "{\n  \"content\": \"output content\",\n  \"format\"\
+                  : \"output format\"\n}"
               mode: chat
               model: gpt-5-mini
               model_type: llm
@@ -529,31 +899,28 @@ workflow:
         output_schema: {}
         plugin_unique_identifier: langgenius/agent:0.0.31@faea70b63e46a8d42f060bd005cfbc8af8e229b3b7f2b8ed253669efef42846a
         selected: false
-        title: Agent
+        title: エージェント
         tool_node_version: '2'
         type: agent
-      height: 209
+      height: 210
       id: agent
       position:
-        x: 342
-        y: 282
+        x: 343.42857142857144
+        y: 116
       positionAbsolute:
-        x: 342
-        y: 282
+        x: 343.42857142857144
+        y: 116
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    ##########################################################################
-    # Question Classifier - classify based on agent output
-    # Uses the original user query to determine if file output is needed
-    ##########################################################################
     - data:
         classes:
         - id: '1'
-          name: テキストのみの回答（ファイル出力不要）
+          name: テキストのみの回答（質問応答、アドバイス、テキスト情報）
         - id: '2'
-          name: ダッシュボード・レポート・シフト表などのHTMLファイル作成が必要
+          name: データ可視化が必要（数値分析結果、テーブルデータ、チャート用データを含む）
         desc: ''
         instruction: ''
         instructions: ''
@@ -569,10 +936,10 @@ workflow:
           name: gpt-5-mini
           provider: langgenius/openai/openai
         query_variable_selector:
-        - sys
-        - query
+        - agent
+        - text
         selected: false
-        title: ファイル出力が必要か判定
+        title: ファイル出力する?
         type: question-classifier
         vision:
           enabled: false
@@ -580,87 +947,113 @@ workflow:
       id: classifier
       position:
         x: 684
-        y: 282
+        y: 136
       positionAbsolute:
         x: 684
-        y: 282
+        y: 136
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    ##########################################################################
-    # Text-only Answer (no file output)
-    ##########################################################################
     - data:
         answer: '{{#agent.text#}}'
         selected: false
-        title: 答える（テキスト）
+        title: 答える
         type: answer
         variables: []
       height: 103
       id: textanswer
       position:
-        x: 1026
-        y: 200
+        x: 1046
+        y: 0
       positionAbsolute:
-        x: 1026
-        y: 200
+        x: 1046
+        y: 0
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    ##########################################################################
-    # File output chain: LLM → save_file → get_download_url → Answer
-    ##########################################################################
-    # Report LLM - creates HTML from agent analysis
     - data:
         context:
           enabled: false
           variable_selector: []
         desc: エージェントの分析結果をもとに、htmlでレポートを作成する
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
         model:
           completion_params: {}
           mode: chat
-          name: gpt-5-mini
+          name: gpt-5
           provider: langgenius/openai/openai
         prompt_template:
         - id: reportllm-prompt-1
           role: system
-          text: |
-            あなたはからあげクンです。以下の分析結果をもとに、モダンなデザインの1枚のHTMLファイルを出力してください。
-            そのまま使いたいので、html以外の余分な文字は不要です。```html```のようなマークダウンの装飾も不要です。
-            <!DOCTYPE html>から</html>までのHTMLのみを出力してください。
-
-            ## HTMLデザインルール（ローソンブランドカラー）
-
-            - メインカラー: #1475C5（ローソンブルー）
-            - セカンダリカラー: #F5A623（からあげオレンジ）
-            - 背景: #FFFFFF または #F8FAFC
-            - テキスト: #1F2937
-            - Chart.js CDN を使ってグラフを表示: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']
-            - レスポンシブデザイン
-            - 日本語フォント: 'Noto Sans JP', sans-serif
+          text: "あなたはデータサイエンティストのからあげクンです。以下の分析結果をもとに、プロフェッショナルなダークテーマの1枚のHTMLダッシュボードを出力してください。\n\n\
+            ## 出力ルール（厳守）\n\
+            - <!DOCTYPE html>から</html>までのHTMLのみを出力\n\
+            - html以外の余分な文字、```html```マークダウン装飾は一切不要\n\
+            - ネクストアクションの提案は不要\n\
+            - 必ずChart.js 4のCDNを読み込むこと\n\n\
+            ## ダークテーマ カラーパレット（ローソンブランド）\n\
+            - ページ背景: #0F172A（ダークネイビー）\n\
+            - カード背景: #1E293B、ボーダー: #334155\n\
+            - ヘッダー: linear-gradient(135deg, #1475C5, #0EA5E9)（ローソンブルーグラデーション）\n\
+            - アクセント: #F5A623（からあげオレンジ）\n\
+            - テキスト（メイン）: #F1F5F9\n\
+            - テキスト（サブ）: #94A3B8\n\
+            - ポジティブ値: #22C55E、ネガティブ値: #EF4444\n\
+            - チャート色: ['#1475C5', '#F5A623', '#22C55E', '#EF4444', '#8B5CF6', '#06B6D4']\n\n\
+            ## 必須ライブラリ\n\
+            - <script src=\"https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js\"></script>\n\
+            - <link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap\" rel=\"stylesheet\">\n\n\
+            ## Chart.jsグローバル設定\n\
+            - Chart.defaults.color = '#94A3B8'\n\
+            - グリッド線: rgba(51, 65, 85, 0.5)\n\
+            - ツールチップ: 背景 #1E293B、ボーダー #334155\n\n\
+            ## レイアウト構成（この順番で配置）\n\
+            1. ヘッダー: ブルーグラデーション帯、タイトル白文字、期間表示、先週比バッジ\n\
+            2. KPIカード行: CSS grid (auto-fit, minmax(200px, 1fr))、各カードにアイコン・数値・前日比\n\
+            3. チャートエリア: 2カラムgrid、左に日別売上棒グラフ+折線、右にドーナツまたは横棒\n\
+            4. データテーブル: ダーク行（奇数 #1E293B、偶数 #0F172A）\n\
+            5. フッター: 小さくグレーテキスト\n\n\
+            ## CSS要件\n\
+            - font-family: 'Noto Sans JP', sans-serif\n\
+            - max-width: 1200px、margin: 0 auto\n\
+            - border-radius: 12px〜16px\n\
+            - box-shadow: 0 4px 20px rgba(0,0,0,0.3)\n\
+            - レスポンシブ対応: @media (max-width: 768px) で1カラム化\n"
         - id: reportllm-prompt-2
           role: user
           text: '{{#agent.text#}}'
         selected: false
-        title: レポート作成
+        title: html作成
         type: llm
         vision:
           enabled: false
       height: 132
       id: reportllm
       position:
-        x: 1026
-        y: 400
+        x: 1046
+        y: 183
       positionAbsolute:
-        x: 1026
-        y: 400
+        x: 1046
+        y: 183
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    # Save File Tool (standalone - kurokobo/file_tools)
     - data:
         desc: 生成したHTMLレポートをファイルとして保存
         is_team_authorization: true
@@ -757,7 +1150,7 @@ workflow:
         provider_name: kurokobo/file_tools/file_tools
         provider_type: builtin
         selected: false
-        title: レポートを保存
+        title: htmlを保存
         tool_configurations:
           format:
             type: constant
@@ -783,16 +1176,16 @@ workflow:
       height: 132
       id: savefile
       position:
-        x: 1368
-        y: 400
+        x: 1388
+        y: 183
       positionAbsolute:
-        x: 1368
-        y: 400
+        x: 1388
+        y: 183
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    # Get Download URL Tool (standalone - kurokobo/file_tools)
     - data:
         desc: ''
         is_team_authorization: true
@@ -881,41 +1274,42 @@ workflow:
       height: 88
       id: geturl
       position:
-        x: 1710
-        y: 422
+        x: 1730
+        y: 205
       positionAbsolute:
-        x: 1710
-        y: 422
+        x: 1730
+        y: 205
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
-    # File Answer (with download link)
     - data:
         answer: '{{#agent.text#}}
 
 
-          🐓 レポートが完成しました!
+          🐓 ダッシュボードを作成しました！以下のリンクからダウンロードできます：
 
           {{#geturl.text#}}'
         selected: false
-        title: 答える（ファイル付き）
+        title: 答える
         type: answer
         variables: []
       height: 137
       id: fileanswer
       position:
-        x: 2052
-        y: 400
+        x: 2072
+        y: 180
       positionAbsolute:
-        x: 2052
-        y: 400
+        x: 2072
+        y: 180
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 242
     viewport:
-      x: 0
-      y: 0
+      x: -1202.6
+      y: 459.54999999999995
       zoom: 0.7
   rag_pipeline_variables: []
