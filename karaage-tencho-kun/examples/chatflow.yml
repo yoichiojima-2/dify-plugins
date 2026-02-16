@@ -3,13 +3,13 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 開発中_からあげ店長クン_v2026.2.16-3
+  name: 開発中_からあげ店長クン_v2026.2.16-4
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-3@8a9fe90f2a51837c7fdf47b888dd98f28a524a19969b2028ae773f6a29cb554a
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-4@96e023f8ffa2d2afb08c92277fb5a979cd363acd3566e6b29e8b7eb489695896
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
     version: v2026.2.15-7
