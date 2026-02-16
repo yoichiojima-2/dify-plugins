@@ -14,10 +14,10 @@ dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-16@05cbe1979be94fea34010cdc4452b5b528df670743f00f8457cce161bf9881d4
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.17@31d4eea0e85143ad4af7c3632a668b3226a880eddc6438850d2caca46754b195
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
-    version: v2026.2.16-16
+    version: v2026.2.17
 kind: app
 model_config:
   agent_mode:
@@ -202,7 +202,19 @@ model_config:
       text: ''
   dataset_configs:
     datasets:
-      datasets: []
+      datasets:
+      - dataset:
+          enabled: true
+          id: 790bf2dc-0060-4470-83d1-56b1403a732a
+      - dataset:
+          enabled: true
+          id: 4e7f08f1-0e4e-46c3-b4f4-51cc1e16b73a
+      - dataset:
+          enabled: true
+          id: a5e7883e-5d2e-402e-bc17-351a5378838e
+      - dataset:
+          enabled: true
+          id: 3d1fb58f-d8cd-44cc-b6a6-e28251b22ca6
     reranking_enable: false
     reranking_mode: weighted_score
     reranking_model:
@@ -754,6 +766,8 @@ model_config:
   - 消費期限が近い商品ある？
   - 田中さんが明日休みになった。交代依頼のLINEを作って
   - 今週と先週の売上を比較して
+  - お客様がレジで怒り出した。どう対応すればいい？
+  - MACHI caféの作り方を教えて
   suggested_questions_after_answer:
     enabled: true
   text_to_speech:
