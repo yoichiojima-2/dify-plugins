@@ -25,6 +25,14 @@ class TextMessage:
         self.text = text
 
 
+class VariableMessage:
+    """Mock variable message for testing"""
+
+    def __init__(self, variable_name: str, variable_value):
+        self.variable_name = variable_name
+        self.variable_value = variable_value
+
+
 class TestFileWriter(unittest.TestCase):
     def _make_tool(self, preview_url=None):
         """テスト用のツールインスタンスを作成"""
@@ -32,6 +40,7 @@ class TestFileWriter(unittest.TestCase):
         tool.create_json_message = lambda body: body
         tool.create_blob_message = lambda blob, meta: BlobMessage(blob, meta)
         tool.create_text_message = lambda text: TextMessage(text)
+        tool.create_variable_message = lambda name, value: VariableMessage(name, value)
 
         # Mock session with file upload
         tool.session = MagicMock()
@@ -50,8 +59,19 @@ class TestFileWriter(unittest.TestCase):
         self.assertEqual(len(messages), 1)
         self.assertIn("error", messages[0])
 
-    def test_returns_blob_and_text_messages(self) -> None:
-        tool = self._make_tool()
+    def test_returns_blob_variable_and_text_when_preview_url_available(self) -> None:
+        """When preview_url is available, returns blob + variable + text (3 messages)."""
+        tool = self._make_tool(preview_url="http://api:5001/files/tools/abc.html?sign=x")
+        messages = list(tool._invoke({"content": "<html></html>"}))
+
+        self.assertEqual(len(messages), 3)  # blob + variable + text
+        self.assertIsInstance(messages[0], BlobMessage)
+        self.assertIsInstance(messages[1], VariableMessage)
+        self.assertIsInstance(messages[2], TextMessage)
+
+    def test_returns_blob_and_text_when_no_preview_url(self) -> None:
+        """When no preview_url, returns blob + text (2 messages, no variable)."""
+        tool = self._make_tool(preview_url=None)
         messages = list(tool._invoke({"content": "<html></html>"}))
 
         self.assertEqual(len(messages), 2)  # blob + text
@@ -156,13 +176,13 @@ class TestFileWriter(unittest.TestCase):
         self.assertEqual(result.meta["mime_type"], "text/plain")
 
     def test_still_works_when_upload_fails(self) -> None:
-        """Upload failure should not prevent blob message from being returned."""
+        """Upload failure should not prevent blob + text from being returned."""
         tool = self._make_tool()
         tool.session.file.upload.side_effect = Exception("upload failed")
 
         messages = list(tool._invoke({"content": "<html></html>"}))
 
-        # Should still return blob + text (fallback message without download link)
+        # Should still return blob + text (no variable since no download_url)
         self.assertEqual(len(messages), 2)
         self.assertIsInstance(messages[0], BlobMessage)
         self.assertIsInstance(messages[1], TextMessage)
@@ -173,42 +193,44 @@ class TestFileWriter(unittest.TestCase):
             tool._invoke({"content": "data", "filename": "report", "file_type": "csv"})
         )
 
-        self.assertIn("report.csv", messages[1].text)
+        # Text message is the last message
+        text_msg = [m for m in messages if isinstance(m, TextMessage)][0]
+        self.assertIn("report.csv", text_msg.text)
 
-    def test_text_message_contains_download_link_when_preview_url_available(self) -> None:
-        """When upload returns preview_url, text message should contain a markdown download link."""
+    def test_variable_message_contains_download_link(self) -> None:
+        """When upload returns preview_url, variable message should contain a markdown download link."""
         preview_url = "http://api:5001/files/tools/abc123.html?timestamp=123&nonce=xyz&sign=sig"
         tool = self._make_tool(preview_url=preview_url)
         messages = list(tool._invoke({"content": "<html></html>"}))
 
-        text_msg = messages[1]
-        # Should contain absolute URL with http://localhost (passes Dify frontend isValidUrl)
-        self.assertIn("http://localhost/files/tools/abc123.html?timestamp=123&nonce=xyz&sign=sig", text_msg.text)
+        var_msg = [m for m in messages if isinstance(m, VariableMessage)][0]
+        self.assertEqual(var_msg.variable_name, "download_link")
+        # Should contain absolute URL with http://localhost
+        self.assertIn("http://localhost/files/tools/abc123.html?timestamp=123&nonce=xyz&sign=sig", var_msg.variable_value)
         # Should contain markdown link
-        self.assertIn("[📎", text_msg.text)
+        self.assertIn("[📎", var_msg.variable_value)
         # Should NOT contain internal Docker hostname
-        self.assertNotIn("api:5001", text_msg.text)
+        self.assertNotIn("api:5001", var_msg.variable_value)
         # URL must start with http: to pass Dify frontend's isValidUrl() check
-        self.assertIn("](http://localhost/", text_msg.text)
+        self.assertIn("](http://localhost/", var_msg.variable_value)
 
-    def test_fallback_text_when_no_preview_url(self) -> None:
-        """When preview_url is None, text message should show fallback message."""
+    def test_no_variable_message_when_no_preview_url(self) -> None:
+        """When preview_url is None, no variable message should be emitted."""
         tool = self._make_tool(preview_url=None)
         messages = list(tool._invoke({"content": "<html></html>"}))
 
-        text_msg = messages[1]
-        self.assertIn("ファイルアイコン", text_msg.text)
-        self.assertNotIn("[📎", text_msg.text)
+        var_msgs = [m for m in messages if isinstance(m, VariableMessage)]
+        self.assertEqual(len(var_msgs), 0)
 
-    def test_preview_url_with_no_query_string(self) -> None:
-        """preview_url without query string should still work."""
+    def test_variable_message_with_no_query_string(self) -> None:
+        """preview_url without query string should still produce variable message."""
         preview_url = "http://api:5001/files/tools/abc123.html"
         tool = self._make_tool(preview_url=preview_url)
         messages = list(tool._invoke({"content": "<html></html>"}))
 
-        text_msg = messages[1]
-        self.assertIn("http://localhost/files/tools/abc123.html", text_msg.text)
-        self.assertNotIn("api:5001", text_msg.text)
+        var_msg = [m for m in messages if isinstance(m, VariableMessage)][0]
+        self.assertIn("http://localhost/files/tools/abc123.html", var_msg.variable_value)
+        self.assertNotIn("api:5001", var_msg.variable_value)
 
     def test_public_preview_url_used_as_is(self) -> None:
         """When preview_url has a public hostname (e.g. cloud.dify.ai), use it directly."""
@@ -216,8 +238,8 @@ class TestFileWriter(unittest.TestCase):
         tool = self._make_tool(preview_url=preview_url)
         messages = list(tool._invoke({"content": "<html></html>"}))
 
-        text_msg = messages[1]
-        self.assertIn(preview_url, text_msg.text)
+        var_msg = [m for m in messages if isinstance(m, VariableMessage)][0]
+        self.assertIn(preview_url, var_msg.variable_value)
 
     def test_dify_api_internal_host_replaced(self) -> None:
         """Internal Docker hostname 'dify-api' should be replaced with localhost."""
@@ -225,9 +247,9 @@ class TestFileWriter(unittest.TestCase):
         tool = self._make_tool(preview_url=preview_url)
         messages = list(tool._invoke({"content": "<html></html>"}))
 
-        text_msg = messages[1]
-        self.assertIn("http://localhost/files/tools/abc123.html?sign=sig", text_msg.text)
-        self.assertNotIn("dify-api", text_msg.text)
+        var_msg = [m for m in messages if isinstance(m, VariableMessage)][0]
+        self.assertIn("http://localhost/files/tools/abc123.html?sign=sig", var_msg.variable_value)
+        self.assertNotIn("dify-api", var_msg.variable_value)
 
 
 class TestMakeDownloadUrl(unittest.TestCase):

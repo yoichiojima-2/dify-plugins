@@ -80,7 +80,7 @@ class FileWriterTool(Tool):
         except Exception:
             pass  # Upload failure is non-fatal; blob message still provides the file
 
-        # Return blob message for file download (works in non-agent contexts)
+        # Return blob message for file download (works in standalone Tool nodes)
         yield self.create_blob_message(
             blob=content_bytes,
             meta={
@@ -89,13 +89,17 @@ class FileWriterTool(Tool):
             },
         )
 
-        # Return text message with download link if available
+        # Set download link as a variable that bypasses the LLM.
+        # In Agent nodes, text messages get rewritten by the LLM (URLs stripped),
+        # but variable messages flow directly to the agent's output variables.
+        # The Answer node can reference {{#agent.download_link#}} to show the link.
         if download_url:
-            yield self.create_text_message(
-                f"📥 ファイル「{filename}」を作成しました。\n\n"
-                f"[📎 {filename} をダウンロード]({download_url})"
+            yield self.create_variable_message(
+                "download_link",
+                f"\n\n[📎 {filename} をダウンロード]({download_url})",
             )
-        else:
-            yield self.create_text_message(
-                f"ファイル「{filename}」を作成しました。上のファイルアイコンからダウンロードできます。"
-            )
+
+        # Return text message for the LLM to use in its response
+        yield self.create_text_message(
+            f"ファイル「{filename}」を作成しました。"
+        )

@@ -3,16 +3,16 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 開発中_からあげ店長クン_v2026.2.16-6
+  name: 開発中_からあげ店長クン_v2026.2.16-7
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-6@46aeebcd7b85624059e9e5f3454dc41aa6e75046902ee23f9160175c7bb9d9a4
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.16-7@be9e3338e40fbfc5c3daf2b73772f5f66a774f81e38fd726ea0c09775f7e78e9
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
-    version: v2026.2.16-6
+    version: v2026.2.16-7
 kind: app
 version: 0.1.0
 workflow:
@@ -496,7 +496,7 @@ workflow:
       width: 241
     # Answer Node
     - data:
-        answer: '{{#agent.text#}}{{#agent.files#}}'
+        answer: '{{#agent.text#}}{{#agent.download_link#}}'
         selected: false
         title: Answer
         type: answer
