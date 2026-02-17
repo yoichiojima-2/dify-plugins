@@ -1,6 +1,6 @@
 app:
   description: ローソン店舗の売上・シフト・在庫・需要予測をまとめて管理するAIアシスタント
-  icon: 🤖
+  icon: e6d6bb4c-2e70-43e5-8fc8-a3ec54e68cdf
   icon_background: '#FFEAD5'
   mode: agent-chat
   name: 開発中_からあげ店長クン_v2026.2.17
@@ -14,10 +14,10 @@ dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:0.3.0@8515fdb8b5c889502a2b2f0ca1416fc4539891fb464c8ce121fadbef1fef5091
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:0.3.1@3bd2094c0fd6230e73de4cb055502b1c783cdf310929bd7ef9f2480fe6fba6b8
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
-    version: v0.3.0
+    version: v0.3.1
 kind: app
 model_config:
   agent_mode:
@@ -204,7 +204,12 @@ model_config:
         weather: null
       type: builtin
   annotation_reply:
-    enabled: false
+    embedding_model:
+      embedding_model_name: text-embedding-3-large
+      embedding_provider_name: langgenius/openai/openai
+    enabled: true
+    id: 513c28cd-b3b8-4093-a3aa-d26de9c38173
+    score_threshold: 0.9
   chat_prompt_config:
     prompt:
     - role: system
@@ -259,14 +264,15 @@ model_config:
     - .MOV
     - .MPEG
     - .WEBM
-    allowed_file_types: []
+    allowed_file_types:
+    - image
     allowed_file_upload_methods:
     - remote_url
     - local_file
-    enabled: false
+    enabled: true
     image:
       detail: high
-      enabled: false
+      enabled: true
       number_limits: 3
       transfer_methods:
       - remote_url
@@ -832,20 +838,18 @@ model_config:
     enabled: false
   suggested_questions:
   - 今週の売上ダッシュボードを作って
-  - 今日のシフトを確認して
   - 在庫ダッシュボードを作って
   - 今日の天気で需要予測して
   - 天気を見て発注最適化して
-  - シフト表を作って
   - 消費期限が近い商品ある？
+  - 今週のシフトを教えて
   - 田中さんが明日休みになった。交代依頼のLINEを作って
-  - 今週と先週の売上を比較して
   - お客様がレジで怒り出した。どう対応すればいい？
   - MACHI caféの作り方を教えて
   suggested_questions_after_answer:
     enabled: true
   text_to_speech:
-    enabled: false
+    enabled: true
     language: ''
     voice: ''
   user_input_form: []
