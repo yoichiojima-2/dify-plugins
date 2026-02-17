@@ -1,9 +1,9 @@
 app:
   description: ローソン店舗の売上・シフト・在庫・需要予測をまとめて管理するAIアシスタント
-  icon: 076a6844-24f0-46a5-9268-c4e70861e36c
+  icon: 🤖
   icon_background: '#FFEAD5'
   mode: agent-chat
-  name: 開発中_からあげ店長クン_v2026.2.18
+  name: 開発中_からあげ店長クン_v2026.2.17
   use_icon_as_answer_icon: true
 dependencies:
 - current_identifier: null
@@ -14,10 +14,10 @@ dependencies:
 - current_identifier: null
   type: github
   value:
-    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:2026.2.18@PLACEHOLDER
+    github_plugin_unique_identifier: yoichiojima/karaage-tencho-kun:0.3.0@8515fdb8b5c889502a2b2f0ca1416fc4539891fb464c8ce121fadbef1fef5091
     package: karaage-tencho-kun.difypkg
     repo: yoichiojima-2/dify-plugins
-    version: v2026.2.18
+    version: v0.3.0
 kind: app
 model_config:
   agent_mode:
@@ -325,10 +325,10 @@ model_config:
 
     6. **追加提案禁止**: 「追加でできます」「次にできること」「他にご希望は？」は出さない。聞かれたことだけ答える
 
-    7. **シフト変更時は必ずDB更新+overrides**: 「休み」「キャンセル」「交代」の話が出たら、**最初に** shift_manager
-    で UPDATE shifts SET status=''cancelled'' を実行すること。その後 shift_table_generator を呼ぶ際は **必ず overrides パラメータ**で変更内容を渡すこと。
-    例: overrides=''{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}]}''
-    overrides を渡さないとシフト表に変更が反映されない（DB更新はプロセス間で共有されないため）。
+    7. **シフト変更時は必ずDB更新+overrides**: 「休み」「キャンセル」「交代」の話が出たら、**最初に** shift_manager で
+    UPDATE shifts SET status=''cancelled'' を実行すること。その後 shift_table_generator を呼ぶ際は
+    **必ず overrides パラメータ**で変更内容を渡すこと。 例: overrides=''{"cancelled": [{"staff_id": "tanaka",
+    "date": "2026-02-17"}]}'' overrides を渡さないとシフト表に変更が反映されない（DB更新はプロセス間で共有されないため）。
 
 
     ## ナレッジベース（RAG）
@@ -395,15 +395,17 @@ model_config:
 
     ステップ1: shift_manager で UPDATE を実行（これが最優先。1回のツール呼び出しで1つのSQLのみ）
 
-    例: UPDATE shifts SET status = ''cancelled'', cancelled_at = NOW(), cancel_reason = ''休み希望''
-    WHERE staff_id = ''tanaka'' AND date = CURRENT_DATE + 1 AND status = ''confirmed''
+    例: UPDATE shifts SET status = ''cancelled'', cancelled_at = NOW(), cancel_reason
+    = ''休み希望'' WHERE staff_id = ''tanaka'' AND date = CURRENT_DATE + 1 AND status
+    = ''confirmed''
 
     ステップ2: shift_table_generator で更新後のシフトデータを再取得。**必ず overrides パラメータで変更内容を渡す**
 
     例: overrides=''{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}]}''
 
-    交代者追加の場合: overrides=''{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}], "added":
-    [{"staff_id": "kobayashi", "name": "小林花子", "date": "2026-02-17", "start": "06:00", "end": "15:00"}]}''
+    交代者追加の場合: overrides=''{"cancelled": [{"staff_id": "tanaka", "date": "2026-02-17"}],
+    "added": [{"staff_id": "kobayashi", "name": "小林花子", "date": "2026-02-17", "start":
+    "06:00", "end": "15:00"}]}''
 
     ステップ3: 必要に応じて line_composer で交代依頼メッセージを作成
 
@@ -615,8 +617,8 @@ model_config:
 
     #### order_optimizer（発注最適化）
 
-    天気ベースの需要予測と在庫レベルを統合して、最適な発注数量を推奨するツール。
-    inventory_manager の order_recommendation は在庫レベルのみで判断するが、このツールは需要予測を加味する。
+    天気ベースの需要予測と在庫レベルを統合して、最適な発注数量を推奨するツール。 inventory_manager の order_recommendation
+    は在庫レベルのみで判断するが、このツールは需要予測を加味する。
 
 
     **パラメータ:**
@@ -689,8 +691,8 @@ model_config:
 
     - 「シフトを確認して」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
 
-    - 「シフトを変更してLINEを作って」→ shift_manager(変更) → shift_table_generator(overridesで変更反映) → dashboard_template(shift_table)
-    → HTML出力 + line_composer
+    - 「シフトを変更してLINEを作って」→ shift_manager(変更) → shift_table_generator(overridesで変更反映)
+    → dashboard_template(shift_table) → HTML出力 + line_composer
 
     - 「シフト表を作って」→ shift_table_generator → dashboard_template(shift_table) → HTMLを置換して出力
 
