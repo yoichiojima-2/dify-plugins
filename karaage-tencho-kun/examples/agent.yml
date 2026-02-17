@@ -228,9 +228,6 @@ model_config:
           id: 3d1fb58f-d8cd-44cc-b6a6-e28251b22ca6
       - dataset:
           enabled: true
-          id: a5e7883e-5d2e-402e-bc17-351a5378838e
-      - dataset:
-          enabled: true
           id: 4e7f08f1-0e4e-46c3-b4f4-51cc1e16b73a
       - dataset:
           enabled: true
