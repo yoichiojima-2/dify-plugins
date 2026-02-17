@@ -15,7 +15,6 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
 from tools.datetime_utils import JST, parse_expires_at
-from tools.demand_forecast import DemandForecastTool
 from tools.inventory_manager import _db as _inv_db
 
 
@@ -115,6 +114,11 @@ class OrderOptimizerTool(Tool):
         Returns:
             (予測結果リスト, 天気警告メッセージまたはNone)
         """
+        # NOTE: DemandForecastTool を遅延インポート。
+        # モジュールレベルでインポートすると Dify の class_loader が
+        # このファイル内で Tool サブクラスを2つ検出して起動に失敗する。
+        from tools.demand_forecast import DemandForecastTool
+
         forecast_tool = object.__new__(DemandForecastTool)
         return forecast_tool._predict(
             weather=weather,
