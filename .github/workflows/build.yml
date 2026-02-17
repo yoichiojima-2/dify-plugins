@@ -59,7 +59,9 @@ jobs:
           git commit -m "chore: update chatflow.yml to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
           git push
 
-      - name: Upload release asset
+      - name: Upload release assets
         uses: softprops/action-gh-release@v2
         with:
-          files: build/karaage-tencho-kun.difypkg
+          files: |
+            build/karaage-tencho-kun.difypkg
+            karaage-tencho-kun/examples/agent.yml
