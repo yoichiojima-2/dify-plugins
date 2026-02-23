@@ -28,5 +28,5 @@ build/
 .DS_Store
 Thumbs.db
 
-# Test plugins (remove this line if you want to track)
-my-first-plugin/
+demos
+node_modules
