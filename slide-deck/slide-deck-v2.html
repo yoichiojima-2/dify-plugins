@@ -40,7 +40,7 @@
       background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px;
     }
     .card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-    .card-desc { font-size: 12px; color: var(--text-light); line-height: 1.5; }
+    .card-desc { font-size: 12px; color: var(--text-light); line-height: 1.6; }
     .note {
       font-size: 12px; color: var(--text-light); line-height: 1.6;
       padding: 12px 16px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px;
@@ -71,147 +71,144 @@
   <div class="pn" style="color: rgba(255,255,255,0.4);">1 / 11</div>
 </div>
 
-<!-- ===== 2. 課題 ===== -->
+<!-- ===== 2. 作ったもの ===== -->
 <div class="slide" style="padding: 44px 56px;">
-  <div class="sec">01 — 課題</div>
-  <div class="h2">店長の「質」で店舗の業績が変わる</div>
+  <div class="sec">01 — 作ったもの</div>
+  <div class="h2">コンビニ店長の業務をエージェントが代わりに実行する</div>
 
-  <div style="display: flex; gap: 16px; margin-bottom: 22px;">
-    <div style="flex: 1; background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fecaca; border-radius: 12px; padding: 22px 24px;">
-      <div style="font-size: 13px; color: #991b1b; font-weight: 500; margin-bottom: 4px;">1店舗あたりの年間廃棄額</div>
-      <div style="font-size: 36px; font-weight: 800; color: #dc2626; line-height: 1;">468万円</div>
-    </div>
-    <div style="flex: 1; background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fecaca; border-radius: 12px; padding: 22px 24px;">
-      <div style="font-size: 13px; color: #991b1b; font-weight: 500; margin-bottom: 4px;">全国コンビニ店舗数</div>
-      <div style="font-size: 36px; font-weight: 800; color: #dc2626; line-height: 1;">56,000店</div>
-      <div style="font-size: 12px; color: #991b1b; margin-top: 6px;">廃棄だけで業界全体 数千億円規模</div>
+  <div style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1px solid #a7f3d0; border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+    <img src="karaage-tencho-kun/_assets/icon.webp" alt="" style="width: 44px; height: 44px; object-fit: contain;">
+    <div>
+      <div style="font-size: 16px; font-weight: 700; color: #065f46;">からあげ店長クン = Difyエージェント + 13の業務ツール</div>
+      <div style="font-size: 13px; color: #047857; margin-top: 2px;">チャットで指示すると、ツールを自分で選んで業務を実行し、成果物を返す</div>
     </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-    <div class="card">
-      <div class="card-title">ノウハウの属人化</div>
-      <div class="card-desc">「雨の日はおでんが売れる」——こういう判断がベテランの頭の中にしかない</div>
+  <div style="display: grid; grid-template-columns: 1fr 36px 1fr; align-items: stretch;">
+    <div style="background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px; padding: 22px;">
+      <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 14px;">普通のチャットボット</div>
+      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0; border-bottom: 1px solid var(--border);">「シフト表の作り方はこうです」と<strong>説明する</strong></div>
+      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0; border-bottom: 1px solid var(--border);">「天気を見て発注調整しましょう」と<strong>助言する</strong></div>
+      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0;">「クレーム対応は落ち着いて」と<strong>教える</strong></div>
     </div>
-    <div class="card">
-      <div class="card-title">店舗間の業績差</div>
-      <div class="card-desc">同じ立地・同じ品揃えでも、店長の判断で売上と廃棄に差が出る</div>
-    </div>
-    <div class="card">
-      <div class="card-title">新人の立ち上がり</div>
-      <div class="card-desc">一人前になるまで数ヶ月。その間のミスが廃棄と機会損失に直結する</div>
-    </div>
-    <div class="card">
-      <div class="card-title">施策が現場に届かない</div>
-      <div class="card-desc">本部が「天気を見て発注調整を」と言っても、やり方がわからず終わる</div>
+    <div style="display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-muted);">→</div>
+    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 22px;">
+      <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: var(--blue-dark); margin-bottom: 14px;">からあげ店長クン</div>
+      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0; border-bottom: 1px solid #bae6fd;">シフト表を<strong>作成して渡す</strong></div>
+      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0; border-bottom: 1px solid #bae6fd;">天気を取得し、発注数を<strong>計算して提示する</strong></div>
+      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0;">状況に応じた対応手順を<strong>その場で出力する</strong></div>
     </div>
   </div>
 
   <div class="pn">2 / 11</div>
 </div>
 
-<!-- ===== 3. アプローチ ===== -->
+<!-- ===== 3. エージェントとは ===== -->
 <div class="slide" style="padding: 44px 56px;">
-  <div class="sec">02 — アプローチ</div>
-  <div class="h2">「教える」AIから「実行する」AIへ</div>
+  <div class="sec">02 — エージェントとは</div>
+  <div class="h2">チャットフローとの違い：ツールを自分で選ぶ</div>
 
-  <div style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1px solid #a7f3d0; border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 22px;">
-    <img src="karaage-tencho-kun/_assets/icon.webp" alt="" style="width: 44px; height: 44px; object-fit: contain;">
-    <div>
-      <div style="font-size: 18px; font-weight: 700; color: #065f46;">からあげ店長クン</div>
-      <div style="font-size: 13px; color: #047857;">店長が話しかけると、業務の成果物をそのまま返すDifyエージェント</div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
+    <div style="background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px; padding: 22px;">
+      <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 14px;">チャットフロー（固定手順）</div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+        <div style="background: var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12px;">入力</div>
+        <span style="color: var(--text-muted);">→</span>
+        <div style="background: var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12px;">処理A</div>
+        <span style="color: var(--text-muted);">→</span>
+        <div style="background: var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12px;">処理B</div>
+        <span style="color: var(--text-muted);">→</span>
+        <div style="background: var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12px;">出力</div>
+      </div>
+      <div style="font-size: 12px; color: var(--text-light); line-height: 1.6; margin-top: 10px;">手順が最初から決まっている。想定外の依頼には対応できない</div>
+    </div>
+    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 22px;">
+      <div style="font-size: 12px; font-weight: 600; color: var(--blue-dark); letter-spacing: 0.5px; margin-bottom: 14px;">エージェント（動的ツール選択）</div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+        <div style="background: #dbeafe; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: var(--blue-dark);">入力</div>
+        <span style="color: var(--blue);">→</span>
+        <div style="background: #dbeafe; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: var(--blue-dark); font-weight: 600;">LLMが判断</div>
+        <span style="color: var(--blue);">→</span>
+        <div style="background: #dbeafe; border-radius: 6px; padding: 6px 10px; font-size: 11px; color: var(--blue-dark);">ツールX → Y → Z</div>
+        <span style="color: var(--blue);">→</span>
+        <div style="background: #dbeafe; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: var(--blue-dark);">出力</div>
+      </div>
+      <div style="font-size: 12px; color: var(--text-light); line-height: 1.6; margin-top: 10px;">依頼の内容を見て、どのツールを使うかをLLMがその場で決める</div>
     </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: 1fr 36px 1fr; align-items: stretch;">
-    <div style="background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px; padding: 22px;">
-      <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 14px;">従来のチャットボット</div>
-      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0; border-bottom: 1px solid var(--border);">「シフト表の作り方はこうです」と<strong>説明</strong></div>
-      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0; border-bottom: 1px solid var(--border);">「天気に応じて発注を調整しましょう」と<strong>助言</strong></div>
-      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0;">「クレーム対応は落ち着いて」と<strong>教える</strong></div>
-    </div>
-    <div style="display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-muted);">→</div>
-    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 22px;">
-      <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: var(--blue-dark); margin-bottom: 14px;">からあげ店長クン</div>
-      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0; border-bottom: 1px solid #bae6fd;">シフト表を作成して渡す</div>
-      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0; border-bottom: 1px solid #bae6fd;">天気を取得し、発注数を計算して提示する</div>
-      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0;">状況に応じた対応手順をその場で出力する</div>
-    </div>
+  <div class="note">
+    ただし、エージェントが「使えるツール」を持っていないと何もできない。今回は<strong>実際に動く13個の業務ツール</strong>をプラグインとして実装し、エージェントが本当に業務を実行できる状態を作った。ここがこのプラグインのポイント。
   </div>
 
   <div class="pn">3 / 11</div>
 </div>
 
-<!-- ===== 4. 技術構成 ===== -->
+<!-- ===== 4. ツール構成 ===== -->
 <div class="slide" style="padding: 40px 56px;">
-  <div class="sec">03 — 技術構成</div>
-  <div class="h2">エージェントが依頼に応じてツールを自律選択・実行</div>
+  <div class="sec">03 — ツール構成</div>
+  <div class="h2">エージェントが使える13のツール</div>
 
-  <div style="display: flex; gap: 24px; align-items: stretch;">
-    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
-      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; flex: 1;">
-        <div style="width: 26px; height: 26px; background: var(--blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;">1</div>
-        <div><strong>自然言語で依頼</strong><span style="color: var(--text-light); font-size: 12px; margin-left: 8px;">チャットに日本語で入力</span></div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; flex: 1;">
-        <div style="width: 26px; height: 26px; background: var(--blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;">2</div>
-        <div><strong>LLMがツールを選択</strong><span style="color: var(--text-light); font-size: 12px; margin-left: 8px;">13ツールから必要なものを判断</span></div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; flex: 1;">
-        <div style="width: 26px; height: 26px; background: var(--blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;">3</div>
-        <div><strong>連鎖実行</strong><span style="color: var(--text-light); font-size: 12px; margin-left: 8px;">DuckDB / RandomForest / Open-Meteo</span></div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; flex: 1;">
-        <div style="width: 26px; height: 26px; background: var(--blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;">4</div>
-        <div><strong>成果物を返す</strong><span style="color: var(--text-light); font-size: 12px; margin-left: 8px;">HTML / シフト表 / LINE文</span></div>
-      </div>
-      <div class="note" style="margin-top: 4px;">
-        チャットフローと違い、手順は固定されない。依頼の内容に応じてツールの組み合わせが変わる。
-      </div>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;">
+    <div class="card">
+      <div class="card-title">売上分析・ダッシュボード</div>
+      <div class="card-desc">sales_analytics / dashboard_generator / dashboard_template<br>KPI集計→インラインHTML描画まで</div>
     </div>
-    <div class="ph" style="width: 380px;">
-      <div style="font-weight: 600;">Dify Studio画面</div>
-      <div style="font-size: 12px; margin-top: 4px;">エージェント設定のツール一覧</div>
+    <div class="card">
+      <div class="card-title">シフト管理</div>
+      <div class="card-desc">shift_manager / shift_optimizer / shift_table_generator<br>CRUD・最適化・表生成</div>
     </div>
+    <div class="card">
+      <div class="card-title">需要予測・発注</div>
+      <div class="card-desc">hourly_weather + demand_forecast + order_optimizer<br>天気×RandomForest→発注数算出</div>
+    </div>
+    <div class="card">
+      <div class="card-title">在庫管理</div>
+      <div class="card-desc">inventory_manager<br>在庫レベル・消費期限アラート・不足検知</div>
+    </div>
+    <div class="card">
+      <div class="card-title">LINE連絡・商品情報</div>
+      <div class="card-desc">line_composer / lawson_items<br>テンプレート連絡文・商品カタログ検索</div>
+    </div>
+    <div class="card">
+      <div class="card-title">共通基盤</div>
+      <div class="card-desc">datetime_utils / db_utils / data_loader<br>JST変換・DuckDB接続・JSONキャッシュ</div>
+    </div>
+  </div>
+
+  <div class="note">
+    すべてDuckDB（インメモリ）で動作。外部APIは天気（Open-Meteo、無料・キー不要）のみ。理由は次のスライドで。
   </div>
 
   <div class="pn">4 / 11</div>
 </div>
 
-<!-- ===== 5. 機能一覧 ===== -->
+<!-- ===== 5. 環境制約と対応 ===== -->
 <div class="slide" style="padding: 40px 56px;">
-  <div class="sec">04 — ツール構成</div>
-  <div class="h2">13ツール、すべて単一プラグインに統合</div>
+  <div class="sec">04 — 環境制約と対応</div>
+  <div class="h2">Dify Cloud上の制約にどう対応したか</div>
 
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
     <div class="card">
-      <div class="card-title">売上分析・ダッシュボード</div>
-      <div class="card-desc">sales_analytics / dashboard_generator / dashboard_template — KPI集計からインラインHTML生成まで</div>
+      <div class="card-title">ファイルシステムが読み取り専用</div>
+      <div class="card-desc">SQLiteやCSVへの書き込みができない。DuckDBのインメモリモードを使い、起動時にスキーマ作成＋シードデータ投入で対応した</div>
     </div>
     <div class="card">
-      <div class="card-title">シフト管理</div>
-      <div class="card-desc">shift_manager / shift_optimizer / shift_table_generator — CRUD・最適化・表生成</div>
+      <div class="card-title">外部APIへの依存を最小限に</div>
+      <div class="card-desc">APIキーの設定が必要になると、インストール後すぐ動かない。天気だけはリアルタイム性が必要なのでOpen-Meteo（無料・キー不要）を使い、他は全部内蔵した</div>
     </div>
     <div class="card">
-      <div class="card-title">需要予測・発注</div>
-      <div class="card-desc">hourly_weather + demand_forecast (RandomForest) + order_optimizer — 天気連動の発注数算出</div>
+      <div class="card-title">プラグイン間の連携が難しい</div>
+      <div class="card-desc">別のプラグインのツールとデータをやり取りする手段がない。13ツールを1つのプラグインにまとめて、DuckDB接続やJSONキャッシュを共有する構成にした</div>
     </div>
     <div class="card">
-      <div class="card-title">在庫管理</div>
-      <div class="card-desc">inventory_manager — 在庫レベル管理・消費期限アラート・不足検知</div>
-    </div>
-    <div class="card">
-      <div class="card-title">LINE連絡・商品情報</div>
-      <div class="card-desc">line_composer / lawson_items — テンプレート連絡文生成・商品カタログ検索</div>
-    </div>
-    <div class="card">
-      <div class="card-title">共通基盤</div>
-      <div class="card-desc">datetime_utils / db_utils / data_loader — JST変換・DuckDB接続・JSONキャッシュ</div>
+      <div class="card-title">エージェントノードのファイル出力制限</div>
+      <div class="card-desc">create_blob_messageが転送されないDifyのバグがある。ファイルダウンロードを諦め、チャット内にHTMLを直接描画する方式に切り替えた</div>
     </div>
   </div>
 
-  <div class="note" style="margin-top: 12px;">
-    外部API依存は天気（Open-Meteo、無料）のみ。データはすべてインメモリ（DuckDB）で処理。Dify Cloudでもセルフホストでも動く。
+  <div class="note">
+    これらの制約の中で、エージェントが実際に動くツールを持って業務を実行する——その姿を見せたかった。
   </div>
 
   <div class="pn">5 / 11</div>
@@ -228,12 +225,12 @@
         「今週の売上ダッシュボードを作って」
       </div>
       <div style="flex: 1; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 10px;">ツール呼び出し</div>
+        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 10px;">エージェントが選んだツール</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">① sales_analytics → 今週分データ取得</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">② dashboard_generator → KPI集計</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0;">③ dashboard_template → インラインHTML生成</div>
       </div>
-      <div class="note">チャット画面にグラフ付きダッシュボードがそのまま表示される</div>
+      <div class="note">3ツールを連鎖実行。チャット画面にグラフ付きダッシュボードが直接表示される</div>
     </div>
     <div class="ph" style="flex: 1;">
       <div style="font-weight: 600;">実行結果のスクリーンショット</div>
@@ -253,13 +250,13 @@
         「天気を見て明日の発注を最適化して」
       </div>
       <div style="flex: 1; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 10px;">ツール呼び出し（4ツール連鎖）</div>
+        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 10px;">エージェントが選んだツール（4つ連鎖）</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">① hourly_weather → 明日の天気・気温取得</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">② demand_forecast → RandomForestで需要予測</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">③ inventory_manager → 現在庫と発注点を確認</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0;">④ order_optimizer → 推奨発注数を算出</div>
       </div>
-      <div class="note">4つのツールをLLMが自律的に連鎖実行する</div>
+      <div class="note">この組み合わせはエージェントが判断した結果。別の聞き方をすれば別のツールが選ばれる</div>
     </div>
     <div class="ph" style="flex: 1;">
       <div style="font-weight: 600;">実行結果のスクリーンショット</div>
@@ -279,7 +276,7 @@
         「田中さんが明日休みになった。シフトを更新してLINEの交代依頼文も作って」
       </div>
       <div style="flex: 1; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 10px;">ツール呼び出し（4ステップ）</div>
+        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 10px;">エージェントが選んだツール（4ステップ）</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">① shift_manager → シフトDBを更新</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">② shift_optimizer → 代替スタッフ検索</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">③ shift_table_generator → シフト表再生成</div>
@@ -293,32 +290,39 @@
   <div class="pn">8 / 11</div>
 </div>
 
-<!-- ===== 9. 設計思想 ===== -->
-<div class="slide" style="padding: 40px 56px;">
-  <div class="sec">08 — 設計思想</div>
-  <div class="h2">なぜこう作ったか</div>
+<!-- ===== 9. 対象業務の背景 ===== -->
+<div class="slide" style="padding: 44px 56px;">
+  <div class="sec">08 — なぜコンビニ店長か</div>
+  <div class="h2">業務が広く、属人化しやすく、判断ミスのコストが高い</div>
 
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
-    <div class="card">
-      <div class="card-title">チャットフローではなくエージェント</div>
-      <div class="card-desc">店長の依頼は毎回違う。「シフト作って」と「天気見て発注して」と「田中さんが休みだからLINEも」では使うツールが全部違う。固定フローでは対応しきれないのでエージェントモードを採用した</div>
+  <div style="display: flex; gap: 16px; margin-bottom: 18px;">
+    <div style="flex: 1; background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fecaca; border-radius: 12px; padding: 22px 24px;">
+      <div style="font-size: 13px; color: #991b1b; font-weight: 500; margin-bottom: 4px;">1店舗あたりの年間廃棄額</div>
+      <div style="font-size: 36px; font-weight: 800; color: #dc2626; line-height: 1;">468万円</div>
     </div>
-    <div class="card">
-      <div class="card-title">13ツールを1プラグインに</div>
-      <div class="card-desc">依存関係を増やしたくなかった。別々のプラグインにすると管理が煩雑になるし、ツール間でデータ共有ができない。DuckDBの接続もJSONのキャッシュもプラグイン内で完結させた</div>
-    </div>
-    <div class="card">
-      <div class="card-title">インメモリDB（DuckDB）</div>
-      <div class="card-desc">Dify Cloudは読み取り専用ファイルシステム。外部DBに依存すると環境構築のハードルが上がる。DuckDBならプラグイン起動時にメモリ上にスキーマを作るだけで動く</div>
-    </div>
-    <div class="card">
-      <div class="card-title">外部API依存の最小化</div>
-      <div class="card-desc">APIキーの設定が必要になると使ってもらえない。天気だけはリアルタイム性が必要なのでOpen-Meteo（無料・キー不要）を使い、他のデータはすべて内蔵した</div>
+    <div style="flex: 1; background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fecaca; border-radius: 12px; padding: 22px 24px;">
+      <div style="font-size: 13px; color: #991b1b; font-weight: 500; margin-bottom: 4px;">全国コンビニ店舗数</div>
+      <div style="font-size: 36px; font-weight: 800; color: #dc2626; line-height: 1;">56,000店</div>
     </div>
   </div>
 
-  <div class="note">
-    ユニットテスト107件。ツールごとにテストを書いているので、機能追加やリファクタリングのときに壊れたらすぐわかる。
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+    <div class="card">
+      <div class="card-title">発注判断が経験頼り</div>
+      <div class="card-desc">「雨の日はおでんが売れる」「この時間帯は弁当が動く」——ベテランの頭の中にしかないノウハウで回っている</div>
+    </div>
+    <div class="card">
+      <div class="card-title">店長が変わると業績が変わる</div>
+      <div class="card-desc">同じ立地・品揃えでも、店長の判断力次第で売上や廃棄率に差が出る。業務が属人化している証拠</div>
+    </div>
+    <div class="card">
+      <div class="card-title">新人がすぐに回せない</div>
+      <div class="card-desc">発注・シフト・在庫・クレーム対応を同時にこなす必要がある。一人前になるまでのミスが直接ロスになる</div>
+    </div>
+    <div class="card">
+      <div class="card-title">本部の施策が実行されない</div>
+      <div class="card-desc">「天気を見て発注を調整して」と言われても、具体的にどう数字を変えればいいかわからない</div>
+    </div>
   </div>
 
   <div class="pn">9 / 11</div>
@@ -332,11 +336,11 @@
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
     <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 18px 20px;">
       <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">何をするか</div>
-      <div style="font-size: 13px; opacity: 0.9; line-height: 1.6;">コンビニ店長の日常業務——売上分析、シフト管理、需要予測、在庫管理、連絡文作成——をDifyエージェントが自然言語の指示で実行する</div>
+      <div style="font-size: 13px; opacity: 0.9; line-height: 1.6;">コンビニ店長の業務を、Difyエージェントが自然言語の指示で実行する。売上分析、シフト管理、需要予測、在庫管理、LINE連絡文まで13ツールで対応</div>
     </div>
     <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 18px 20px;">
-      <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">なぜ価値があるか</div>
-      <div style="font-size: 13px; opacity: 0.9; line-height: 1.6;">ベテランの暗黙知に頼っていた発注判断やオペレーションを、誰が店長でも一定の品質で回せるようにする。業務の平準化と高度化を同時に狙う</div>
+      <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">何を見せたかったか</div>
+      <div style="font-size: 13px; opacity: 0.9; line-height: 1.6;">エージェントが実際に動くツールを持っていれば、業務を本当に代行できること。固定フローではなく、依頼に応じてツールを選ぶのがエージェントの強み</div>
     </div>
   </div>
 
@@ -344,17 +348,17 @@
     <div style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 16px 18px; font-size: 12px; line-height: 1.8;">
       <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px; opacity: 0.6; margin-bottom: 6px;">技術構成</div>
       <div>Dify Agent Mode + 13ツール</div>
-      <div>DuckDB（インメモリDB）</div>
+      <div>DuckDB（インメモリ）</div>
       <div>RandomForest（需要予測）</div>
-      <div>Open-Meteo（天気API）</div>
+      <div>Open-Meteo（天気）</div>
       <div>インラインHTML描画</div>
     </div>
     <div style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 16px 18px; font-size: 12px; line-height: 1.8;">
-      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px; opacity: 0.6; margin-bottom: 6px;">設計方針</div>
-      <div>外部API依存の最小化</div>
-      <div>Cloud / セルフホスト両対応</div>
-      <div>ファイルシステム書き込み不要</div>
-      <div>GitHubから直接インストール</div>
+      <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px; opacity: 0.6; margin-bottom: 6px;">環境制約への対応</div>
+      <div>読み取り専用FS → インメモリDB</div>
+      <div>API依存最小化 → 天気のみ</div>
+      <div>プラグイン間連携不可 → 単一プラグイン</div>
+      <div>ファイル出力バグ → HTML直接描画</div>
       <div>テスト107件</div>
     </div>
   </div>
