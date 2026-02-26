@@ -298,58 +298,78 @@
 </div>
 
 <!-- ===== 4. ツール構成 ===== -->
-<div class="slide" style="padding: 48px 60px;">
+<div class="slide" style="padding: 44px 60px; display: flex; flex-direction: column;">
   <div class="sec">04 — ツール構成</div>
-  <div class="h2" style="display: flex; align-items: center; gap: 12px;">
-    <img src="../karaage-tencho-kun/_assets/icon.webp" alt="" style="width: 30px; height: 30px; object-fit: contain;">
-    エージェントが使える13のツール
+  <div class="h2" style="margin-bottom: 14px;">エージェントが使える<span style="color: var(--orange-dark);">13</span>のツール</div>
+
+  <!-- Unified 3-col grid -->
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1;">
+    <!-- 売上・ダッシュボード -->
+    <div style="border-radius: 10px; overflow: hidden; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid rgba(217,119,6,0.1);">
+      <div style="background: linear-gradient(135deg, #b45309, #d97706); padding: 9px 14px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="color: white; font-weight: 700; font-size: 13px;">売上・ダッシュボード</span>
+        <span style="background: rgba(255,255,255,0.2); color: white; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">3</span>
+      </div>
+      <div style="padding: 8px 14px;">
+        <div style="padding: 4px 0; border-bottom: 1px solid #f5f0eb;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">sales_analytics</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">売上DBからデータを集計・分析</div></div>
+        <div style="padding: 4px 0; border-bottom: 1px solid #f5f0eb;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">dashboard_generator</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">グラフ付きHTMLレポートを生成</div></div>
+        <div style="padding: 4px 0;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">dashboard_template</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">ダッシュボードのテンプレートを管理</div></div>
+      </div>
+    </div>
+    <!-- 需要予測・発注 -->
+    <div style="border-radius: 10px; overflow: hidden; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid rgba(217,119,6,0.1);">
+      <div style="background: linear-gradient(135deg, #b45309, #d97706); padding: 9px 14px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="color: white; font-weight: 700; font-size: 13px;">需要予測・発注</span>
+        <span style="background: rgba(255,255,255,0.2); color: white; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">3</span>
+      </div>
+      <div style="padding: 8px 14px;">
+        <div style="padding: 4px 0; border-bottom: 1px solid #f5f0eb;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">hourly_weather</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">天気予報を取得</div></div>
+        <div style="padding: 4px 0; border-bottom: 1px solid #f5f0eb;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">demand_forecast</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">天気×過去売上でRandomForest需要予測</div></div>
+        <div style="padding: 4px 0;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">order_optimizer</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">需要予測と在庫から発注推奨数を算出</div></div>
+      </div>
+    </div>
+    <!-- シフト・LINE連絡 -->
+    <div style="border-radius: 10px; overflow: hidden; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid rgba(217,119,6,0.1);">
+      <div style="background: linear-gradient(135deg, #b45309, #d97706); padding: 9px 14px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="color: white; font-weight: 700; font-size: 13px;">シフト・LINE連絡</span>
+        <span style="background: rgba(255,255,255,0.2); color: white; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">4</span>
+      </div>
+      <div style="padding: 8px 14px;">
+        <div style="padding: 4px 0; border-bottom: 1px solid #f5f0eb;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">shift_manager</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">シフトの登録・更新・削除</div></div>
+        <div style="padding: 4px 0; border-bottom: 1px solid #f5f0eb;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">shift_optimizer</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">条件に合う代替スタッフを検索</div></div>
+        <div style="padding: 4px 0; border-bottom: 1px solid #f5f0eb;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">shift_table_generator</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">HTML形式のシフト表を生成</div></div>
+        <div style="padding: 4px 0;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #92400e; font-weight: 600;">line_composer</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">LINE交代依頼・連絡文を自動生成</div></div>
+      </div>
+    </div>
+    <!-- 在庫管理 (1 col) -->
+    <div style="border-radius: 10px; overflow: hidden; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid rgba(0,91,172,0.1);">
+      <div style="background: linear-gradient(135deg, #004a8c, #005bac); padding: 9px 14px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="color: white; font-weight: 700; font-size: 13px;">在庫管理</span>
+        <span style="background: rgba(255,255,255,0.2); color: white; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">1</span>
+      </div>
+      <div style="padding: 8px 14px;">
+        <div style="padding: 4px 0;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #004a8c; font-weight: 600;">inventory_manager</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">在庫状況の確認・消費期限切れ商品の検索</div></div>
+      </div>
+    </div>
+    <!-- 商品情報・基盤 (span 2 cols) -->
+    <div style="grid-column: span 2; border-radius: 10px; overflow: hidden; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid rgba(0,91,172,0.1);">
+      <div style="background: linear-gradient(135deg, #004a8c, #005bac); padding: 9px 14px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="color: white; font-weight: 700; font-size: 13px;">商品情報・共通基盤</span>
+        <span style="background: rgba(255,255,255,0.2); color: white; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">2</span>
+      </div>
+      <div style="padding: 8px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px;">
+        <div style="padding: 4px 0;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #004a8c; font-weight: 600;">lawson_items</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">ローソン商品マスタから商品データを参照</div></div>
+        <div style="padding: 4px 0;"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #004a8c; font-weight: 600;">datetime_utils</div><div style="font-size: 10.5px; color: var(--text-light); margin-top: 1px;">日時の計算・フォーマット処理</div></div>
+      </div>
+    </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-    <div class="card" style="border-left: 3px solid var(--orange);">
-      <div class="card-title">売上・ダッシュボード</div>
-      <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
-        <span class="tool-name">sales_analytics</span>
-        <span class="tool-name">dashboard_generator</span>
-        <span class="tool-name">dashboard_template</span>
-      </div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--orange);">
-      <div class="card-title">シフト管理</div>
-      <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
-        <span class="tool-name">shift_manager</span>
-        <span class="tool-name">shift_optimizer</span>
-        <span class="tool-name">shift_table_generator</span>
-      </div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--orange);">
-      <div class="card-title">需要予測・発注</div>
-      <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
-        <span class="tool-name">hourly_weather</span>
-        <span class="tool-name">demand_forecast</span>
-        <span class="tool-name">order_optimizer</span>
-      </div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--blue-muted);">
-      <div class="card-title">在庫管理</div>
-      <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
-        <span class="tool-name">inventory_manager</span>
-      </div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--blue-muted);">
-      <div class="card-title">LINE連絡</div>
-      <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
-        <span class="tool-name">line_composer</span>
-      </div>
-    </div>
-    <div class="card" style="border-left: 3px solid var(--blue-muted);">
-      <div class="card-title">商品情報・基盤</div>
-      <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
-        <span class="tool-name">lawson_items</span>
-        <span class="tool-name">datetime_utils</span>
-        <span class="tool-name">db_utils / data_loader</span>
-      </div>
-    </div>
+  <!-- Tech footer -->
+  <div style="display: flex; gap: 20px; justify-content: center; padding-top: 14px;">
+    <span style="font-size: 11px; color: var(--text-muted);">DuckDB インメモリ</span>
+    <span style="font-size: 11px; color: var(--text-muted);">RandomForest 需要予測</span>
+    <span style="font-size: 11px; color: var(--text-muted);">Open-Meteo API</span>
+    <span style="font-size: 11px; color: var(--text-muted);">インラインHTML描画</span>
   </div>
 
   <div class="pn">5 / 10</div>
@@ -361,15 +381,51 @@
   <div class="h2">売上ダッシュボード生成</div>
 
   <div style="display: flex; gap: 28px; align-items: stretch; height: 400px;">
-    <div style="width: 380px; display: flex; flex-direction: column; gap: 16px;">
-      <div style="background: var(--primary); color: white; padding: 20px 22px; border-radius: 8px; font-size: 17px; font-weight: 500; line-height: 1.5; border-left: 4px solid var(--orange);">
+    <div style="width: 380px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="background: var(--primary); color: white; padding: 18px 22px; border-radius: 8px; font-size: 17px; font-weight: 500; line-height: 1.5; border-left: 4px solid var(--orange);">
         「今週の売上ダッシュボードを作って」
       </div>
-      <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px;">
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px;">TOOL CHAIN</div>
-        <div class="step-item"><span class="step-num">01</span><span class="tool-name">sales_analytics</span></div>
-        <div class="step-item"><span class="step-num">02</span><span class="tool-name">dashboard_generator</span></div>
-        <div class="step-item" style="border-bottom: none;"><span class="step-num">03</span><span class="tool-name">dashboard_template</span></div>
+      <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">THINK → ACT → OBSERVE</div>
+        <!-- Cycle 1 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #d97706; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 11px; color: var(--text-light);">売上データを集計する</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #005bac; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 11px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">sales_analytics</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0; margin-bottom: 6px;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #57534e; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 11px; color: var(--text-light);">週間売上データ取得</div>
+        </div>
+        <!-- Cycle 2 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #d97706; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 11px; color: var(--text-light);">ダッシュボードを生成</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #005bac; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 11px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">dashboard_generator</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0; margin-bottom: 6px;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #57534e; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 11px; color: var(--text-light);">HTMLレポート完成</div>
+        </div>
+        <!-- Cycle 3 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #d97706; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 11px; color: var(--text-light);">テンプレートで装飾</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #005bac; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 11px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">dashboard_template</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 3px 0;">
+          <div style="width: 18px; height: 18px; border-radius: 50%; background: #57534e; color: white; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 11px; color: var(--text-light);">グラフ付きダッシュボード → 出力</div>
+        </div>
       </div>
     </div>
     <div style="flex: 1; background: var(--primary); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; position: relative; overflow: hidden;">
@@ -390,16 +446,64 @@
   <div class="h2">天気連動の発注最適化</div>
 
   <div style="display: flex; gap: 28px; align-items: stretch; height: 400px;">
-    <div style="width: 380px; display: flex; flex-direction: column; gap: 16px;">
-      <div style="background: var(--primary); color: white; padding: 20px 22px; border-radius: 8px; font-size: 17px; font-weight: 500; line-height: 1.5; border-left: 4px solid var(--orange);">
+    <div style="width: 380px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="background: var(--primary); color: white; padding: 18px 22px; border-radius: 8px; font-size: 17px; font-weight: 500; line-height: 1.5; border-left: 4px solid var(--orange);">
         「天気を見て明日の発注を最適化して」
       </div>
-      <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px;">
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px;">TOOL CHAIN — 4連鎖</div>
-        <div class="step-item"><span class="step-num">01</span><span class="tool-name">hourly_weather</span></div>
-        <div class="step-item"><span class="step-num">02</span><span class="tool-name">demand_forecast</span></div>
-        <div class="step-item"><span class="step-num">03</span><span class="tool-name">inventory_manager</span></div>
-        <div class="step-item" style="border-bottom: none;"><span class="step-num">04</span><span class="tool-name">order_optimizer</span></div>
+      <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px;">THINK → ACT → OBSERVE</div>
+        <!-- Cycle 1 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #d97706; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">天気を確認する</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #005bac; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 10.5px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">hourly_weather</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0; margin-bottom: 4px;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #57534e; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">明日は晴れ・最高32°C</div>
+        </div>
+        <!-- Cycle 2 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #d97706; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">気温が高い → 需要予測</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #005bac; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 10.5px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">demand_forecast</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0; margin-bottom: 4px;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #57534e; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">飲料 +40%、アイス +25%</div>
+        </div>
+        <!-- Cycle 3 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #d97706; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">在庫と照合する</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #005bac; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 10.5px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">inventory_manager</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0; margin-bottom: 4px;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #57534e; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">飲料在庫が不足</div>
+        </div>
+        <!-- Cycle 4 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #d97706; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">発注数を算出する</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #005bac; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 10.5px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">order_optimizer</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #57534e; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">発注推奨リスト完成 → 出力</div>
+        </div>
       </div>
     </div>
     <div style="flex: 1; background: var(--primary); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; position: relative; overflow: hidden;">
@@ -420,16 +524,64 @@
   <div class="h2">急な欠勤対応</div>
 
   <div style="display: flex; gap: 28px; align-items: stretch; height: 400px;">
-    <div style="width: 380px; display: flex; flex-direction: column; gap: 16px;">
-      <div style="background: var(--primary); color: white; padding: 20px 22px; border-radius: 8px; font-size: 15px; font-weight: 500; line-height: 1.6; border-left: 4px solid var(--orange);">
+    <div style="width: 380px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="background: var(--primary); color: white; padding: 16px 22px; border-radius: 8px; font-size: 15px; font-weight: 500; line-height: 1.6; border-left: 4px solid var(--orange);">
         「田中さんが明日休みになった。シフトを更新してLINEの交代依頼文も作って」
       </div>
-      <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px;">
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px;">TOOL CHAIN — 4ステップ</div>
-        <div class="step-item"><span class="step-num">01</span><span class="tool-name">shift_manager</span></div>
-        <div class="step-item"><span class="step-num">02</span><span class="tool-name">shift_optimizer</span></div>
-        <div class="step-item"><span class="step-num">03</span><span class="tool-name">shift_table_generator</span></div>
-        <div class="step-item" style="border-bottom: none;"><span class="step-num">04</span><span class="tool-name">line_composer</span></div>
+      <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px;">THINK → ACT → OBSERVE</div>
+        <!-- Cycle 1 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #d97706; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">シフトDBを更新する</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #005bac; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 10.5px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">shift_manager</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0; margin-bottom: 4px;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #57534e; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">田中さんのシフト削除完了</div>
+        </div>
+        <!-- Cycle 2 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #d97706; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">代替スタッフを探す</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #005bac; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 10.5px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">shift_optimizer</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0; margin-bottom: 4px;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #57534e; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">佐藤さんが出勤可能</div>
+        </div>
+        <!-- Cycle 3 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #d97706; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">シフト表を再生成する</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #005bac; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 10.5px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">shift_table_generator</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0; margin-bottom: 4px;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #57534e; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">新シフト表HTML完成</div>
+        </div>
+        <!-- Cycle 4 -->
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #d97706; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">T</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">LINE交代依頼文を作成</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #005bac; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">A</div>
+          <div style="font-size: 10.5px; color: var(--text);"><strong style="color: var(--blue); font-family: 'IBM Plex Mono', monospace;">line_composer</strong></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; padding: 2px 0;">
+          <div style="width: 16px; height: 16px; border-radius: 50%; background: #57534e; color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;">O</div>
+          <div style="font-size: 10.5px; color: var(--text-light);">交代依頼文生成 → 出力</div>
+        </div>
       </div>
     </div>
     <div style="flex: 1; background: var(--primary); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; position: relative; overflow: hidden;">
