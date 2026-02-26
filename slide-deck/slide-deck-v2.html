@@ -80,7 +80,7 @@
     <img src="karaage-tencho-kun/_assets/icon.webp" alt="" style="width: 44px; height: 44px; object-fit: contain;">
     <div>
       <div style="font-size: 16px; font-weight: 700; color: #065f46;">からあげ店長クン = Difyエージェント + 13の業務ツール</div>
-      <div style="font-size: 13px; color: #047857; margin-top: 2px;">「ダッシュボード作って」と言えば、どのツールをどの順番で使うかをLLMが自分で判断して実行する</div>
+      <div style="font-size: 13px; color: #047857; margin-top: 2px;">ツールの選択・実行順はLLMが決める。開発者はツールだけ用意する</div>
     </div>
   </div>
 
@@ -138,7 +138,7 @@
   </div>
 
   <div class="note">
-    エージェントが「考える」だけでは意味がない。実際に動くツールを持って初めて、考えた結果を実行できる。今回は<strong>13個の業務ツールを全部作った</strong>。エージェントが考えて、選んで、実行して、結果を返す——その一連の流れが動くところまで持っていった。
+    エージェントはツールがないと何もできない。今回は<strong>13個のツールを全部実装した</strong>。判断だけでなく実行まで完結する。
   </div>
 
   <div class="pn">3 / 11</div>
@@ -147,7 +147,10 @@
 <!-- ===== 4. ツール構成 ===== -->
 <div class="slide" style="padding: 40px 56px;">
   <div class="sec">03 — ツール構成</div>
-  <div class="h2">エージェントが使える13のツール</div>
+  <div class="h2" style="display: flex; align-items: center; gap: 12px;">
+    <img src="karaage-tencho-kun/_assets/icon.webp" alt="" style="width: 32px; height: 32px; object-fit: contain;">
+    エージェントが使える13のツール
+  </div>
 
   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;">
     <div class="card">
@@ -208,7 +211,7 @@
   </div>
 
   <div class="note">
-    これらの制約の中で、エージェントが実際に動くツールを持って業務を実行する——その姿を見せたかった。
+    制約が多いので設計の自由度は低い。その中で動くものを作るのが今回の課題。
   </div>
 
   <div class="pn">5 / 11</div>
@@ -230,7 +233,7 @@
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">② dashboard_generator → KPI集計</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0;">③ dashboard_template → インラインHTML生成</div>
       </div>
-      <div class="note">この3ツールの連鎖は開発者が決めたものではない。エージェントが「ダッシュボード」という依頼から自分で判断した結果</div>
+      <div class="note">ツールの組み合わせはエージェントが決定。固定パイプラインではない</div>
     </div>
     <div class="ph" style="flex: 1;">
       <div style="font-weight: 600;">実行結果のスクリーンショット</div>
@@ -256,7 +259,7 @@
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">③ inventory_manager → 現在庫と発注点を確認</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0;">④ order_optimizer → 推奨発注数を算出</div>
       </div>
-      <div class="note">「発注を最適化して」としか言っていない。天気を見るべきか、在庫を確認すべきかはエージェントが自分で考えた</div>
+      <div class="note">4ツール連鎖はエージェントの判断。依頼文を変えれば別の組み合わせになる</div>
     </div>
     <div class="ph" style="flex: 1;">
       <div style="font-weight: 600;">実行結果のスクリーンショット</div>
@@ -293,7 +296,10 @@
 <!-- ===== 9. 対象業務の背景 ===== -->
 <div class="slide" style="padding: 44px 56px;">
   <div class="sec">08 — なぜコンビニ店長か</div>
-  <div class="h2">業務が広く、属人化しやすく、判断ミスのコストが高い</div>
+  <div class="h2" style="display: flex; align-items: center; gap: 12px;">
+    <img src="karaage-tencho-kun/_assets/icon.webp" alt="" style="width: 32px; height: 32px; object-fit: contain;">
+    業務が広く、属人化しやすく、判断ミスのコストが高い
+  </div>
 
   <div style="display: flex; gap: 16px; margin-bottom: 18px;">
     <div style="flex: 1; background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fecaca; border-radius: 12px; padding: 22px 24px;">
@@ -331,7 +337,10 @@
 <!-- ===== 10. まとめ ===== -->
 <div class="slide" style="background: linear-gradient(135deg, #92400e 0%, #b45309 50%, #d97706 100%); color: white; padding: 48px 56px;">
   <div class="sec" style="color: rgba(255,255,255,0.5);">09 — まとめ</div>
-  <div style="font-size: 30px; font-weight: 700; margin-bottom: 24px;">からあげ店長クン</div>
+  <div style="font-size: 30px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 14px;">
+    <img src="karaage-tencho-kun/_assets/icon.webp" alt="" style="width: 40px; height: 40px; object-fit: contain;">
+    からあげ店長クン
+  </div>
 
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
     <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 18px 20px;">
