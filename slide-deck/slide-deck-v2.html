@@ -106,7 +106,7 @@
 <!-- ===== 3. エージェントとは ===== -->
 <div class="slide" style="padding: 44px 56px;">
   <div class="sec">02 — エージェントとは</div>
-  <div class="h2">普通のチャットボットは手順通りに動く。エージェントは考える</div>
+  <div class="h2">チャットフローは手順が固定。エージェントはLLMが手順を決める</div>
 
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
     <div style="background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px; padding: 22px;">
@@ -120,7 +120,7 @@
         <span style="color: var(--text-muted);">→</span>
         <div style="background: var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12px;">出力</div>
       </div>
-      <div style="font-size: 12px; color: var(--text-light); line-height: 1.6; margin-top: 10px;">手順が最初から決まっている。想定外の依頼には対応できない</div>
+      <div style="font-size: 12px; color: var(--text-light); line-height: 1.6; margin-top: 10px;">開発者が事前に決めたフローを実行する。想定外の入力には対応できない</div>
     </div>
     <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 22px;">
       <div style="font-size: 12px; font-weight: 600; color: var(--blue-dark); letter-spacing: 0.5px; margin-bottom: 14px;">エージェント（動的ツール選択）</div>
@@ -133,12 +133,8 @@
         <span style="color: var(--blue);">→</span>
         <div style="background: #dbeafe; border-radius: 6px; padding: 6px 12px; font-size: 12px; color: var(--blue-dark);">出力</div>
       </div>
-      <div style="font-size: 12px; color: var(--text-light); line-height: 1.6; margin-top: 10px;">依頼の内容を見て、どのツールを使うかをLLMがその場で決める</div>
+      <div style="font-size: 12px; color: var(--text-light); line-height: 1.6; margin-top: 10px;">「明日の発注を最適化して」→ LLMが天気取得・需要予測・在庫確認・発注計算の順で実行すると判断</div>
     </div>
-  </div>
-
-  <div class="note">
-    エージェントはツールがないと何もできない。今回は<strong>13個のツールを全部実装した</strong>。判断だけでなく実行まで完結する。
   </div>
 
   <div class="pn">3 / 11</div>
@@ -179,10 +175,6 @@
     </div>
   </div>
 
-  <div class="note">
-    すべてDuckDB（インメモリ）で動作。外部APIは天気（Open-Meteo、無料・キー不要）のみ。理由は次のスライドで。
-  </div>
-
   <div class="pn">4 / 11</div>
 </div>
 
@@ -210,10 +202,6 @@
     </div>
   </div>
 
-  <div class="note">
-    制約が多いので設計の自由度は低い。その中で動くものを作るのが今回の課題。
-  </div>
-
   <div class="pn">5 / 11</div>
 </div>
 
@@ -233,7 +221,7 @@
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">② dashboard_generator → KPI集計</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0;">③ dashboard_template → インラインHTML生成</div>
       </div>
-      <div class="note">ツールの組み合わせはエージェントが決定。固定パイプラインではない</div>
+      <div style="font-size: 11px; color: var(--text-muted); padding: 6px 0;">※ ツールの選択・順序はLLMが判断</div>
     </div>
     <div class="ph" style="flex: 1;">
       <div style="font-weight: 600;">実行結果のスクリーンショット</div>
@@ -259,7 +247,7 @@
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">③ inventory_manager → 現在庫と発注点を確認</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0;">④ order_optimizer → 推奨発注数を算出</div>
       </div>
-      <div class="note">4ツール連鎖はエージェントの判断。依頼文を変えれば別の組み合わせになる</div>
+      <div style="font-size: 11px; color: var(--text-muted); padding: 6px 0;">※ ツールの選択・順序はLLMが判断</div>
     </div>
     <div class="ph" style="flex: 1;">
       <div style="font-weight: 600;">実行結果のスクリーンショット</div>
