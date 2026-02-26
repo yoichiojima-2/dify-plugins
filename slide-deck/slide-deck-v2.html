@@ -62,7 +62,7 @@
   <div style="flex: 1; padding: 52px 56px; display: flex; flex-direction: column; justify-content: center; color: white;">
     <div style="font-size: 11px; font-weight: 600; letter-spacing: 2px; opacity: 0.7; margin-bottom: 16px;">DIFY PLUGIN COMPETITION 2026</div>
     <div style="font-size: 52px; font-weight: 900; line-height: 1.1; letter-spacing: -1px; margin-bottom: 12px;">からあげ<br>店長クン</div>
-    <div style="font-size: 18px; font-weight: 400; opacity: 0.9; margin-bottom: 28px;">コンビニ店長の業務を実行するAIエージェント</div>
+    <div style="font-size: 18px; font-weight: 400; opacity: 0.9; margin-bottom: 28px;">自分で考えて、自分で動くAIエージェント</div>
     <div style="font-size: 13px; opacity: 0.7; line-height: 1.7;">Difyプラグイン ・ 13ツール統合 ・ 尾嶋洋一</div>
   </div>
   <div style="width: 260px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.1);">
@@ -74,29 +74,29 @@
 <!-- ===== 2. 作ったもの ===== -->
 <div class="slide" style="padding: 44px 56px;">
   <div class="sec">01 — 作ったもの</div>
-  <div class="h2">コンビニ店長の業務をエージェントが代わりに実行する</div>
+  <div class="h2">指示を出すと、何をすべきか自分で考えて実行する</div>
 
   <div style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1px solid #a7f3d0; border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
     <img src="karaage-tencho-kun/_assets/icon.webp" alt="" style="width: 44px; height: 44px; object-fit: contain;">
     <div>
       <div style="font-size: 16px; font-weight: 700; color: #065f46;">からあげ店長クン = Difyエージェント + 13の業務ツール</div>
-      <div style="font-size: 13px; color: #047857; margin-top: 2px;">チャットで指示すると、ツールを自分で選んで業務を実行し、成果物を返す</div>
+      <div style="font-size: 13px; color: #047857; margin-top: 2px;">「ダッシュボード作って」と言えば、どのツールをどの順番で使うかをLLMが自分で判断して実行する</div>
     </div>
   </div>
 
   <div style="display: grid; grid-template-columns: 1fr 36px 1fr; align-items: stretch;">
     <div style="background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px; padding: 22px;">
       <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 14px;">普通のチャットボット</div>
-      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0; border-bottom: 1px solid var(--border);">「シフト表の作り方はこうです」と<strong>説明する</strong></div>
-      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0; border-bottom: 1px solid var(--border);">「天気を見て発注調整しましょう」と<strong>助言する</strong></div>
-      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0;">「クレーム対応は落ち着いて」と<strong>教える</strong></div>
+      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0; border-bottom: 1px solid var(--border);">「シフト表の作り方はこうです」と<strong>説明だけする</strong></div>
+      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0; border-bottom: 1px solid var(--border);">「天気を見て発注調整しましょう」と<strong>助言だけする</strong></div>
+      <div style="font-size: 13px; color: var(--text-light); padding: 10px 0;">人間が自分でやる作業は<strong>何も減らない</strong></div>
     </div>
     <div style="display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-muted);">→</div>
     <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 22px;">
       <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: var(--blue-dark); margin-bottom: 14px;">からあげ店長クン</div>
-      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0; border-bottom: 1px solid #bae6fd;">シフト表を<strong>作成して渡す</strong></div>
-      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0; border-bottom: 1px solid #bae6fd;">天気を取得し、発注数を<strong>計算して提示する</strong></div>
-      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0;">状況に応じた対応手順を<strong>その場で出力する</strong></div>
+      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0; border-bottom: 1px solid #bae6fd;">どのツールを使うか<strong>自分で考えて</strong>シフト表を作る</div>
+      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0; border-bottom: 1px solid #bae6fd;">天気→需要予測→在庫確認の<strong>順番も自分で決める</strong></div>
+      <div style="font-size: 13px; color: var(--text); font-weight: 500; padding: 10px 0;">同じ依頼でも状況が違えば<strong>違う手順を選ぶ</strong></div>
     </div>
   </div>
 
@@ -106,7 +106,7 @@
 <!-- ===== 3. エージェントとは ===== -->
 <div class="slide" style="padding: 44px 56px;">
   <div class="sec">02 — エージェントとは</div>
-  <div class="h2">チャットフローとの違い：ツールを自分で選ぶ</div>
+  <div class="h2">普通のチャットボットは手順通りに動く。エージェントは考える</div>
 
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
     <div style="background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px; padding: 22px;">
@@ -138,7 +138,7 @@
   </div>
 
   <div class="note">
-    ただし、エージェントが「使えるツール」を持っていないと何もできない。今回は<strong>実際に動く13個の業務ツール</strong>をプラグインとして実装し、エージェントが本当に業務を実行できる状態を作った。ここがこのプラグインのポイント。
+    エージェントが「考える」だけでは意味がない。実際に動くツールを持って初めて、考えた結果を実行できる。今回は<strong>13個の業務ツールを全部作った</strong>。エージェントが考えて、選んで、実行して、結果を返す——その一連の流れが動くところまで持っていった。
   </div>
 
   <div class="pn">3 / 11</div>
@@ -230,7 +230,7 @@
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">② dashboard_generator → KPI集計</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0;">③ dashboard_template → インラインHTML生成</div>
       </div>
-      <div class="note">3ツールを連鎖実行。チャット画面にグラフ付きダッシュボードが直接表示される</div>
+      <div class="note">この3ツールの連鎖は開発者が決めたものではない。エージェントが「ダッシュボード」という依頼から自分で判断した結果</div>
     </div>
     <div class="ph" style="flex: 1;">
       <div style="font-weight: 600;">実行結果のスクリーンショット</div>
@@ -256,7 +256,7 @@
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border);">③ inventory_manager → 現在庫と発注点を確認</div>
         <div style="font-size: 12px; color: var(--text-light); padding: 8px 0;">④ order_optimizer → 推奨発注数を算出</div>
       </div>
-      <div class="note">この組み合わせはエージェントが判断した結果。別の聞き方をすれば別のツールが選ばれる</div>
+      <div class="note">「発注を最適化して」としか言っていない。天気を見るべきか、在庫を確認すべきかはエージェントが自分で考えた</div>
     </div>
     <div class="ph" style="flex: 1;">
       <div style="font-weight: 600;">実行結果のスクリーンショット</div>
@@ -335,12 +335,12 @@
 
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
     <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 18px 20px;">
-      <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">何をするか</div>
-      <div style="font-size: 13px; opacity: 0.9; line-height: 1.6;">コンビニ店長の業務を、Difyエージェントが自然言語の指示で実行する。売上分析、シフト管理、需要予測、在庫管理、LINE連絡文まで13ツールで対応</div>
+      <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">何が違うか</div>
+      <div style="font-size: 13px; opacity: 0.9; line-height: 1.6;">手順をコードで書いていない。「何をすべきか」をLLMが自分で考えて、13のツールから必要なものを選んで実行する。開発者が想定しなかった依頼にも対応できる</div>
     </div>
     <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 18px 20px;">
-      <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">何を見せたかったか</div>
-      <div style="font-size: 13px; opacity: 0.9; line-height: 1.6;">エージェントが実際に動くツールを持っていれば、業務を本当に代行できること。固定フローではなく、依頼に応じてツールを選ぶのがエージェントの強み</div>
+      <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">何を作ったか</div>
+      <div style="font-size: 13px; opacity: 0.9; line-height: 1.6;">エージェントが「考える」だけでなく「実行できる」状態を作った。売上分析、シフト管理、需要予測、在庫管理、LINE連絡文——全部動く</div>
     </div>
   </div>
 
